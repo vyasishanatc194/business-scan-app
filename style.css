@@ -1,0 +1,218 @@
+body{
+	margin:0;
+	padding:0;
+}
+h1,h2,h3,h4,h5,h6,p{ font-family: arial; }
+img.cameraBtn{
+	width: 48px;
+}
+content{
+	/*width: 80%;*/
+    /*display: block;*/
+    /*text-align: center;*/
+}
+
+.content-center {
+    /* margin: 0 auto; */
+    text-align: center;
+}
+
+.content-center textarea#content {
+    width: 100%;
+    height: auto;
+}
+
+.img-div{
+	background: cornflowerblue;
+ 	position: fixed;
+    width: 100%;
+    bottom: 0;
+    padding: 7px 0px;
+}
+
+.btn{
+	display: inline-block;
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 50px;
+    margin: 0 10px;
+}
+
+table#cards-table{
+	width: 100%;
+	font-family: arial;
+}
+
+#tdDardImg{
+	text-align: center;
+}
+.right-side{
+    float: right;
+}
+.left-side h2{
+	margin: 0;
+	padding: 0;
+}
+.left-side, .right-side{
+	display: inline-block;
+}
+#top-bar{
+	background: cornflowerblue;
+	padding: 2px;
+	box-shadow: 0px 1px 1px;
+}
+.menuBariCon {
+	width: 64px;
+}
+.btn:active{
+	color: #FFF;
+}
+#doContactCreation:active{
+	border:1px solid;
+}
+
+form#contact-form{
+	width:500px;
+	padding: 5px 0;
+}
+.createConatact_Content{
+    font-size: 18px;
+	margin: 0px 0px;
+	width:59%;
+    border: 1px solid;
+    padding: 5px 0;
+}
+.createConatact_field{
+    font-size: 18px;
+	padding: 4px 0;
+	width:39%;
+	border: 1px solid;
+}
+/* for mobile screen*/
+
+@media only screen and (max-width: 767px){
+
+	table#cards-table{
+		width: 100%;
+		font-size: 14px;
+	}
+
+	#tdDardImg{
+		text-align: center;
+		widows: 100px;
+	}
+
+	#tdDardImg .cardImg {
+	    width: 100px !important;
+	}
+
+	.menuBariCon {
+		width: 32px;
+	}
+	.btn{
+		padding: 11px;
+	}
+	form#contact-form{
+		width:100%;
+	}
+
+}
+@media screen and (max-width:767px) {
+
+	table#cards-table{
+		width: 100%;
+		font-size: 14px;
+	}
+
+  	#tdDardImg .cardImg {
+	    width: 100px !important;
+	}
+
+	#tdDardText p {
+		padding: 5px;
+		margin: 0;
+	}
+
+	.menuBariCon {
+		width: 32px;
+	}
+	.btn{
+		padding: 11px;
+	}
+	form#contact-form{
+		width:100%;
+	}
+	
+	
+
+}
+
+/ for ipad screen /
+@media screen and (max-width:1024px) and (min-width:768px) 
+{
+	#tdDardImg .cardImg {
+	    width: 100px !important;
+	}
+}
+
+header h1{
+	background-color: #6395ed;
+    padding: 15px 10px;
+    color: #fff;
+    font-weight: 400;
+}
+.content-center {
+    margin: 0 auto!important;
+    text-align: center;
+    display: block;
+}
+form#contact-form {
+    padding: 10px 0px;
+    width: 95%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.createConatact_Content {
+    font-size: 14px;
+    margin: 0px 0px;
+    width: 59%;
+    padding: 10px 3px;
+    border: none;
+    border-bottom: 1px solid #222;
+    border-radius : none;
+}
+.createConatact_field {
+    font-size: 14px;
+    padding: 10px 0;
+    width: 39%;
+    border: 1px solid #222;
+	background:#fff;
+}
+
+#doContactCreation {
+    font-size: 16px;
+    padding: 12px 20px 10px 20px;
+    border: none;
+    background: rgb(100, 149, 237);
+    font-weight: 600;
+    color: #FFF;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: capitalize;
+}
+
+.btn {
+    display: inline-block;
+    padding: 20px;
+    border: 1px solid #000;
+    border-radius: 100%;
+    margin: 0 10px;
+    transition: all 0.3s ease-in-out;
+}
+.btn:focus,.btn:focus,.btn:active {
+    transform: rotate(360deg);
+    outline: none;
+}
+
+/*textarea#content{ display: none;  }*/
