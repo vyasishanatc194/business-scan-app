@@ -1,4 +1,6 @@
-$("#contact-form, #dataCotent").hide();
+$("#content").hide();
+$("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
+$("#dataCotent").hide();
 var imageDataURL = null;
 $("#capturePhoto").on("click", function() {
    capturePhoto();
@@ -31,103 +33,138 @@ function onFail(message) {
 function clearContent(str) {
 	var result = [];
 	var obj = JSON.parse(str);
-	var stringData = '';
 	$.each(obj, function( index, value ) {
     	$.each(value, function( i, j ) {
-  			stringData = stringData +" "+ j.text;
+  			result.push(j.text);
 		});
 	});
-	$("#content").val(stringData);
-    doAction(stringData);
-	// navigator.contacts.create({"displayName": "Test User"});
+	// $("#content").val(stringData);
+    doAction(result);
+    for (i = 0; i < result.length; i++) {
+        addFields(result[i]);
+    }
 }
 
-function doAction(str) {
-	var $output = [];
-	var arraFromString = string_to_array(str);
-	$.each(arraFromString, function( index, value ) {
-	  if (ValidateEmail(value)) {
-	  	$output['email'] = value;
-	  } else if (ValidatePhone(value)) {
-        if ($output['phone'] != '' && $output['phone'] != undefined) {
-            value = $output['phone'] + value;
-        } 
-        $output['phone'] = value;
-	  } else if (value.startsWith('@')) {
-	  	$output['twitter'] = value;
-	  } else if (value.startsWith('http') || value.startsWith('www')) {
-	  	$output['website'] = value;
-	  } else {
-	  	$output.push(value);
-	  }
-	});
+var counter = 1;
+                        
+$("#addButton").click(function () {
+    addFields();
+});
+
+function addFields(data = '') {
+    if(counter > 20) {
+        alert("Only 20 fields allow");
+        return false;
+    }
+    var newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter);       
+
+    newTextBoxDiv.after().html('<div class="box-1 clearfix"><div class="cols-1" ><input type="text" name="enteredContent'+ counter +'" class="form-control width100" value="' + data + '" name="textbox' + counter + 
+          '" id="textbox' + counter + '" value="" ></div><div class="cols-2"><select  name="selectedFields'+ counter +'" id="select' + counter + '" class="form-control width100"><option value="" >Select Type</option>'+
+            '<option value="displayName" >Full Name</option>'+
+            '<option value="phone" >Phone</option>'+
+            '<option value="email" >Email Address</option>'+
+            '<option value="address" >Address</option>'+
+            '<option value="twitter" >Twitter</option>'+
+            '<option value="facebook" >Facebook</option>'+
+            '<option value="linkedin" >Linkedin</option>'+
+            '<option value="wechat" >WeChat</option>'+
+            '<option value="telegram" >Telegram</option>'+
+            '<option value="others" >Others</option></select></div></div>');
+
+    newTextBoxDiv.appendTo("#TextBoxesGroup");
+    counter++;
+}
+
+function doAction(data) {
+	// var $output = [];
+	// var arraFromString = string_to_array(str);
+    $("#dataCotent").hide();
+    $("#contact-form-btn, #TextBoxesGroup, #doSaving").show();
+
+
+
+	// $.each(arraFromString, function( index, value ) {
+	//   if (ValidateEmail(value)) {
+	//   	$output['email'] = value;
+	//   } else if (ValidatePhone(value)) {
+ //        if ($output['phone'] != '' && $output['phone'] != undefined) {
+ //            value = $output['phone'] + value;
+ //        } 
+ //        $output['phone'] = value;
+	//   } else if (value.startsWith('@')) {
+	//   	$output['twitter'] = value;
+	//   } else if (value.startsWith('http') || value.startsWith('www')) {
+	//   	$output['website'] = value;
+	//   } else {
+	//   	$output.push(value);
+	//   }
+	// });
     
-    $("#contact-form").show();
-    var arry = $output.email.split("@");
+ //    var arry = $output.email.split("@");
 
-    if (arry[0] != '' && $(".Sfirst").val() == '') {
-        $('.Tfirst').val(arry[0]);
-        $(".Sfirst").val('displayName');
-    } else if ($output.email != '' && $(".Sfirst").val() == '') {
-        $('.Tfirst').val($output.email);
-        $(".Sfirst").val('email');
-    } else if ($output.phone != '' && $(".Sfirst").val() == '') {
-        $('.Tfirst').val($output.phone);
-        $(".Sfirst").val('phone');
-    } else if ($(".Sfirst").val() == ''){
-        $('.Tfirst').val(getTheFinalString($output));
-        $(".Sfirst").val('others');
-    } else {
-        console.log('nothing');
-    }
+ //    if (arry[0] != '' && $(".Sfirst").val() == '') {
+ //        $('.Tfirst').val(arry[0]);
+ //        $(".Sfirst").val('displayName');
+ //    } else if ($output.email != '' && $(".Sfirst").val() == '') {
+ //        $('.Tfirst').val($output.email);
+ //        $(".Sfirst").val('email');
+ //    } else if ($output.phone != '' && $(".Sfirst").val() == '') {
+ //        $('.Tfirst').val($output.phone);
+ //        $(".Sfirst").val('phone');
+ //    } else if ($(".Sfirst").val() == ''){
+ //        $('.Tfirst').val(getTheFinalString($output));
+ //        $(".Sfirst").val('others');
+ //    } else {
+ //        console.log('nothing');
+ //    }
 
-    if (arry[0] != '' && $(".Ssecond").val() == '' && $(".Sfirst").val() == '') {
-        $('.Tsecond').val(arry[0]);
-        $(".Ssecond").val('displayName');
-    } else if ($output.email != '' && $(".Ssecond").val() == '') {
-        $('.Tsecond').val($output.email);
-        $(".Ssecond").val('email');
-    } else if ($output.phone != '' && $(".Ssecond").val() == '') {
-        $('.Tsecond').val($output.phone);
-        $(".Ssecond").val('phone');
-    } else if ($(".Ssecond").val() == ''){
-        $('.Tsecond').val(getTheFinalString($output));
-        $(".Ssecond").val('others');
-    } else {
-        console.log('nothing');
-    }
+ //    if (arry[0] != '' && $(".Ssecond").val() == '' && $(".Sfirst").val() == '') {
+ //        $('.Tsecond').val(arry[0]);
+ //        $(".Ssecond").val('displayName');
+ //    } else if ($output.email != '' && $(".Ssecond").val() == '') {
+ //        $('.Tsecond').val($output.email);
+ //        $(".Ssecond").val('email');
+ //    } else if ($output.phone != '' && $(".Ssecond").val() == '') {
+ //        $('.Tsecond').val($output.phone);
+ //        $(".Ssecond").val('phone');
+ //    } else if ($(".Ssecond").val() == ''){
+ //        $('.Tsecond').val(getTheFinalString($output));
+ //        $(".Ssecond").val('others');
+ //    } else {
+ //        console.log('nothing');
+ //    }
 
-    if (arry[0] != '' && $(".Sthird").val() == '' && $(".Sfirst").val() == '' && $(".Ssecond").val() == '') {
-        $('.Tthird').val(arry[0]);
-        $(".Sthird").val('displayName');
-    } else if ($output.email != '' && $(".Sthird").val() == '' && $(".Ssecond").val() == '') {
-        $('.Tthird').val($output.email);
-        $(".Sthird").val('email');
-    } else if ($output.phone != '' && $(".Sthird").val() == '') {
-        $('.Tthird').val($output.phone);
-        $(".Sthird").val('phone');
-    } else if ($(".Sthird").val() == ''){
-        $('.Tthird').val(getTheFinalString($output));
-        $(".Sthird").val('others');
-    } else {
-        console.log('nothing');
-    }
+ //    if (arry[0] != '' && $(".Sthird").val() == '' && $(".Sfirst").val() == '' && $(".Ssecond").val() == '') {
+ //        $('.Tthird').val(arry[0]);
+ //        $(".Sthird").val('displayName');
+ //    } else if ($output.email != '' && $(".Sthird").val() == '' && $(".Ssecond").val() == '') {
+ //        $('.Tthird').val($output.email);
+ //        $(".Sthird").val('email');
+ //    } else if ($output.phone != '' && $(".Sthird").val() == '') {
+ //        $('.Tthird').val($output.phone);
+ //        $(".Sthird").val('phone');
+ //    } else if ($(".Sthird").val() == ''){
+ //        $('.Tthird').val(getTheFinalString($output));
+ //        $(".Sthird").val('others');
+ //    } else {
+ //        console.log('nothing');
+ //    }
 
-    if (arry[0] != '' && $(".Sthird").val() == '' && $(".Sfirst").val() == '' && $(".Ssecond").val() == '' && $(".Sforth").val() == '') {
-        $('.Tforth').val(arry[0]);
-        $(".Sforth").val('displayName');
-    } else if ($output.email != '' && $(".Sthird").val() == '' && $(".Ssecond").val() == '' && $(".Sforth").val() == '') {
-        $('.Tforth').val($output.email);
-        $(".Sforth").val('email');
-    } else if ($output.phone != '' && $(".Sthird").val() == '' && $(".Sforth").val() == '') {
-        $('.Tforth').val($output.phone);
-        $(".Sforth").val('phone');
-    } else if ($(".Sforth").val() == ''){
-        $('.Tforth').val(getTheFinalString($output));
-        $(".Sforth").val('others');
-    } else {
-        console.log('nothing');
-    }
+ //    if (arry[0] != '' && $(".Sthird").val() == '' && $(".Sfirst").val() == '' && $(".Ssecond").val() == '' && $(".Sforth").val() == '') {
+ //        $('.Tforth').val(arry[0]);
+ //        $(".Sforth").val('displayName');
+ //    } else if ($output.email != '' && $(".Sthird").val() == '' && $(".Ssecond").val() == '' && $(".Sforth").val() == '') {
+ //        $('.Tforth').val($output.email);
+ //        $(".Sforth").val('email');
+ //    } else if ($output.phone != '' && $(".Sthird").val() == '' && $(".Sforth").val() == '') {
+ //        $('.Tforth').val($output.phone);
+ //        $(".Sforth").val('phone');
+ //    } else if ($(".Sforth").val() == ''){
+ //        $('.Tforth').val(getTheFinalString($output));
+ //        $(".Sforth").val('others');
+ //    } else {
+ //        console.log('nothing');
+ //    }
 }
 
 function getTheFinalString($output) {
@@ -169,42 +206,51 @@ $("#listCards").on("click", function(){
 });
 
 // Cretae contact in mobile device
-$("#doContactCreation").on("click", function(event) {
+$("#doSaving").on("click", function(event) {
+    try
+        {
+        event.preventDefault();
+        alert($('#TextBoxesGroup')[0].childElementCount);
+        var textboxes = [];
+        var formData = [];
+        var selectboxes = [];
+        for (var i =0; i <= $('#TextBoxesGroup')[0].childElementCount; i++){
+            if ($("#textbox"+i).val() != undefined) {
+                textboxes.push($("#textbox"+i).val());
+            }
+            if ($("#select"+i).val() != undefined){
+                selectboxes.push($("#select"+i).val());
+            }
+        }
 
-    event.preventDefault();
-
-    $.ajax({
-        type: 'POST',
-        url: 'ajax.php',
-        dataType: 'json',
-        data: $( "#contact-form" ).serialize(),
-        success: function(results) {
-           
-            resultArr = JSON.parse(results);
+        $.each(selectboxes, function (i, val) {
+            alert(val);
+            formData[val] = textboxes[i];
+        });
+        if (formData.phone != undefined) {
+            // resultArr = JSON.parse(formData);
             var myContact = navigator.contacts.create();
             var phoneNumbers = [];
             var emails = [];
-
-            $.each(resultArr, function(i, item) {
-                if (i != '' && i != 'undefined') {
-                    if (i == "phone"){
-                        phoneNumbers[0] = new ContactField('home', item, false);
-                        myContact.phoneNumbers = phoneNumbers;
-                    }
-                    if (i == "email"){
-                        emails[0] = new ContactField('home', item, false);
-                        myContact.emails = emails;
-                    }
-                    if (i == "displayName"){
-                        myContact.displayName = item;
-                        myContact.name = item;
-                    }
-                    if(i == 'others') {
-                        alert(item);
-                        myContact.note = item;
-                    }
+            alert('formdata array');
+            alert(formData);
+            // $.each(formData, function(i, item) {
+                if (formData.phone != undefined){
+                    phoneNumbers[0] = new ContactField('home', formData.phone, false);
+                    myContact.phoneNumbers = phoneNumbers;
                 }
-            });
+                if (formData.email != undefined){
+                    emails[0] = new ContactField('home', formData.email, false);
+                    myContact.emails = emails;
+                }
+                if (formData.displayName != undefined){
+                    myContact.displayName = formData.displayName;
+                    myContact.name = formData.displayName;
+                }
+                if(formData.others != undefined) {
+                    myContact.note = formData.others;
+                }
+            // });
 
             myContact.save(contactSuccess, contactError);
             navigator.contacts.pickContact(function(myContact){
@@ -213,23 +259,23 @@ $("#doContactCreation").on("click", function(event) {
                 alert('Error: ' + err);
             });
             
-           function contactSuccess() {
-              alert("Contact is saved!");
-              var smallImage = document.getElementById('myImage');
-              smallImage.style.display = 'block';
-              alert(imageDataURL);
-              smallImage.src = "data:image/jpeg;base64," + imageDataURL;
-              doFile(imageDataURL);
-              $("#contact-form").hide();
-           }
+            function contactSuccess() {
+                alert("Contact is saved!");
+                var smallImage = document.getElementById('myImage');
+                smallImage.style.display = 'block';
+                alert(imageDataURL);
+                smallImage.src = "data:image/jpeg;base64," + imageDataURL;
+                doFile(imageDataURL);
+                $("#contact-form").hide();
+                $("#dataCotent").show();
+            }
             
-           function contactError(message) {
-              alert('Failed because: ' + message);
-           }
-
-        },
-        error: function( jqXHR, textStatus, errorThrown ) {
-            console.log( 'Could not get posts, server response: ' + textStatus + ': ' + errorThrown );
+            function contactError(message) {
+                alert('Failed because: ' + message);
+            }
         }
-    }).responseJSON; // <-- this instead of .responseText
+    }
+    catch(err){ 
+        alert(err); 
+    }   
 });

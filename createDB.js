@@ -1,12 +1,10 @@
 let db;
 let dbVersion = 1;
 let dbReady = false;
-var tableName = 'scanCards';
+var tableName = 'cachedForms';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('dom content loaded');
-
-    document.querySelector('#testImageBtn').addEventListener('click', doImageTest);
 
     initDb();
 
@@ -22,6 +20,7 @@ function initDb() {
     request.onsuccess = function(e) {
         db = e.target.result;
         alert('db opened');
+        doImageListing();
     }
 
     request.onupgradeneeded = function(e) {
@@ -83,22 +82,25 @@ function doImageTest() {
 
 function doImageListing() {
     try{
-        $("#contact-form").hide();
+        $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
         alert('doImageListing');
-
+        $("#dataCotent").remove('tbody');
         var trans = db.transaction([tableName], 'readonly');
-       
+        $("#dataCotent").append('<tbody></tbody>');
         trans.objectStore(tableName).openCursor().onsuccess = function(event) {
             var cursor = event.target.result;
               
             if (cursor) {
-                $("#dataCotent tbody").append('<tr><td><img style="width:60px;height:60px;" id="myImage" src="data:image/jpeg;base64,'+cursor.value.data+'" /></td><td>'+cursor.value.content+'</td><td><input type="button" class="removeEntry" id='+cursor.key+' value="X" /></td></tr>');
-                cursor.continue();
-                $("#removeEntry").on("click", function(){
-                    remove($(this).attr('id'));
-                });
+                // $("#dataCotent tbody").append('<tr><td id="Timg"><img style="width:60px;height:60px;" id="myImage" src="data:image/jpeg;base64,'+btoa(cursor.value.data)+'" /></td><td id="Ttxt">'+cursor.value.content+'</td><td id="Tdel"><i class="fa fa-times-circle" id='+cursor.key+' ></i></td></tr>');
+                // cursor.continue();
+                // $('i.fa').on("click", function(){
+                //     remove($(this).attr('id'));
+                // });
             } else {
-                alert("No more entries!");
+                
+            }
+            if ($("#Timg").length <= 0) {
+                $("#dataCotent tbody").append('<tr><td colspan="3" style="text-align:center;">No more entries!</td></tr>');
             }
         };
 
