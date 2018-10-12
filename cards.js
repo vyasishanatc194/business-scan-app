@@ -38,8 +38,9 @@ function clearContent(str) {
   			result.push(j.text);
 		});
 	});
-	// $("#content").val(stringData);
+	
     doAction(result);
+
     for (i = 0; i < result.length; i++) {
         addFields(result[i]);
     }
@@ -76,128 +77,8 @@ function addFields(data = '') {
 }
 
 function doAction(data) {
-	// var $output = [];
-	// var arraFromString = string_to_array(str);
     $("#dataCotent").hide();
     $("#contact-form-btn, #TextBoxesGroup, #doSaving").show();
-
-
-
-	// $.each(arraFromString, function( index, value ) {
-	//   if (ValidateEmail(value)) {
-	//   	$output['email'] = value;
-	//   } else if (ValidatePhone(value)) {
- //        if ($output['phone'] != '' && $output['phone'] != undefined) {
- //            value = $output['phone'] + value;
- //        } 
- //        $output['phone'] = value;
-	//   } else if (value.startsWith('@')) {
-	//   	$output['twitter'] = value;
-	//   } else if (value.startsWith('http') || value.startsWith('www')) {
-	//   	$output['website'] = value;
-	//   } else {
-	//   	$output.push(value);
-	//   }
-	// });
-    
- //    var arry = $output.email.split("@");
-
- //    if (arry[0] != '' && $(".Sfirst").val() == '') {
- //        $('.Tfirst').val(arry[0]);
- //        $(".Sfirst").val('displayName');
- //    } else if ($output.email != '' && $(".Sfirst").val() == '') {
- //        $('.Tfirst').val($output.email);
- //        $(".Sfirst").val('email');
- //    } else if ($output.phone != '' && $(".Sfirst").val() == '') {
- //        $('.Tfirst').val($output.phone);
- //        $(".Sfirst").val('phone');
- //    } else if ($(".Sfirst").val() == ''){
- //        $('.Tfirst').val(getTheFinalString($output));
- //        $(".Sfirst").val('others');
- //    } else {
- //        console.log('nothing');
- //    }
-
- //    if (arry[0] != '' && $(".Ssecond").val() == '' && $(".Sfirst").val() == '') {
- //        $('.Tsecond').val(arry[0]);
- //        $(".Ssecond").val('displayName');
- //    } else if ($output.email != '' && $(".Ssecond").val() == '') {
- //        $('.Tsecond').val($output.email);
- //        $(".Ssecond").val('email');
- //    } else if ($output.phone != '' && $(".Ssecond").val() == '') {
- //        $('.Tsecond').val($output.phone);
- //        $(".Ssecond").val('phone');
- //    } else if ($(".Ssecond").val() == ''){
- //        $('.Tsecond').val(getTheFinalString($output));
- //        $(".Ssecond").val('others');
- //    } else {
- //        console.log('nothing');
- //    }
-
- //    if (arry[0] != '' && $(".Sthird").val() == '' && $(".Sfirst").val() == '' && $(".Ssecond").val() == '') {
- //        $('.Tthird').val(arry[0]);
- //        $(".Sthird").val('displayName');
- //    } else if ($output.email != '' && $(".Sthird").val() == '' && $(".Ssecond").val() == '') {
- //        $('.Tthird').val($output.email);
- //        $(".Sthird").val('email');
- //    } else if ($output.phone != '' && $(".Sthird").val() == '') {
- //        $('.Tthird').val($output.phone);
- //        $(".Sthird").val('phone');
- //    } else if ($(".Sthird").val() == ''){
- //        $('.Tthird').val(getTheFinalString($output));
- //        $(".Sthird").val('others');
- //    } else {
- //        console.log('nothing');
- //    }
-
- //    if (arry[0] != '' && $(".Sthird").val() == '' && $(".Sfirst").val() == '' && $(".Ssecond").val() == '' && $(".Sforth").val() == '') {
- //        $('.Tforth').val(arry[0]);
- //        $(".Sforth").val('displayName');
- //    } else if ($output.email != '' && $(".Sthird").val() == '' && $(".Ssecond").val() == '' && $(".Sforth").val() == '') {
- //        $('.Tforth').val($output.email);
- //        $(".Sforth").val('email');
- //    } else if ($output.phone != '' && $(".Sthird").val() == '' && $(".Sforth").val() == '') {
- //        $('.Tforth').val($output.phone);
- //        $(".Sforth").val('phone');
- //    } else if ($(".Sforth").val() == ''){
- //        $('.Tforth').val(getTheFinalString($output));
- //        $(".Sforth").val('others');
- //    } else {
- //        console.log('nothing');
- //    }
-}
-
-function getTheFinalString($output) {
-    var str = '';
-    $.each($output, function(idx,val) { 
-      if ((typeof idx) == 'number') {
-        str = str +' '+val;
-      }
-    });
-    return str;
-}
-
-string_to_array = function (str) {
-	newString = str.replace(/\s+/g,' ').trim();
-    return newString.trim().split(" ");
-};
-
-function ValidateEmail(mail) 
-{
- if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail))
-  {
-    return (true)
-  }
-    return (false)
-}
-
-function ValidatePhone(phone) 
-{
- if (/^[0-9-()+]+$/.test(phone) && phone.length > 2)
-  {
-    return (true)
-  }
-    return (false)
 }
 
 $("#listCards").on("click", function(){
@@ -210,7 +91,6 @@ $("#doSaving").on("click", function(event) {
     try
         {
         event.preventDefault();
-        alert($('#TextBoxesGroup')[0].childElementCount);
         var textboxes = [];
         var formData = [];
         var selectboxes = [];
@@ -224,55 +104,57 @@ $("#doSaving").on("click", function(event) {
         }
 
         $.each(selectboxes, function (i, val) {
-            alert(val);
             formData[val] = textboxes[i];
         });
         if (formData.phone != undefined) {
-            // resultArr = JSON.parse(formData);
             var myContact = navigator.contacts.create();
             var phoneNumbers = [];
             var emails = [];
-            alert('formdata array');
-            alert(formData);
-            // $.each(formData, function(i, item) {
-                if (formData.phone != undefined){
-                    phoneNumbers[0] = new ContactField('home', formData.phone, false);
-                    myContact.phoneNumbers = phoneNumbers;
-                }
-                if (formData.email != undefined){
-                    emails[0] = new ContactField('home', formData.email, false);
-                    myContact.emails = emails;
-                }
-                if (formData.displayName != undefined){
-                    myContact.displayName = formData.displayName;
-                    myContact.name = formData.displayName;
-                }
-                if(formData.others != undefined) {
-                    myContact.note = formData.others;
-                }
-            // });
 
+            if (formData.phone != undefined){
+                phoneNumbers[0] = new ContactField('home', formData.phone, false);
+                myContact.phoneNumbers = phoneNumbers;
+            }
+            if (formData.email != undefined){
+                emails[0] = new ContactField('home', formData.email, false);
+                myContact.emails = emails;
+            }
+            if (formData.displayName != undefined){
+                myContact.displayName = formData.displayName;
+                myContact.name = formData.displayName;
+            }
+            if(formData.others != undefined) {
+                myContact.note = formData.others;
+            }
+            
             myContact.save(contactSuccess, contactError);
-            navigator.contacts.pickContact(function(myContact){
-                alert(myContact.displayName);
-            },function(err){
-                alert('Error: ' + err);
-            });
+            
+            // navigator.contacts.pickContact(function(myContact){
+            //     // alert(myContact.displayName);
+            // },function(err){
+            //     alert('Error: ' + err);
+            // });
             
             function contactSuccess() {
                 alert("Contact is saved!");
-                var smallImage = document.getElementById('myImage');
-                smallImage.style.display = 'block';
-                alert(imageDataURL);
-                smallImage.src = "data:image/jpeg;base64," + imageDataURL;
-                doFile(imageDataURL);
-                $("#contact-form").hide();
+                // var smallImage = document.getElementById('myImage');
+                // smallImage.style.display = 'block';
+                // alert(imageDataURL);
+                // smallImage.src = "data:image/jpeg;base64," + imageDataURL;
+                var msg = '';
+                for(i=1; i<counter; i++){
+                    msg += " " + $('#textbox' + i).val();
+                }
+                doFile(imageDataURL, msg);
+                $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
                 $("#dataCotent").show();
             }
             
             function contactError(message) {
                 alert('Failed because: ' + message);
             }
+        } else {
+            alert('Please enter phonenumber!');
         }
     }
     catch(err){ 

@@ -11,7 +11,7 @@ body{ background: -webkit-linear-gradient(left, #0072ff, #00c6ff); }
 .width100 {width:100%; }
 .select-type { font-size:12px;}
 .txtboxes-group-div .box { margin-bottom:5px; padding:10px 10px 0px 10px;}
-.txtboxes-group-div .box-1 { margin-bottom:5px; padding:0 10px;}
+.txtboxes-group-div .box-1 { margin-bottom:5px; padding:0 2px;}
 
 .txtboxes-group-div .cols-1 { float:left; width:60%;}
 .txtboxes-group-div .cols-2 { float:left; width:40%;}
@@ -29,3 +29,9 @@ footer{background: #FFF;bottom: 0;position: fixed;}
 #dataCotent{width:100%;}
 #dataCotent thead{border-bottom: 1px solid #333; }
 #dataCotent thead tr td { padding-bottom:5px; }
+#doSaving{padding: 5px;}
+
+table#dataCotent td {padding: 2px; text-align: center;}
+td#Ttxt {width: 60%;padding: 0 !important;text-align: left !important;}
+td#Timg {width: 30%;}
+td#Tdel {width: 10%;font-size: 28px;}
