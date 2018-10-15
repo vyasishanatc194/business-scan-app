@@ -10,25 +10,51 @@
 	</head>
 	<body>
 		<header>
-			<h2>Business Scan</h2>
+			<h2>Business Scan</h2> 
 		</header>
-		<textarea id="content"></textarea>
-		<img style="display:none;width:100px;height:60px;" id="myImage" src="" />
 		
 		<div class="txtboxes-group-div clearfix" >
 			<div class="container">
 				<div class="row">
-					<table id="dataCotent">
-			            <thead>
-			                <tr>
-			                    <td>Image</td>
-			                    <td>Content</td>
-			                    <td>Action</td>
-			                </tr>
-			            </thead>
-			        </table>
+					<div class="col-md-12 col-sm-12" id="dataCotent">
+
+
+						<div class="white-box-div color-1 clearfix">
+								<div class="thumb"><img src="https://www.seoclerk.com/pics/551103-1TOqFD1502285018.jpg" alt=""></div>
+								<div class="txt-div">
+									<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h3>
+									<p class="phone-txt">+91 98989 98989</p>
+									<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id="1"></i></span></div>
+
+								</div>
+						</div><!-- end of white box -->
+
+						<div class="white-box-div color-1 clearfix">
+								<div class="thumb"><img src="https://www.seoclerk.com/pics/551103-1TOqFD1502285018.jpg" alt=""></div>
+								<div class="txt-div">
+									<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h3>
+									<p class="phone-txt">+91 98989 98989</p>
+
+									<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id="1"></i></span></div>
+
+								</div>
+						</div><!-- end of white box -->
+
+						<div class="white-box-div color-1 clearfix">
+								<div class="thumb"><img src="https://www.seoclerk.com/pics/551103-1TOqFD1502285018.jpg" alt=""></div>
+								<div class="txt-div">
+									<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h3>
+									<p class="phone-txt">+91 98989 98989</p>
+
+									<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id="1"></i></span></div>
+
+								</div>
+						</div><!-- end of white box -->
+
+					</div><!-- end of col 12 -->
+
 					<div class="cols-12 icon-right clearfix" id="contact-form-btn">
-						<input type="button" value="Save As Contact" id="doSaving" class="btn-success" />
+						<input type="button" value="Save As Contact" id="doSaving" class="btn-saveas" />
 						<span class="icon-group" id='addButton'  title='Add Button'><i class="fa fa-plus-circle"></i></span>
 						<span class="icon-group" id='removeButton' title='Remove Button'><i class="fa fa-trash"></i></span>
 						<span class="icon-group" id='getButtonValue' title='Get TextBox Value'><i class="fa fa-database "></i></span>
@@ -36,37 +62,30 @@
 					</div>
 					<form id='TextBoxesGroup' class="txtboxes-group-row clearfix">
 						<div id="TextBoxDiv1" class="box clearfix">
-							<!-- <div class="cols-1"><input type='textbox' name="enteredContent1" id='textbox0' class="form-control width100" ></div>
-							<div class="cols-2">
-								<select id="select0" name="selectedFields1" class="form-control width100 select-type" >
-									<option value="" >Select Type</option>
-									<option value="displayName" >Full Name</option>
-									<option value="phone" >Phone</option>
-									<option value="email" >Email Address</option>
-									<option value="address" >Address</option>
-									<option value="twitter" >Twitter</option>
-									<option value="facebook" >Facebook</option>
-									<option value="linkedin" >Linkedin</option>
-									<option value="wechat" >WeChat</option>
-									<option value="telegram" >Telegram</option>
-									<option value="others" >Others</option>
-							</select>
-							</div> -->
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
+
+
+		<div class="btm-btn-div">
+
+			<div class="camera-blk">
+				<img  id="capturePhoto" src="img/camera.svg">				
+			</div>
+
+			<div class="list-blk">				
+				<img  id="listCards" src="img/id-card.svg">
+			</div>
+
+		</div><!-- end of btm-btn-div -->
+
+
+
+
 		<footer>
-			<div class="btn small">
-				<img class="cameraBtn" id="listCards" src="img/business-card.png">
-			</div>
-			<div class="btn">
-				<img class="cameraBtn" id="capturePhoto" src="img/camera.png">
-			</div>
-			<div class="btn small">
-				<img class="cameraBtn" id="listCards" src="img/business-card.png">
-			</div>
+			
 			<script src="cards.js"></script>
 			<script src="createDB.js"></script>
 			<script type="text/javascript">

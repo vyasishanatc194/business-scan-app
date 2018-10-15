@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDb();
 
 });
-
+ 
 function initDb() {
     let request = indexedDB.open('scanDB', dbVersion);
 
@@ -67,14 +67,17 @@ function doImageListing() {
         // alert('doImageListing');
         $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
         $("#dataCotent").show();
-        $("#dataCotent tbody").remove(); 
+        $("#dataCotent div.white-box-div.color-1.clearfix").remove(); 
         var trans = db.transaction([tableName], 'readonly');
-        $("#dataCotent").append('<tbody></tbody>');
+        // $("#dataCotent").append('<div class="white-box-div color-1 clearfix"></div>');
         trans.objectStore(tableName).openCursor().onsuccess = function(event) {
             var cursor = event.target.result;
               
             if (cursor) {
-                $("#dataCotent tbody").append('<tr><td id="Timg"><img style="width:80px;height:65px;" id="myImage" src="data:image/jpeg;base64,'+cursor.value.data+'" /></td><td id="Ttxt">'+ cursor.value.content.substring(0, 55) +'...</td><td id="Tdel"><i class="fa fa-times-circle deleteItem" id='+cursor.key+' ></i></td></tr>');
+                $("#dataCotent").append('<div class="white-box-div color-1 clearfix"><div class="thumb">'+
+                    '<img style="width:80px;height:65px;" id="myImage" src="data:image/jpeg;base64,'+cursor.value.data+'" /></div>'+
+                    '<div class="txt-div"><h3>'+ cursor.value.content.substring(0, 55) +'</h3>'+
+                    '<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id='+cursor.key+' ></i></span></div></div></div>');
                 cursor.continue();
                 
             } else {

@@ -2,6 +2,7 @@ $("#content").hide();
 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
 $("#dataCotent").hide();
 var imageDataURL = null;
+
 $("#capturePhoto").on("click", function() {
    capturePhoto();
 });
@@ -29,7 +30,6 @@ function onFail(message) {
     alert('Failed because: ' + message);
 }
 
-
 function clearContent(str) {
 	var result = [];
 	var obj = JSON.parse(str);
@@ -38,7 +38,6 @@ function clearContent(str) {
   			result.push(j.text);
 		});
 	});
-	
     doAction(result);
 
     for (i = 0; i < result.length; i++) {
@@ -77,6 +76,7 @@ function addFields(data = '') {
 }
 
 function doAction(data) {
+    alert(data);
     $("#dataCotent").hide();
     $("#contact-form-btn, #TextBoxesGroup, #doSaving").show();
 }
