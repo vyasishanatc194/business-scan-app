@@ -1,15 +1,26 @@
 $("#content").hide();
 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
-$("#dataCotent").hide();
+$("#dataCotent, #myInput").hide();
+$(".card-detail-page").hide();
 var imageDataURL = null;
+var imageDataURLback = null;
+var counter = $("#TextBoxesGroup")[0].children.length;
 
 $("#capturePhoto").on("click", function() {
    capturePhoto();
 });
 
-function capturePhoto() {
-    // Take picture using device camera, allow edit, and retrieve image as base64-encoded string  
-    navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
+$("#capturePhoto1").on("click", function() {
+   capturePhoto('backSide');
+});
+
+function capturePhoto(cameraType = null) {
+    // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
+    if (cameraType != null) {
+        navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
+    } else {
+        navigator.camera.getPicture(onSuccess, onFail, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
+    }
 }
 
 // Called when a photo is successfully retrieved
@@ -18,6 +29,17 @@ function onPhotoDataSuccess(imageData) {
     window.Q.ML.Cordova.ocr(imageData, false, function(result) {
         // Uncomment to view the base64 encoded image data
         imageDataURL = imageData;
+        clearContent(JSON.stringify(result));
+    }, function(error){
+        alert("Error: "+error);
+    })
+}
+// Called when a photo is successfully retrieved
+//
+function onSuccess(imageData) {
+    window.Q.ML.Cordova.ocr(imageData, false, function(result) {
+        // Uncomment to view the base64 encoded image data
+        imageDataURLback = imageData;
         clearContent(JSON.stringify(result));
     }, function(error){
         alert("Error: "+error);
@@ -42,12 +64,16 @@ function clearContent(str) {
 
     for (i = 0; i < result.length; i++) {
         addFields(result[i]);
+        if (i == result.length -1) {
+            if ($("#formNotes").length == 0) {
+                // $("#TextBoxesGroup").prepend('<textarea id="formNotes" name="formNotes" placeholder="Notes..."></textarea>');
+            }
+        }
     }
 }
 
-var counter = 1;
                         
-$("#addButton").click(function () {
+$("#addButton").click( function () {
     addFields();
 });
 
@@ -64,6 +90,8 @@ function addFields(data = '') {
             '<option value="phone" >Phone</option>'+
             '<option value="email" >Email Address</option>'+
             '<option value="address" >Address</option>'+
+            '<option value="company" >Company</option>'+
+            '<option value="website" >Website</option>'+
             '<option value="twitter" >Twitter</option>'+
             '<option value="facebook" >Facebook</option>'+
             '<option value="linkedin" >Linkedin</option>'+
@@ -76,13 +104,11 @@ function addFields(data = '') {
 }
 
 function doAction(data) {
-    alert(data);
-    $("#dataCotent").hide();
+    $("#dataCotent, #myInput").hide();
     $("#contact-form-btn, #TextBoxesGroup, #doSaving").show();
 }
 
 $("#listCards").on("click", function(){
-    alert("Go for listing..");
     doImageListing();
 });
 
@@ -110,6 +136,9 @@ $("#doSaving").on("click", function(event) {
             var myContact = navigator.contacts.create();
             var phoneNumbers = [];
             var emails = [];
+            var organizations = [];
+            var urls = [];
+            var addresses = [];
 
             if (formData.phone != undefined){
                 phoneNumbers[0] = new ContactField('home', formData.phone, false);
@@ -119,12 +148,24 @@ $("#doSaving").on("click", function(event) {
                 emails[0] = new ContactField('home', formData.email, false);
                 myContact.emails = emails;
             }
+            if (formData.company != undefined){
+                organizations[0] = new ContactField('work', formData.company, false);
+                myContact.organizations = organizations;
+            }
+            if (formData.website != undefined){
+                urls[0] = new ContactField('work', formData.website, false);
+                myContact.urls = urls;
+            }
+            if (formData.address != undefined){
+                addresses[0] = new ContactField('work', formData.address, false);
+                myContact.addresses = addresses;
+            }
             if (formData.displayName != undefined){
                 myContact.displayName = formData.displayName;
                 myContact.name = formData.displayName;
             }
-            if(formData.others != undefined) {
-                myContact.note = formData.others;
+            if(document.getElementById("formNotes") != '') {
+                myContact.note = document.getElementById("formNotes");
             }
             
             myContact.save(contactSuccess, contactError);
@@ -145,9 +186,9 @@ $("#doSaving").on("click", function(event) {
                 for(i=1; i<counter; i++){
                     msg += " " + $('#textbox' + i).val();
                 }
-                doFile(imageDataURL, msg);
+                doFile(imageDataURL, imageDataURLback, msg);
                 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
-                $("#dataCotent").show();
+                $("#dataCotent, #myInput").show();
             }
             
             function contactError(message) {

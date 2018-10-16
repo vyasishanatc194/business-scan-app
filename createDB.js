@@ -2,6 +2,7 @@ let db;
 let dbVersion = 1;
 let dbReady = false;
 var tableName = 'scanCard';
+var availableData = '';
 
 document.addEventListener('DOMContentLoaded', () => {
     // alert('dom content loaded');
@@ -39,11 +40,12 @@ function initDb() {
     }
 }
 
-function doFile(data, content) {
+function doFile(data, imageDataURLback = null, content) {
     let bits = data;
     let ob = {
         created:new Date(),
         data:bits,
+        imgBack: imageDataURLback,
         content: content
     };
 
@@ -62,11 +64,11 @@ function doFile(data, content) {
 }
 
 
-function doImageListing() {
+function doImageListing(str = null) {
     try{
-        // alert('doImageListing');
         $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
-        $("#dataCotent").show();
+        $(".card-detail-page").hide();
+        $("#dataCotent, #myInput").show();
         $("#dataCotent div.white-box-div.color-1.clearfix").remove(); 
         var trans = db.transaction([tableName], 'readonly');
         // $("#dataCotent").append('<div class="white-box-div color-1 clearfix"></div>');
@@ -74,25 +76,34 @@ function doImageListing() {
             var cursor = event.target.result;
               
             if (cursor) {
-                $("#dataCotent").append('<div class="white-box-div color-1 clearfix"><div class="thumb">'+
-                    '<img style="width:80px;height:65px;" id="myImage" src="data:image/jpeg;base64,'+cursor.value.data+'" /></div>'+
-                    '<div class="txt-div"><h3>'+ cursor.value.content.substring(0, 55) +'</h3>'+
-                    '<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id='+cursor.key+' ></i></span></div></div></div>');
-                cursor.continue();
-                
+                if (str != null && cursor.value.content.indexOf(str) > -1) {
+                    //  $("#dataCotent").append('<div class="white-box-div color-1 clearfix"><div class="thumb">'+
+                    //     '<img style="width:80px;height:65px;" id="myImage" src="" /></div>'+
+                    //     '<div class="txt-div"><h3>'+ cursor.value.content.substring(0, 55) +'</h3>'+
+                    //     '<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id='+cursor.key+' ></i></span></div></div></div>');
+                    // cursor.continue();
+                } else if (str == null) {
+                    availableData = ['<tr class="white-box-div color-1 clearfix cardItem" id='+cursor.key+' >'+
+                        '<td class="thumb"><img style="width:80px;height:65px;" id="myImage" src="data:image/jpeg;base64,'+ cursor.value.data +'" /></td>'+
+                        '<td class="txt-div"><h3>'+ cursor.value.content.substring(0, 55) +'</h3><div class="dlt-div">'+
+                        '<span><i class="fa fa-times-circle deleteItem" id='+cursor.key+' ></i></span></div></td>'+
+                        '</tr>'];
+                    fillData(availableData);
+                    cursor.continue();
+                } else {
+                    $("#dataCotent div.white-box-div.color-1.clearfix").remove(); 
+                }
             } else {
                 $('.deleteItem').on("click", function(){
-
                     var r = confirm("Are you sure want to delete record?");
                     if (r == true) {
                         removeRecord($(this).attr('id'));
                         doImageListing();
-                    }
-                    
+                    }                    
                 });
             }
             if ($("#Timg").length <= 0) {
-                $("#dataCotent tbody").append('<tr><td colspan="3" style="text-align:center;">No more entries!</td></tr>');
+                $("#dataCotent tbody").append('<div class="white-box-div color-1 clearfix" >No more entries!</div>');
             }
         };
 
@@ -100,6 +111,46 @@ function doImageListing() {
         alert(err);
     }
 }
+
+function fillData(availableData) {
+    $.each(availableData, function(index, val){
+        console.log(val);
+        $("#dataCotent").append(val);
+    });
+
+    $(".cardItem").on('click', function(){
+        var cardId = $(this).attr('id');
+        cardDetailPage(cardId);        
+    });
+}
+
+function cardDetailPage(cardId) {
+    try {
+        $(".txtboxes-group-div").hide();
+        $(".card-detail-page").show();
+        var transaction = db.transaction([tableName]);
+        var objectStore = transaction.objectStore(tableName);
+        var request = objectStore.get(parseInt(cardId));
+       
+        request.onerror = function(event) {
+           alert("Unable to retrieve daa from database!");
+        };
+       
+        request.onsuccess = function(event) {
+            if(request.result) {            
+                $(".card-detail-page img#imgFront").attr('src', "data:image/jpeg;base64,"+request.result.data);
+                $(".card-detail-page img#imgBack").attr('src', "data:image/jpeg;base64,"+request.result.imgBack);
+                $(".card-detail-page .card-content").html(request.result.content);
+            } 
+       };
+    }
+    catch(err) {
+        $(".txtboxes-group-div").show();
+        $(".card-detail-page").hide();
+        alert('Detail Page:'+err); 
+    }
+}
+
 
 function removeRecord(id) {
     var request = db.transaction([tableName], "readwrite")

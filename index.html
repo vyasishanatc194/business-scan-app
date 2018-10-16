@@ -16,44 +16,13 @@
 		<div class="txtboxes-group-div clearfix" >
 			<div class="container">
 				<div class="row">
-					<div class="col-md-12 col-sm-12" id="dataCotent">
+					<input type="text" id="myInput" placeholder="Search for card.." style="width:100%; padding:5px;" title="Type in a card">
+					<table class="col-md-12 col-sm-12" id="dataCotent">					
 
-
-						<div class="white-box-div color-1 clearfix">
-								<div class="thumb"><img src="https://www.seoclerk.com/pics/551103-1TOqFD1502285018.jpg" alt=""></div>
-								<div class="txt-div">
-									<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h3>
-									<p class="phone-txt">+91 98989 98989</p>
-									<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id="1"></i></span></div>
-
-								</div>
-						</div><!-- end of white box -->
-
-						<div class="white-box-div color-1 clearfix">
-								<div class="thumb"><img src="https://www.seoclerk.com/pics/551103-1TOqFD1502285018.jpg" alt=""></div>
-								<div class="txt-div">
-									<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h3>
-									<p class="phone-txt">+91 98989 98989</p>
-
-									<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id="1"></i></span></div>
-
-								</div>
-						</div><!-- end of white box -->
-
-						<div class="white-box-div color-1 clearfix">
-								<div class="thumb"><img src="https://www.seoclerk.com/pics/551103-1TOqFD1502285018.jpg" alt=""></div>
-								<div class="txt-div">
-									<h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. </h3>
-									<p class="phone-txt">+91 98989 98989</p>
-
-									<div class="dlt-div"><span><i class="fa fa-times-circle deleteItem" id="1"></i></span></div>
-
-								</div>
-						</div><!-- end of white box -->
-
-					</div><!-- end of col 12 -->
+					</table><!-- end of col 12 -->
 
 					<div class="cols-12 icon-right clearfix" id="contact-form-btn">
+						<input type="button" value="Click Backside" id="capturePhoto1" class="btn-saveas" />
 						<input type="button" value="Save As Contact" id="doSaving" class="btn-saveas" />
 						<span class="icon-group" id='addButton'  title='Add Button'><i class="fa fa-plus-circle"></i></span>
 						<span class="icon-group" id='removeButton' title='Remove Button'><i class="fa fa-trash"></i></span>
@@ -66,6 +35,11 @@
 					</form>
 				</div>
 			</div>
+		</div>
+		<div class="card-detail-page">
+			<img style="width:100%;height:200px;" id="imgFront" src="" />
+			<img style="width:100%;height:200px;" id="imgBack" src="" />
+			<div class="card-content"></div>
 		</div>
 
 
@@ -81,31 +55,31 @@
 
 		</div><!-- end of btm-btn-div -->
 
-
-
-
 		<footer>
 			
 			<script src="cards.js"></script>
 			<script src="createDB.js"></script>
 			<script type="text/javascript">
 
+				$("#myInput").on('keyup', function(){
+				  var input, filter, table, tr, td, i;
+				  input = document.getElementById("myInput");
+				  filter = input.value.toUpperCase();
+				  table = document.getElementById("dataCotent");
+				  tr = table.getElementsByTagName("tr");
+				  for (i = 0; i < tr.length; i++) {
+				    td = tr[i].getElementsByTagName("td")[1];
+				    if (td) {
+				      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+				        tr[i].style.display = "";
+				      } else {
+				        tr[i].style.display = "none";
+				      }
+				    }       
+				  }
+				});
+
 				$(document).ready(function(){
-
-				   
-				  //   function addFields() {
-				  //   	if(counter > 20) {
-				  //           alert("Only 20 fields allow");
-				  //           return false;
-						// }
-						// var newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter);       
-
-						// newTextBoxDiv.after().html('<div class="box-1 clearfix"><div class="cols-1" ><input type="text" name="enteredContent'+ counter +'" class="form-control width100" name="textbox' + counter + 
-						//       '" id="textbox' + counter + '" value="" ></div><div class="cols-2"><select  name="selectedFields['+ counter +']" id="select' + counter + '" class="form-control width100"><option value="">select type</option><option value="name">Name</option><option value="emails">Email</option><option value="phonenumbers">Phone</option></select></div></div>');
-
-						// newTextBoxDiv.appendTo("#TextBoxesGroup");
-						// counter++;
-				  //   }
 
 				 	$("#removeButton").click(function () {
 						removeField();		
