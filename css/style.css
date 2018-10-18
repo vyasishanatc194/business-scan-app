@@ -228,14 +228,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 
 .middle-container { margin: 0; padding: 20px; width: 100%; position: relative;}
 
-.btn-green { margin: 0; padding: 15px 0; position:relative; border-radius:8px; color:#fff; font-size:24px;text-transform: uppercase; box-shadow: 0 5px 10px 0 rgba(139,199,6,0.5); text-align: center;
+.btn-green, .btn-red { margin: 0; padding: 15px 0; position:relative; border-radius:8px; color:#fff; font-size:24px;text-transform: uppercase; 
+	box-shadow:  0 5px 10px 0 rgba(199, 6, 25, 0.5); 
+	text-align: center;
 	font-weight: 700;
 	cursor: pointer;
 	background: #a8bd08; /* Old browsers */
-	background: -moz-linear-gradient(-45deg, #a8bd08 0%, #89c806 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(-45deg, #a8bd08 0%,#89c806 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(135deg, #a8bd08 0%,#89c806 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background: -moz-linear-gradient(-45deg, #bd0808 0%,#c80606 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #bd0808 0%,#c80606 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #bd0808 0%,#c80606 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8bd08', endColorstr='#89c806',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */ 
+}
+.btn-green {
+	box-shadow: 0 5px 10px 0 rgba(139,199,6,0.5); 
+	background: -moz-linear-gradient(-45deg, #a8bd08 0%, #89c806 100%) !important; /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg, #a8bd08 0%,#89c806 100%) !important; /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg, #a8bd08 0%,#89c806 100%) !important;
 }
 .plus-icon { background: url(../images/plus.png) no-repeat; background-size:cover; width: 20px; height: 20px; display: inline-block; vertical-align: middle; margin: 0 5px 0 0;
 	/*background-color: red;
