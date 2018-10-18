@@ -1,10 +1,11 @@
 $("#content").hide();
 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
-$("#dataCotent, #myInput").hide();
+// $("#dataCotent, #myInput").hide();
 $(".card-detail-page").hide();
 var imageDataURL = null;
 var imageDataURLback = null;
-var counter = $("#TextBoxesGroup")[0].children.length;
+// var counter = $("#TextBoxesGroup")[0].children.length;
+var counter = 0;
 
 $("#capturePhoto").on("click", function() {
    capturePhoto();
@@ -15,6 +16,8 @@ $("#capturePhoto1").on("click", function() {
 });
 
 function capturePhoto(cameraType = null) {
+
+    $(".scanCardForm").show();
     // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
     if (cameraType != null) {
         navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
@@ -64,12 +67,21 @@ function clearContent(str) {
 
     for (i = 0; i < result.length; i++) {
         addFields(result[i]);
-        if (i == result.length -1) {
-            if ($("#formNotes").length == 0) {
-                // $("#TextBoxesGroup").prepend('<textarea id="formNotes" name="formNotes" placeholder="Notes..."></textarea>');
-            }
-        }
     }
+
+    $(".select-box").on("change", function(){
+        console.log($(this).attr('id'));
+        var option = $(this).val();
+        var optionId = $(this).attr('data-value');
+
+        if (option == 'delete') {
+            var r = confirm("Are you sure want to delete record?");
+            if (r == true) {
+                $('div#'+optionId).remove();
+            }
+            
+        }
+    });
 }
 
                         
@@ -78,14 +90,11 @@ $("#addButton").click( function () {
 });
 
 function addFields(data = '') {
-    if(counter > 20) {
-        alert("Only 20 fields allow");
-        return false;
-    }
-    var newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter);       
 
-    newTextBoxDiv.after().html('<div class="box-1 clearfix"><div class="cols-1" ><input type="text" name="enteredContent'+ counter +'" class="form-control width100" value="' + data + '" name="textbox' + counter + 
-          '" id="textbox' + counter + '" value="" ></div><div class="cols-2"><select  name="selectedFields'+ counter +'" id="select' + counter + '" class="form-control width100"><option value="" >Select Type</option>'+
+    newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter);       
+
+    newTextBoxDiv.after().html('<div class="row-group clearfix"><div class="box-1"><input type="text" class="input-box"  value="' + data + '" id="textbox' + counter + '" /></div>'+
+        '<div class="box-2"><select data-value="TextBoxDiv'+counter+'" id="select' + counter + '" class="select-box"><option value="" >Select Type</option>'+
             '<option value="displayName" >Full Name</option>'+
             '<option value="phone" >Phone</option>'+
             '<option value="email" >Email Address</option>'+
@@ -97,9 +106,11 @@ function addFields(data = '') {
             '<option value="linkedin" >Linkedin</option>'+
             '<option value="wechat" >WeChat</option>'+
             '<option value="telegram" >Telegram</option>'+
-            '<option value="others" >Others</option></select></div></div>');
+            '<option value="others" >Others</option>'+
+            '<option value="delete">Delete</option></select></div>'+
+            '</div>');
 
-    newTextBoxDiv.appendTo("#TextBoxesGroup");
+    newTextBoxDiv.appendTo("#TextBoxesGroup form");
     counter++;
 }
 
@@ -112,10 +123,9 @@ $("#listCards").on("click", function(){
     doImageListing();
 });
 
-// Cretae contact in mobile device
+// Contact Saving in mobile device
 $("#doSaving").on("click", function(event) {
-    try
-        {
+    try {
         event.preventDefault();
         var textboxes = [];
         var formData = [];
@@ -132,8 +142,10 @@ $("#doSaving").on("click", function(event) {
         $.each(selectboxes, function (i, val) {
             formData[val] = textboxes[i];
         });
+
         if (formData.phone != undefined) {
             var myContact = navigator.contacts.create();
+            var contactObj = new Object();
             var phoneNumbers = [];
             var emails = [];
             var organizations = [];
@@ -143,50 +155,44 @@ $("#doSaving").on("click", function(event) {
             if (formData.phone != undefined){
                 phoneNumbers[0] = new ContactField('home', formData.phone, false);
                 myContact.phoneNumbers = phoneNumbers;
+                contactObj.phoneNumbers = formData.phone;
             }
             if (formData.email != undefined){
                 emails[0] = new ContactField('home', formData.email, false);
                 myContact.emails = emails;
+                contactObj.emails = formData.email;
             }
             if (formData.company != undefined){
                 organizations[0] = new ContactField('work', formData.company, false);
                 myContact.organizations = organizations;
+                contactObj.organizations = formData.company;
             }
             if (formData.website != undefined){
                 urls[0] = new ContactField('work', formData.website, false);
                 myContact.urls = urls;
+                contactObj.urls = formData.website;
             }
             if (formData.address != undefined){
                 addresses[0] = new ContactField('work', formData.address, false);
                 myContact.addresses = addresses;
+                contactObj.addresses = formData.address;
             }
             if (formData.displayName != undefined){
                 myContact.displayName = formData.displayName;
                 myContact.name = formData.displayName;
+                contactObj.displayName = formData.displayName;
             }
             if(document.getElementById("formNotes") != '') {
-                myContact.note = document.getElementById("formNotes");
+                myContact.note = $("#formNotes").val();
+                contactObj.note = $("#formNotes").val();
             }
             
             myContact.save(contactSuccess, contactError);
-            
-            // navigator.contacts.pickContact(function(myContact){
-            //     // alert(myContact.displayName);
-            // },function(err){
-            //     alert('Error: ' + err);
-            // });
-            
+                        
             function contactSuccess() {
+                console.log(contactObj);
                 alert("Contact is saved!");
-                // var smallImage = document.getElementById('myImage');
-                // smallImage.style.display = 'block';
-                // alert(imageDataURL);
-                // smallImage.src = "data:image/jpeg;base64," + imageDataURL;
-                var msg = '';
-                for(i=1; i<counter; i++){
-                    msg += " " + $('#textbox' + i).val();
-                }
-                doFile(imageDataURL, imageDataURLback, msg);
+                doFile(imageDataURL, imageDataURLback, myContact);
                 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
                 $("#dataCotent, #myInput").show();
             }

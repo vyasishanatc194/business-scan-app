@@ -1,111 +1,266 @@
-<html>
-	<head>
-		<meta content='initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width' name='viewport' />
-		<script type="text/javascript" src="http://code.jquery.com/jquery-1.3.2.min.js"></script>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" >
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" ></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-		<link rel="stylesheet" href="style.css">
-		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	</head>
-	<body>
-		<header>
-			<h2>Business Scan</h2> 
-		</header>
-		
-		<div class="txtboxes-group-div clearfix" >
-			<div class="container">
-				<div class="row">
-					<input type="text" id="myInput" placeholder="Search for card.." style="width:100%; padding:5px;" title="Type in a card">
-					<table class="col-md-12 col-sm-12" id="dataCotent">					
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js lt-ie10 lt-ie9 lt-ie8 lt-ie7" lang="en-us"> <![endif]-->
+<!--[if IE 7]> <html class="no-js lt-ie10 lt-ie9 lt-ie8" lang="en-us"> <![endif]-->
+<!--[if IE 8]> <html class="no-js lt-ie10 lt-ie9" lang="en-us"> <![endif]-->
+<!--[if IE 9]> <html class="no-js lt-ie10 lt-ie9" lang="en-us"> <![endif]-->
+<!--[if lt IE 10]> <html class="no-js lt-ie10" lang="en-us"> <![endif]-->
+<!--[if !IE]> > <![endif]-->
+<html class='no-js' lang='en'>
+<!-- <![endif] -->
+<head>
+<meta charset="utf-8">
+<meta name="description" content="" />
+<meta name="author" content="" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-					</table><!-- end of col 12 -->
+<title>Business Card</title>
 
-					<div class="cols-12 icon-right clearfix" id="contact-form-btn">
-						<input type="button" value="Click Backside" id="capturePhoto1" class="btn-saveas" />
-						<input type="button" value="Save As Contact" id="doSaving" class="btn-saveas" />
-						<span class="icon-group" id='addButton'  title='Add Button'><i class="fa fa-plus-circle"></i></span>
-						<span class="icon-group" id='removeButton' title='Remove Button'><i class="fa fa-trash"></i></span>
-						<span class="icon-group" id='getButtonValue' title='Get TextBox Value'><i class="fa fa-database "></i></span>
-						<img style="display:none;width:80px;height:60px;" id="myImage" src="" />
+<meta content='initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width' name='viewport' />
+
+<meta content='yes' name='apple-mobile-web-app-capable'>
+<meta content='translucent-black' name='apple-mobile-web-app-status-bar-style'>
+<link href='images/favicon.png' rel='shortcut icon'>
+<link href='images/favicon.ico' rel='icon' type='image/ico'>
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet"> 
+
+<link href="css/style.css" media="all" rel="stylesheet" type="text/css" />
+<link href="css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css" />
+
+<script src="js/modernizr.js" type="text/javascript"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.3.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!--[if IE]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+<script type="text/javascript"> 
+	var TOTAL_CARDS = 0;
+	let BCS = {
+	    "business_card":"Business Card",
+	    "scanner":"Scanner",
+	    "cards":"Cards",
+	    "get_credits":"Get Credits",
+	    "search":"Search",
+	    "delete_a_card":"Delete Card",
+	    "scan_new_card":"Scan New Card",
+	    "front":"Front",
+	    "back":"Back",
+	    "full_name":"Full Name",
+	    "phone":"Phone",
+	    "address":"Address",
+	    "company":"Company",
+	    "website":"Website",
+	    "twitter":"Twitter",
+	    "facebook":"Facebook",
+	    "linkedin":"Linkedin",
+	    "wechat":"WeChat",
+	    "telegram":"Telegram",
+	    "others":"Others",
+	    "email_address":"Email Address"
+	  }
+</script>
+
+</head>
+<body>
+<div id="wrapper" class="cardListing">
+	<header>
+		<div class="header-div clearfix">
+			<div class="head-col-1">
+				<div class="card-icon"><a href="index.html"><img src="images/id-card.svg"  alt=""></a></div>
+			</div>
+			<div class="head-col-2">
+				<div class="head-title"><h3>Business Card</h3><h4>Scanner</h4></div>
+			</div>
+			<div class="head-col-3">
+				<div class="head-round-blk"><a href="#"><div class="round-blk"><span class="largenumber"></span><span class="smalltxt">Credits</span></div></a></div>
+			</div>
+		</div>
+	</header>
+
+	<div class="middle-container clearfix">
+		<div class="btn-green" id="scanCard"><span class="plus-icon"></span> Scan New Card</div>
+			<div class="card-list-div clearfix" id="dataCotent">
+
+			</div>
+	</div> <!-- #cardListing -->
+	
+	<footer>
+		<div class="footer-div clearfix">
+			<div class="footer-col-1">
+				<div class="getcredits-div"><a href="#"><span class="credit-icon"><img src="images/money.svg" alt=""></span> Get Credits</a></div>		
+			</div><!-- end of footer col -->
+			<div class="footer-col-2">
+					<div class="footer-search-div"><a href="searchCard.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> Search</a></div>		
+			</div><!-- end of footer col -->
+		</div>
+	</footer>
+</div>
+
+<div id="wrapper" class="scanCardForm">
+	<header>
+		<div class="header-div clearfix">		
+			<div class="head-title scan-title"><h4>Scan New Card</h4></div>
+			<div class="clsoe"><a href="#"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
+		</div>
+	</header>
+
+	<div class="middle-container clearfix">
+		<div class="clearfix">
+			<div class="front-card-div" id="capturePhoto">
+				<div class="card" >
+					<div class="card-blk">
+					<a href="#">
+					<div class="front-icon"><img class="card-icon" src="images/card-gray.png" alt="" ></div>
+					<h4>Front</h4>
+					</a>
 					</div>
-					<form id='TextBoxesGroup' class="txtboxes-group-row clearfix">
-						<div id="TextBoxDiv1" class="box clearfix">
-						</div>
-					</form>
 				</div>
-			</div>
+			</div><!-- end of front card-->
+
+			<div class="back-card-div" id="capturePhoto1">
+				<div class="card">
+					<div class="card-blk">
+					<a href="#">
+					<div class="back-icon"><img class="card-icon" src="images/card-back.png" alt="" ></div>
+					<h4>Back</h4>
+					</a>
+					</div>
+				</div>
+			</div><!-- end of back card-->
 		</div>
-		<div class="card-detail-page">
-			<img style="width:100%;height:200px;" id="imgFront" src="" />
-			<img style="width:100%;height:200px;" id="imgBack" src="" />
-			<div class="card-content"></div>
+
+		<div class="add-record-div clearfix">
+			<div class="round-card"><a id="addButton"><span class="flex"><img src="images/plus.png" alt=""></span></a></div>
+		</div><!-- end of add record div-->
+
+		<div class="form-div clearfix" id="TextBoxesGroup">
+			<form>
+				
+			</form>
+			<textarea id="formNotes" class="textarea-box" name="formNotes" placeholder="Add notes..."></textarea>
 		</div>
 
+		
 
-		<div class="btm-btn-div">
+	</div><!-- end of middle-container-->
 
-			<div class="camera-blk">
-				<img  id="capturePhoto" src="img/camera.svg">				
+	<div class="bottom-div" id="doSaving">
+		<div class="btn-green">Save Contact</div>
+	</div>
+</div>
+
+<div id="wrapper" class="cardDetailPage">
+	<header>
+		<div class="header-div clearfix">		
+			<div class="head-title scan-title"><h4 id="cardDetailPageTitle"></h4></div>
+			<div class="clsoe"><a href="#"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
+		</div>
+
+	</header>
+
+	<div class="middle-container clearfix">
+
+		<div class="card-detail-div clearfix" style="max-height: 332px;overflow: scroll;">
+
+			<div class="card-div-blk">
+				<img class="card-img" id="imgFrnt" src="" />
 			</div>
 
-			<div class="list-blk">				
-				<img  id="listCards" src="img/id-card.svg">
+			<div class="card-div-blk">
+				<img class="card-img" id="imgBck" src="" />
 			</div>
 
-		</div><!-- end of btm-btn-div -->
+		</div>
+		
+	</div><!-- end of middle-container-->
 
-		<footer>
+	<div class="bottom-blk-div">
+		
+		<div class="card">
+			<div class="content-blk">
+				<p></p>
+			</div>
+
+		</div>
+		
+		<div class="btn-red deleteItem">Delete</div>
+
+	</div>
+</div>
+
+<script src="js/jquery.min.js" type="text/javascript"></script> 
+<script type="text/javascript" src="js/custom.js"></script> 
+<script src="cards.js"></script>
+<script src="createDB.js"></script>
+<script type="text/javascript">
+
+var newTextBoxDiv = '';
+
+	$("#myInput").on('keyup', function(){
+		console.log($(thus).val());
+	  var input, filter, table, tr, td, i;
+	  input = document.getElementById("myInput");
+	  filter = input.value.toUpperCase();
+	  table = document.getElementById("dataCotent");
+	  tr = table.getElementsByTagName("p");
+	  for (i = 0; i < tr.length; i++) {
+	    td = tr[i].getElementsByTagName("p")[1];
+	    if (td) {
+	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	        tr[i].style.display = "";
+	      } else {
+	        tr[i].style.display = "none";
+	      }
+	    }       
+	  }
+	});
+
+	$("#scanCard").on("click", function(){
+		capturePhoto();
+		$(".cardListing").hide();
+		$(".cardDetailPage").hide();
+		$("#TextBoxesGroup input").remove();
+		$("#TextBoxesGroup select").remove();
+	});
+
+	$(".clsoe").on("click", function(){
+		$(".cardListing").show();
+		$(".scanCardForm").hide();
+		$(".cardDetailPage").hide();
+	});
+
+	$(document).ready(function() {
+
+		$(".largenumber").html(TOTAL_CARDS);
+
+		$(".scanCardForm").hide();	
+		$(".cardDetailPage").hide();	
+
+	 	$("#removeButton").click(function () {
+			removeField();		
+	 	});
+
+	 	function removeField() {
+	 		if(counter==1){
+	          	alert("No more textbox to remove");
+	          	return false;
+	        }
+			counter--;
+	        $("#TextBoxDiv" + counter).remove();
+	 	}
 			
-			<script src="cards.js"></script>
-			<script src="createDB.js"></script>
-			<script type="text/javascript">
-
-				$("#myInput").on('keyup', function(){
-				  var input, filter, table, tr, td, i;
-				  input = document.getElementById("myInput");
-				  filter = input.value.toUpperCase();
-				  table = document.getElementById("dataCotent");
-				  tr = table.getElementsByTagName("tr");
-				  for (i = 0; i < tr.length; i++) {
-				    td = tr[i].getElementsByTagName("td")[1];
-				    if (td) {
-				      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-				        tr[i].style.display = "";
-				      } else {
-				        tr[i].style.display = "none";
-				      }
-				    }       
-				  }
-				});
-
-				$(document).ready(function(){
-
-				 	$("#removeButton").click(function () {
-						removeField();		
-				 	});
-
-				 	function removeField() {
-				 		if(counter==1){
-				          	alert("No more textbox to remove");
-				          	return false;
-				        }
-						counter--;
-				        $("#TextBoxDiv" + counter).remove();
-				 	}
-						
-				    $("#getButtonValue").click(function () {
-						var msg = '';
-						for(i=1; i<counter; i++){
-				   	  		msg += "\n " + $('#textbox' + i).val();
-						}
-					  	alert(msg);
-				     });
-				  });
-				</script>
-		</footer>
-	</body>
+	    $("#getButtonValue").click(function () {
+			var msg = '';
+			for(i=1; i<counter; i++){
+	   	  		msg += "\n " + $('#textbox' + i).val();
+			}
+		  	alert(msg);
+	     });
+	  });
+	</script>
+</body>
 </html>
+	
 
 
 <!-- [[{"cornerPoints":[{"x":1006,"y":1767},{"x":1016.1304321289062,"y":675.0469970703125},{"x":1105.1265869140625,"y":675.8726806640625},{"x":1094.9962158203125,"y":1767.8256225585938}],"text":"Hiren Mistry | M.: 9998066180","language":"en"}],[{"cornerPoints":[{"x":1314,"y":1784},{"x":1364.320068359375,"y":0.709716796875},{"x":1739.1708984375,"y":11.287109375},{"x":1688.850830078125,"y":1794.577392578125}],"text":"Md@cor","language":"en"}],[{"cornerPoints":[{"x":1705,"y":2133},{"x":1763.08544921875,"y":344.943115234375},{"x":1867.0306396484375,"y":348.31982421875},{"x":1808.9451904296875,"y":2136.376678466797}],"text":"Laminet & Kitchan Basket Galeri","language":""}],[{"cornerPoints":[{"x":2076,"y":2202},{"x":2115.911376953125,"y":293.417236328125},{"x":2213.889892578125,"y":295.466064453125},{"x":2173.978515625,"y":2204.048873901367}],"text":"F-3,4, Hari Krushna Complex, Petlad Road, Nadiad.","language":"en"},{"cornerPoints":[{"x":2202,"y":1811},{"x":2236.57958984375,"y":698.5372314453125},{"x":2330.5341796875,"y":701.4576416015625},{"x":2295.95458984375,"y":1813.9204711914062}],"text":"Email: ohmdecor@gmail.com","language":"en"}]] -->
