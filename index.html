@@ -39,6 +39,7 @@
 	    "business_card":"Business Card",
 	    "scanner":"Scanner",
 	    "cards":"Cards",
+		"credit" : "Credits",
 	    "get_credits":"Get Credits",
 	    "search":"Search",
 	    "delete_a_card":"Delete Card",
@@ -56,7 +57,14 @@
 	    "wechat":"WeChat",
 	    "telegram":"Telegram",
 	    "others":"Others",
-	    "email_address":"Email Address"
+	    "email_address":"Email Address",
+		"save_contact":"Save Contact",
+		"delete_btn":"Delete",
+		"no_more_text":"No more textbox to remove",
+		
+		
+		
+		
 	  }
 </script>
 
@@ -69,16 +77,16 @@
 				<div class="card-icon"><a href="index.html"><img src="images/id-card.svg"  alt=""></a></div>
 			</div>
 			<div class="head-col-2">
-				<div class="head-title"><h3>Business Card</h3><h4>Scanner</h4></div>
+				<div class="head-title"><h3><script>document.write(BCS.business_card);</script></h3><h4><script>document.write(BCS.scanner);</script></h4></div>
 			</div>
 			<div class="head-col-3">
-				<div class="head-round-blk"><a href="#"><div class="round-blk"><span class="largenumber"></span><span class="smalltxt">Credits</span></div></a></div>
+				<div class="head-round-blk"><a href="#"><div class="round-blk"><span class="largenumber"></span><span class="smalltxt"><script>document.write(BCS.credit);</script></span></div></a></div>
 			</div>
 		</div>
 	</header>
 
 	<div class="middle-container clearfix">
-		<div class="btn-green" id="scanCard"><span class="plus-icon"></span> Scan New Card</div>
+		<div class="btn-green" id="scanCard"><span class="plus-icon"></span> <script>document.write(BCS.scan_new_card);</script></div>
 			<div class="card-list-div clearfix" id="dataCotent">
 
 			</div>
@@ -87,10 +95,10 @@
 	<footer>
 		<div class="footer-div clearfix">
 			<div class="footer-col-1">
-				<div class="getcredits-div"><a href="#"><span class="credit-icon"><img src="images/money.svg" alt=""></span> Get Credits</a></div>		
+				<div class="getcredits-div"><a href="#"><span class="credit-icon"><img src="images/money.svg" alt=""></span> <script>document.write(BCS.get_credits);</script></a></div>		
 			</div><!-- end of footer col -->
 			<div class="footer-col-2">
-					<div class="footer-search-div"><a href="searchCard.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> Search</a></div>		
+					<div class="footer-search-div"><a href="searchCard.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> <script>document.write(BCS.search);</script></a></div>		
 			</div><!-- end of footer col -->
 		</div>
 	</footer>
@@ -99,7 +107,7 @@
 <div id="wrapper" class="scanCardForm">
 	<header>
 		<div class="header-div clearfix">		
-			<div class="head-title scan-title"><h4>Scan New Card</h4></div>
+			<div class="head-title scan-title"><h4><script>document.write(BCS.scan_new_card);</script></h4></div>
 			<div class="clsoe"><a href="#"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
 		</div>
 	</header>
@@ -111,7 +119,7 @@
 					<div class="card-blk">
 					<a href="#">
 					<div class="front-icon"><img class="card-icon" src="images/card-gray.png" alt="" ></div>
-					<h4>Front</h4>
+					<h4><script>document.write(BCS.front);</script></h4>
 					</a>
 					</div>
 				</div>
@@ -122,7 +130,7 @@
 					<div class="card-blk">
 					<a href="#">
 					<div class="back-icon"><img class="card-icon" src="images/card-back.png" alt="" ></div>
-					<h4>Back</h4>
+					<h4><script>document.write(BCS.back);</script></h4>
 					</a>
 					</div>
 				</div>
@@ -145,7 +153,7 @@
 	</div><!-- end of middle-container-->
 
 	<div class="bottom-div" id="doSaving">
-		<div class="btn-green">Save Contact</div>
+		<div class="btn-green"><script>document.write(BCS.save_contact);</script></div>
 	</div>
 </div>
 
@@ -183,7 +191,7 @@
 
 		</div>
 		
-		<div class="btn-red deleteItem">Delete</div>
+		<div class="btn-red deleteItem"><script>document.write(BCS.delete_btn);</script></div>
 
 	</div>
 </div>
@@ -242,7 +250,7 @@ var newTextBoxDiv = '';
 
 	 	function removeField() {
 	 		if(counter==1){
-	          	alert("No more textbox to remove");
+	          	alert(BCS.no_more_text);
 	          	return false;
 	        }
 			counter--;
@@ -260,7 +268,3 @@ var newTextBoxDiv = '';
 	</script>
 </body>
 </html>
-	
-
-
-<!-- [[{"cornerPoints":[{"x":1006,"y":1767},{"x":1016.1304321289062,"y":675.0469970703125},{"x":1105.1265869140625,"y":675.8726806640625},{"x":1094.9962158203125,"y":1767.8256225585938}],"text":"Hiren Mistry | M.: 9998066180","language":"en"}],[{"cornerPoints":[{"x":1314,"y":1784},{"x":1364.320068359375,"y":0.709716796875},{"x":1739.1708984375,"y":11.287109375},{"x":1688.850830078125,"y":1794.577392578125}],"text":"Md@cor","language":"en"}],[{"cornerPoints":[{"x":1705,"y":2133},{"x":1763.08544921875,"y":344.943115234375},{"x":1867.0306396484375,"y":348.31982421875},{"x":1808.9451904296875,"y":2136.376678466797}],"text":"Laminet & Kitchan Basket Galeri","language":""}],[{"cornerPoints":[{"x":2076,"y":2202},{"x":2115.911376953125,"y":293.417236328125},{"x":2213.889892578125,"y":295.466064453125},{"x":2173.978515625,"y":2204.048873901367}],"text":"F-3,4, Hari Krushna Complex, Petlad Road, Nadiad.","language":"en"},{"cornerPoints":[{"x":2202,"y":1811},{"x":2236.57958984375,"y":698.5372314453125},{"x":2330.5341796875,"y":701.4576416015625},{"x":2295.95458984375,"y":1813.9204711914062}],"text":"Email: ohmdecor@gmail.com","language":"en"}]] -->
