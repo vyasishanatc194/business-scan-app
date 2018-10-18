@@ -1,6 +1,6 @@
 $("#content").hide();
 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
-// $("#dataCotent, #myInput").hide();
+$(".cardFrontImg, .cardBackImg").hide();
 $(".card-detail-page").hide();
 var imageDataURL = null;
 var imageDataURLback = null;
@@ -32,6 +32,12 @@ function onPhotoDataSuccess(imageData) {
     window.Q.ML.Cordova.ocr(imageData, false, function(result) {
         // Uncomment to view the base64 encoded image data
         imageDataURL = imageData;
+
+        if (imageDataURL != null) {
+            $(".cardBackBtn").hide();
+            $(".cardBackImg").show().attr('src',  "data:image/jpeg;base64,"+imageDataURL);
+        }
+
         clearContent(JSON.stringify(result));
     }, function(error){
         alert("Error: "+error);
@@ -43,6 +49,11 @@ function onSuccess(imageData) {
     window.Q.ML.Cordova.ocr(imageData, false, function(result) {
         // Uncomment to view the base64 encoded image data
         imageDataURLback = imageData;
+
+        if (imageDataURLback != null) {
+            $(".cardFrontBtn").hide();
+            $(".cardFrontImg").show().attr('src',  "data:image/jpeg;base64,"+imageDataURLback);
+        }
         clearContent(JSON.stringify(result));
     }, function(error){
         alert("Error: "+error);
