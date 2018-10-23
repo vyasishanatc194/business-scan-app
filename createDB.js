@@ -2,6 +2,7 @@ let db;
 let dbVersion = 1;
 let dbReady = false;
 var tableName = 'scanCard';
+var tableName1 = 'credits';
 var tableData = '';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,9 +31,10 @@ function initDb() {
     request.onupgradeneeded = function(e) {
         let db = e.target.result;
         var objectStore = db.createObjectStore(tableName, {keyPath:'id', autoIncrement: true});
-        // for (var i in employeeData) {
-        //    objectStore.add(employeeData[i]);
-        // }
+        var objectStore1 = db.createObjectStore(tableName1, {keyPath:'id', autoIncrement: true});
+        
+        objectStore1.add({credits: 5, createdAt: new Date()});
+        
         dbReady = true;
     }
 }
@@ -56,6 +58,7 @@ function doFile(data, imageDataURLback = null, content) {
     }
 
     trans.oncomplete = function(e) {
+        decreaseCredits();
         doImageListing();
     }
 }
@@ -92,13 +95,6 @@ function doImageListing() {
             }
         };
 
-        // set credits
-        // var countRequest = ObjectTras.count();
-        // countRequest.onsuccess = function() {
-        //   $(".largenumber").html(countRequest.result);
-        // }
-
-
     } catch(err) {
         alert(err);
     }
@@ -106,6 +102,7 @@ function doImageListing() {
 
 // fill the form after scan card
 function fillData(tableData) {
+    $("#dataCotent").css("display", "block");
     $.each(tableData, function(index, val) {
         $("#dataCotent").append(val);
     });
@@ -114,7 +111,6 @@ function fillData(tableData) {
         var r = confirm("Are you sure want to delete record?");
         if (r == true) {
             removeRecord($(this).attr('id'));
-            doImageListing();
         }                    
     });
 
@@ -169,6 +165,7 @@ function removeRecord(id) {
            
         request.onsuccess = function(event) {
             // alert("Entry has been removed from your database.");
+            window.location = "index.html";
         };
     }
     catch (err) {

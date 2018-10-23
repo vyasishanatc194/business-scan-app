@@ -31,9 +31,6 @@
     <!--[if IE]>
 	<script src="js/html5.js"></script>
 	<![endif]-->
-
-	
-
 </head>
 	<body>
 	<div id="wrapper">
@@ -54,25 +51,9 @@
 
 		<div class="middle-container clearfix" >
 
-			<input type="text" class="serachBox" id="myInput"/>
+			<input type="text" class="serachBox" id="myInput" placeholder="Search Card here.." />
 
 			<div class="card-list-div clearfix" id="dataCotent">
-				<!-- <div class="card">
-					<div class="card-data-list clearfix">
-						<a href="#">
-						<h3>Greg Magarshak</h3>
-						<p><i class="fa fa-globe"></i> foobar.com</p>
-						<p><i class="fa fa-phone"></i> (718) 123 445 4567</p>
-						<p><i class="fa fa-phone"></i> (718) 123 445 4567</p>
-						<p><i class="fa fa-envelope"></i> greg@mozart.com</p>
-						<span><p><i class="fa fa-twitter"></i> @gregMozart</p></span>
-						<span><p><i class="fa fa-paper-plane"></i> cool</p></span>
-						<span><p><i class="fa fa-facebook-square"></i> coolman</p></span>
-						<span><p><i class="fa fa-whatsapp  "></i> cool2</p></span>
-						</a>
-					</div>
-				</div> -->
-				<!-- end of card-->
 			</div>
 
 		</div>
@@ -88,7 +69,6 @@
 					<div class="footer-search-div"><a href="search.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> Search</a></div>		
 			</div><!-- end of footer col -->
 
-
 		</div>
 	</footer>
 	</div>
@@ -103,11 +83,12 @@
 	  input = document.getElementById("myInput");
 	  filter = input.value.toUpperCase();
 	  table = document.getElementById("dataCotent");
-	  tr = table.getElementsByTagName("tr");
+	  tr = $("div.card");
 	  for (i = 0; i < tr.length; i++) {
-	    td = tr[i].getElementsByTagName("td")[1];
+	  	td = tr[i].innerText;
+	    // td = tr[i].getElementsByTagName("td")[1];
 	    if (td) {
-	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+	      if (td.toUpperCase().indexOf(filter) > -1) {
 	        tr[i].style.display = "";
 	      } else {
 	        tr[i].style.display = "none";
@@ -115,34 +96,6 @@
 	    }       
 	  }
 	});
-
-	$(document).ready(function() {
-
-	 	$("#removeButton").click(function () {
-			removeField();		
-	 	});
-
-	 	function removeField() {
-	 		if(counter==1){
-	          	alert("No more textbox to remove");
-	          	return false;
-	        }
-			counter--;
-	        $("#TextBoxDiv" + counter).remove();
-	 	}
-			
-	    $("#getButtonValue").click(function () {
-			var msg = '';
-			for(i=1; i<counter; i++){
-	   	  		msg += "\n " + $('#textbox' + i).val();
-			}
-		  	alert(msg);
-	     });
-	  });
 	</script>
 </body>
 </html>
-	
-
-
-<!-- [[{"cornerPoints":[{"x":1006,"y":1767},{"x":1016.1304321289062,"y":675.0469970703125},{"x":1105.1265869140625,"y":675.8726806640625},{"x":1094.9962158203125,"y":1767.8256225585938}],"text":"Hiren Mistry | M.: 9998066180","language":"en"}],[{"cornerPoints":[{"x":1314,"y":1784},{"x":1364.320068359375,"y":0.709716796875},{"x":1739.1708984375,"y":11.287109375},{"x":1688.850830078125,"y":1794.577392578125}],"text":"Md@cor","language":"en"}],[{"cornerPoints":[{"x":1705,"y":2133},{"x":1763.08544921875,"y":344.943115234375},{"x":1867.0306396484375,"y":348.31982421875},{"x":1808.9451904296875,"y":2136.376678466797}],"text":"Laminet & Kitchan Basket Galeri","language":""}],[{"cornerPoints":[{"x":2076,"y":2202},{"x":2115.911376953125,"y":293.417236328125},{"x":2213.889892578125,"y":295.466064453125},{"x":2173.978515625,"y":2204.048873901367}],"text":"F-3,4, Hari Krushna Complex, Petlad Road, Nadiad.","language":"en"},{"cornerPoints":[{"x":2202,"y":1811},{"x":2236.57958984375,"y":698.5372314453125},{"x":2330.5341796875,"y":701.4576416015625},{"x":2295.95458984375,"y":1813.9204711914062}],"text":"Email: ohmdecor@gmail.com","language":"en"}]] -->

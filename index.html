@@ -60,11 +60,7 @@
 	    "email_address":"Email Address",
 		"save_contact":"Save Contact",
 		"delete_btn":"Delete",
-		"no_more_text":"No more textbox to remove",
-		
-		
-		
-		
+		"no_more_text":"No more textbox to remove",		
 	  }
 </script>
 
@@ -86,16 +82,14 @@
 	</header>
 
 	<div class="middle-container clearfix">
-		<div class="btn-green" id="scanCard"><span class="plus-icon"></span> <script>document.write(BCS.scan_new_card);</script></div>
-			<div class="card-list-div clearfix" id="dataCotent">
-
-			</div>
+		<div class="btn-green" id="scanCard"><span class="plus-icon"></span><script>document.write(BCS.scan_new_card);</script></div>
+			<div class="card-list-div clearfix" id="dataCotent"></div>
 	</div> <!-- #cardListing -->
 	
 	<footer>
 		<div class="footer-div clearfix">
 			<div class="footer-col-1">
-				<div class="getcredits-div"><a href="#"><span class="credit-icon"><img src="images/money.svg" alt=""></span> <script>document.write(BCS.get_credits);</script></a></div>		
+				<div class="getcredits-div"><a href="expand-contact.html"><span class="credit-icon"><img src="images/money.svg" alt=""></span> <script>document.write(BCS.get_credits);</script></a></div>		
 			</div><!-- end of footer col -->
 			<div class="footer-col-2">
 					<div class="footer-search-div"><a href="searchCard.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> <script>document.write(BCS.search);</script></a></div>		
@@ -108,7 +102,7 @@
 	<header>
 		<div class="header-div clearfix">		
 			<div class="head-title scan-title"><h4><script>document.write(BCS.scan_new_card);</script></h4></div>
-			<div class="clsoe"><a href="#"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
+			<div class="clsoe"><a href="index.html"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
 		</div>
 	</header>
 
@@ -139,18 +133,15 @@
 			</div><!-- end of back card-->
 		</div>
 
-		<div class="add-record-div clearfix">
-			<div class="round-card"><a id="addButton"><span class="flex"><img src="images/plus.png" alt=""></span></a></div>
-		</div><!-- end of add record div-->
-
 		<div class="form-div clearfix" id="TextBoxesGroup">
 			<form>
 				
 			</form>
 			<textarea id="formNotes" class="textarea-box" name="formNotes" placeholder="Add notes..."></textarea>
 		</div>
-
-		
+		<div class="add-record-div clearfix">
+			<div class="round-card"><a id="addButton"><span class="flex"><img src="images/plus.png" alt=""></span></a></div>
+		</div><!-- end of add record div-->
 
 	</div><!-- end of middle-container-->
 
@@ -163,7 +154,7 @@
 	<header>
 		<div class="header-div clearfix">		
 			<div class="head-title scan-title"><h4 id="cardDetailPageTitle"></h4></div>
-			<div class="clsoe"><a href="#"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
+			<div class="clsoe"><a href="index.html"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
 		</div>
 
 	</header>
@@ -206,27 +197,8 @@
 
 var newTextBoxDiv = '';
 
-	$("#myInput").on('keyup', function(){
-		console.log($(thus).val());
-	  var input, filter, table, tr, td, i;
-	  input = document.getElementById("myInput");
-	  filter = input.value.toUpperCase();
-	  table = document.getElementById("dataCotent");
-	  tr = table.getElementsByTagName("p");
-	  for (i = 0; i < tr.length; i++) {
-	    td = tr[i].getElementsByTagName("p")[1];
-	    if (td) {
-	      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-	        tr[i].style.display = "";
-	      } else {
-	        tr[i].style.display = "none";
-	      }
-	    }       
-	  }
-	});
-
 	$("#scanCard").on("click", function(){
-		capturePhoto();
+		checkCredits();
 		$(".cardListing").hide();
 		$(".cardDetailPage").hide();
 		$("#TextBoxesGroup input").remove();
