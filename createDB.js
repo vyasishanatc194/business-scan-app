@@ -3,11 +3,14 @@ let dbVersion = 1;
 let dbReady = false;
 var tableName = 'scanCard';
 var tableName1 = 'credits';
+var tableName2 = 'creditsLogs';
 var tableData = '';
+var DEVICEUID = '';
 
 document.addEventListener('DOMContentLoaded', () => {
     initDb();
 });
+
  
 function initDb() {
     let request = indexedDB.open('scanDB', dbVersion);
@@ -19,7 +22,9 @@ function initDb() {
     request.onsuccess = function(e) {
         db = e.target.result;
         // alert('db opened');
+        showCredits();
         doImageListing();
+        checkInCloudSettings();
     }
 
     // dummy data
@@ -32,34 +37,167 @@ function initDb() {
         let db = e.target.result;
         var objectStore = db.createObjectStore(tableName, {keyPath:'id', autoIncrement: true});
         var objectStore1 = db.createObjectStore(tableName1, {keyPath:'id', autoIncrement: true});
+        var objectStore2 = db.createObjectStore(tableName2, {keyPath:'id', autoIncrement: true});
         
         objectStore1.add({credits: 5, createdAt: new Date()});
+        objectStore2.add({credits: 5, createdAt: new Date()});
         
         dbReady = true;
     }
 }
 
+function checkCredits() {
+    try{
+        var trans = db.transaction([tableName1], 'readonly');
+        var ObjectTras = trans.objectStore(tableName1);
+
+        ObjectTras.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            if (cursor.value.credits == 0) {
+                var r = confirm(BCS.buy_credits_confirmation_box_title);
+                if (r == true) {
+                    window.location = 'expand-contact.html';
+                } else {
+                    window.location = 'index.html';
+                }
+            } else {
+                capturePhoto();
+            }
+        };
+    } catch(err) {
+        alert(err);
+    }
+}
+
+function showCredits() {
+    try{
+        var trans = db.transaction([tableName1], 'readonly');
+        var ObjectTras = trans.objectStore(tableName1);
+
+        ObjectTras.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            TOTAL_CREDITS = cursor.value.credits;
+            $(".largenumber").html(cursor.value.credits);
+        };
+    } catch(err) {
+        alert(err);
+    }
+}
+
 // save image / data in indexedDB
 function doFile(data, imageDataURLback = null, content) {
-    let bits = data;
-    let ob = {
-        created:new Date(),
-        data:bits,
-        imgBack: imageDataURLback,
-        content: content
-    };
+    try {
+        let bits = data;
+        let ob = {
+            created:new Date(),
+            data:bits,
+            imgBack: imageDataURLback,
+            content: content
+        };
 
-    let trans = db.transaction([tableName], 'readwrite');
-    let addReq = trans.objectStore(tableName).add(ob);
+        let trans = db.transaction([tableName], 'readwrite');
+        let addReq = trans.objectStore(tableName).add(ob);
 
-    addReq.onerror = function(e) {
-        alert('error storing data');
-        console.error(e);
+        addReq.onerror = function(e) {
+            alert(BCS.error.error_store_data);
+            console.error(e);
+        }
+
+        trans.oncomplete = function(e) {
+            console.log(e);
+            createCreditsLog();
+            window.location = "index.html";
+        }
+    } catch(err) {
+        alert(err);
     }
+}
 
-    trans.oncomplete = function(e) {
-        decreaseCredits();
-        doImageListing();
+function createCreditsLog() {
+    try{
+        var objectStore = db.transaction([tableName1], "readwrite").objectStore(tableName1);
+        var objectStoreTitleRequest = objectStore.get(1);
+
+        objectStoreTitleRequest.onsuccess = function() {
+            // Grab the data object returned as the result
+            var data = objectStoreTitleRequest.result;
+
+            // Update the notified value in the object to "yes"
+            var data = {
+                credits: parseInt(data.credits) - 1,
+                updatedAt: new Date(),
+                id: 1
+            };
+
+            // Create another request that inserts the item back into the database
+            var updateTitleRequest = objectStore.put(data);
+            // When this new request succeeds, run the displayData() function again to update the display
+            updateTitleRequest.onsuccess = function() {
+                addCreditLogs(data.credits); 
+            };
+        };
+
+    } catch(err) {
+        alert(err);
+    }
+}
+
+function addCreditLogs(credits = null) {
+    try{
+        var updatedData = {
+            credits : credits,
+            createdAt : new Date(),
+        }
+
+        let trans = db.transaction([tableName2], 'readwrite');
+        let addReq = trans.objectStore(tableName2).add(updatedData);
+
+        addReq.onerror = function(e) {
+            alert(BCS.error.error_store_data_in_creditslog);
+            console.error(e);
+        }
+
+        trans.oncomplete = function(e) {
+            console.log(e);
+        }
+    }
+    catch(err){
+        alert(err);
+    }
+}
+
+
+function checkInCloudSettings() {
+    try{
+        var trans = db.transaction([tableName1], 'readonly');
+        var ObjectTras = trans.objectStore(tableName1);
+
+        ObjectTras.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            document.addEventListener("deviceready", function onDeviceReady() {
+
+                var UserCreditData = {
+                  user: {
+                    id: device.uuid,
+                    name: BCS.app_name,
+                    data: cursor.value,
+                    preferences: {
+                      mute: true,
+                      locale: 'en_GB'
+                    }
+                  }
+                };
+
+                cordova.plugin.cloudsettings.save(UserCreditData, function(savedSettings){
+                    console.log("Settings successfully saved at " + (new Date(savedSettings.timestamp)).toISOString());
+                }, function(error){
+                    console.error("Failed to save settings: " + error);
+                }, false);
+
+            }, false);
+        };
+    } catch(err) {
+        alert(err);
     }
 }
 
@@ -91,10 +229,9 @@ function doImageListing() {
                 cursor.continue();
             } 
             if ($("#Timg").length <= 0) {
-                $("#dataCotent").append('<div class="card"><div class="card-data-list clearfix"><p>No scanned cards yet!</p></div></div>');
+                $("#dataCotent").append('<div class="card"><div class="card-data-list clearfix"><p>'+BCS.no_cards_scanned_yet+'</p></div></div>');
             }
         };
-
     } catch(err) {
         alert(err);
     }
@@ -132,17 +269,20 @@ function cardDetailPage(cardId) {
         var request = objectStore.get(parseInt(cardId));
        
         request.onerror = function(event) {
-           alert("Unable to retrieve daa from database!");
+           alert(BCS.retrive_data_error);
         };
        
         request.onsuccess = function(event) {
+            $(".card-detail-div").show();
             if(request.result) {
                 if (request.result.data != null ){
                     $(".card-detail-div img#imgFrnt").attr('src', "data:image/jpeg;base64,"+request.result.data);
                 }  else { $(".card-detail-div img#imgFrnt").hide(); }
+
                 if (request.result.imgBack != null ){
                     $(".card-detail-div img#imgBck").attr('src', "data:image/jpeg;base64,"+request.result.imgBack);
                 } else { $(".card-detail-div img#imgBck").hide(); }
+
                 $(".content-blk p").html(request.result.content.note);
                 $("h4#cardDetailPageTitle").html(request.result.content.displayName);
                 $(".deleteItem").attr('id', cardId);
@@ -151,7 +291,7 @@ function cardDetailPage(cardId) {
     }
     catch(err) {
         $(".txtboxes-group-div").show();
-        $(".card-detail-page").hide();
+        $(".card-detail-div").hide();
         alert('Detail Page:'+err); 
     }
 }
@@ -164,7 +304,6 @@ function removeRecord(id) {
         .delete(parseInt(id));
            
         request.onsuccess = function(event) {
-            // alert("Entry has been removed from your database.");
             window.location = "index.html";
         };
     }

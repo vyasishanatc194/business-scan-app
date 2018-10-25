@@ -96,6 +96,29 @@
 	    }       
 	  }
 	});
+
+	$("#scanCard").on("click", function(){
+		capturePhoto('Front');
+		$(".cardListing").hide();
+		$(".cardDetailPage").hide();
+		$("#TextBoxesGroup input").remove();
+		$("#TextBoxesGroup select").remove();
+	});
+
+	$(".clsoe").on("click", function(){
+		$(".cardListing").show();
+		$(".scanCardForm").hide();
+		$(".cardDetailPage").hide();
+	});
+
+	$(document).ready(function() {
+		$(".scanCardForm").hide();	
+		$(".cardDetailPage").hide();	
+
+	 	$("#removeButton").click(function () {
+			removeField();		
+	 	});
+  	});
 	</script>
 </body>
 </html>

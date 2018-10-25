@@ -355,7 +355,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .scan-title { padding: 40px 0 0 20px}
 
 .card-div-blk { margin: 0 0 20px 0; padding: 0; position: relative;}
-.card-div-blk .card-img{ margin: 0; padding: 0; position: relative; background: #aaaaaa; width: 100%; height: 200px; border-radius: 4px;}
+.card-div-blk .card-img{ margin: 0; padding: 0; position: relative; background: #aaaaaa; width: 100%; height: 180px; border-radius: 4px;}
 
 .content-blk { margin: 0; padding: 0; height: auto; min-height: 100px; max-height: 250px; overflow-y:scroll;}
 .content-blk p{ margin: 0; padding: 0; color:#666; font-size: 14px; line-height: 24px;}
@@ -405,7 +405,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .purchase-plan-info-div .pp-info-blk .price-txt .price { color:#222; font-size: 24px; display: block; position: relative; margin: 0 0 5px 0;}
 .purchase-plan-info-div .pp-info-blk .price-txt .date { color:#222; font-size: 14px; display: block; position: relative;}
 .purchase-plan-info-div .pp-info-blk .bestval  { margin: 0 0 10px 0; display: block; position: relative; right:-10px;}
-.purchase-plan-info-div .pp-info-blk .bestval img { width:55px}	
+.purchase-plan-info-div .pp-info-blk .bestval img { width:55px; }
+.cardItem i { margin-right: 5px;  }	
 
 @media only screen and (max-width: 767px){
 	/*html, body { overflow-x:hidden;}*/

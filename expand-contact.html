@@ -99,10 +99,10 @@
 <script src="createDB.js"></script>
 
 <script>
-	$(".middle-container>.clearfix").show();
 	var PRODUCTLIST = [];
 
 	document.addEventListener("deviceready", function onDeviceReady() {
+		$(".middle-container").append(loading);
 	    inAppPurchase
 		  .getProducts(['com.qbix.businesscard.credits.10',
 			'com.qbix.businesscard.credits.100',
@@ -119,6 +119,9 @@
 			    $(".credit-"+i+" .txt p").html(val.title);
 			    $(".credit-"+i+" .price").html(val.price);
 	    	});
+
+	    	$(".middle-container .signal").remove();
+   		 	$(".middle-container>.clearfix").show();
 
 		  })
 		  .catch(function (err) {

@@ -33,35 +33,12 @@
     <!--[if IE]>
 	<script src="js/html5.js"></script>
 	<![endif]-->
+<script type="text/javascript" src="js/language.js"></script>
 <script type="text/javascript"> 
-	var TOTAL_CARDS = 0;
-	let BCS = {
-	    "business_card":"Business Card",
-	    "scanner":"Scanner",
-	    "cards":"Cards",
-		"credit" : "Credits",
-	    "get_credits":"Get Credits",
-	    "search":"Search",
-	    "delete_a_card":"Delete Card",
-	    "scan_new_card":"Scan New Card",
-	    "front":"Front",
-	    "back":"Back",
-	    "full_name":"Full Name",
-	    "phone":"Phone",
-	    "address":"Address",
-	    "company":"Company",
-	    "website":"Website",
-	    "twitter":"Twitter",
-	    "facebook":"Facebook",
-	    "linkedin":"Linkedin",
-	    "wechat":"WeChat",
-	    "telegram":"Telegram",
-	    "others":"Others",
-	    "email_address":"Email Address",
-		"save_contact":"Save Contact",
-		"delete_btn":"Delete",
-		"no_more_text":"No more textbox to remove",		
-	  }
+
+	StatusBar.backgroundColorByHexString("#333");
+	var TOTAL_CREDITS = 0;
+	var newTextBoxDiv = '';
 </script>
 
 </head>
@@ -161,7 +138,7 @@
 
 	<div class="middle-container clearfix">
 
-		<div class="card-detail-div clearfix" style="max-height: 332px;overflow: scroll;">
+		<div class="card-detail-div clearfix" style="max-height: 400px;overflow: scroll;">
 
 			<div class="card-div-blk">
 				<img class="card-img" id="imgFrnt" src="" />
@@ -184,7 +161,7 @@
 
 		</div>
 		
-		<div class="btn-red deleteItem"><script>document.write(BCS.delete_btn);</script></div>
+		<div class="btn-red deleteItem" style="margin-bottom: 15px;"><script>document.write(BCS.delete_btn);</script></div>
 
 	</div>
 </div>
@@ -195,10 +172,8 @@
 <script src="createDB.js"></script>
 <script type="text/javascript">
 
-var newTextBoxDiv = '';
-
 	$("#scanCard").on("click", function(){
-		checkCredits();
+		capturePhoto('Front');
 		$(".cardListing").hide();
 		$(".cardDetailPage").hide();
 		$("#TextBoxesGroup input").remove();
@@ -213,8 +188,6 @@ var newTextBoxDiv = '';
 
 	$(document).ready(function() {
 
-		$(".largenumber").html(TOTAL_CARDS);
-
 		$(".scanCardForm").hide();	
 		$(".cardDetailPage").hide();	
 
@@ -222,22 +195,6 @@ var newTextBoxDiv = '';
 			removeField();		
 	 	});
 
-	 	function removeField() {
-	 		if(counter==1){
-	          	alert(BCS.no_more_text);
-	          	return false;
-	        }
-			counter--;
-	        $("#TextBoxDiv" + counter).remove();
-	 	}
-			
-	    $("#getButtonValue").click(function () {
-			var msg = '';
-			for(i=1; i<counter; i++){
-	   	  		msg += "\n " + $('#textbox' + i).val();
-			}
-		  	alert(msg);
-	     });
 	  });
 	</script>
 </body>
