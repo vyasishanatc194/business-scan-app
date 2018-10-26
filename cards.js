@@ -100,6 +100,8 @@ function clearContent(str) {
     for (i = 0; i < result.length; i++) {
         addFields(result[i]);
     }
+
+    
 }
                         
 $("#addButton").click( function () {
@@ -178,9 +180,6 @@ $("#doSaving").on("click", function(event) {
             }
         });
 
-        console.log(formData);
-
-
         var myContact = navigator.contacts.create();
         var contactObj = new Object();
         var phoneNumbers = [];
@@ -188,6 +187,7 @@ $("#doSaving").on("click", function(event) {
         var organizations = [];
         var urls = [];
         var addresses = [];
+        var nm = [];
 
         if (formData.phone != undefined){
             var phnNo = formData.phone;
@@ -201,7 +201,7 @@ $("#doSaving").on("click", function(event) {
         }
         if (formData.company != undefined){
             organizations[0] = new ContactField(BCS.work, formData.company, false);
-            myContact.organizations = organizations;
+            myContact.contactOrganization = organizations;
         }
         if (formData.website != undefined){
             urls[0] = new ContactField(BCS.work, formData.website, false);
@@ -213,6 +213,17 @@ $("#doSaving").on("click", function(event) {
         }
         if (formData.displayName != undefined){
             myContact.displayName = formData.displayName;
+            myContact.name = formData.displayName;
+            var dName = formData.displayName;
+            nm = dName.split(" ");
+            if (nm.length > 0) {
+                if (nm[0] != undefined) {
+                    myContact.nickname = nm[0];
+                }
+                if (nm[2] != undefined) {
+                    myContact.name = nm[2];
+                }
+            }
         }
         if(document.getElementById("formNotes") != '') {
             notes = $("#formNotes").val()+' '+txt;

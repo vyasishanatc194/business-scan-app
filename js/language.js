@@ -1,3 +1,17 @@
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+	if (cordova.platformId == 'android') {
+	    StatusBar.backgroundColorByHexString("#333");
+	}
+    console.log(StatusBar);
+}
+
+
+
+
+var newTextBoxDiv = '';
+
 let BCS = {
 		'app_name': 'Business Scans App',
 	    "business_card":"Business Card",
@@ -37,5 +51,41 @@ let BCS = {
 		'buy_credits_confirmation_box_title': "You have no credits to continue. You should buy credits",
 		'no_cards_scanned_yet': "No scanned cards yet!",
 		'retrive_data_error': "Unable to retrieve daa from database!",
+		'letter_on' :  'Remind me letter',
+		'pay': 'Pay Now',
+		'expand_contact_info_title': 'Expand Contact Info',
+		'search_card_placeholder': 'Search Card here..',
 		
 	  }
+
+	  $("#myInput").attr('placeholder', BCS.search_card_placeholder);
+
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+	var myContact = navigator.contacts.create();
+
+	var phoneNumbers = [];
+	var organizations = [];
+	var addresses = [];
+	phoneNumbers[0] = new ContactField('home', '212-555-1234', false);
+	myContact.phoneNumbers = phoneNumbers;
+
+	myContact.displayName = "Test Contact Ishan";
+
+	organizations[0] = new ContactField('name', 'Organationation Test Contact Ishan', false);
+	myContact.fieldType = organizations;
+
+	addresses[0] = new ContactField('home', 'Address Test Contact Ishan', false);
+	myContact.fieldType.addresses = addresses;
+
+	myContact.save(contactSuccess, contactError);
+	function contactSuccess() {
+        console.log('saved contact success');
+    }
+	
+	function contactError(message) {
+        alert('Failed because: ' + message);
+    }
+}
+
+		

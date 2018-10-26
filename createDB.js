@@ -6,6 +6,7 @@ var tableName1 = 'credits';
 var tableName2 = 'creditsLogs';
 var tableData = '';
 var DEVICEUID = '';
+var TOTAL_CREDITS = 0;
 
 document.addEventListener('DOMContentLoaded', () => {
     initDb();
@@ -61,7 +62,7 @@ function checkCredits() {
                     window.location = 'index.html';
                 }
             } else {
-                capturePhoto();
+                capturePhoto('Front');
             }
         };
     } catch(err) {
@@ -76,8 +77,9 @@ function showCredits() {
 
         ObjectTras.openCursor().onsuccess = function(event) {
             var cursor = event.target.result;
-            TOTAL_CREDITS = cursor.value.credits;
+
             $(".largenumber").html(cursor.value.credits);
+            $(".expand-contact-text-info span.red-txt").html(cursor.value.credits);
         };
     } catch(err) {
         alert(err);
@@ -165,7 +167,6 @@ function addCreditLogs(credits = null) {
         alert(err);
     }
 }
-
 
 function checkInCloudSettings() {
     try{

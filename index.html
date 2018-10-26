@@ -33,13 +33,11 @@
     <!--[if IE]>
 	<script src="js/html5.js"></script>
 	<![endif]-->
+<script src="js/jquery.min.js" type="text/javascript"></script> 
 <script type="text/javascript" src="js/language.js"></script>
-<script type="text/javascript"> 
-
-	StatusBar.backgroundColorByHexString("#333");
-	var TOTAL_CREDITS = 0;
-	var newTextBoxDiv = '';
-</script>
+<script src="createDB.js"></script>
+<link href="css/select2.min.css" rel="stylesheet" />
+<script src="js/select2.min.js"></script>
 
 </head>
 <body>
@@ -53,7 +51,7 @@
 				<div class="head-title"><h3><script>document.write(BCS.business_card);</script></h3><h4><script>document.write(BCS.scanner);</script></h4></div>
 			</div>
 			<div class="head-col-3">
-				<div class="head-round-blk"><a href="#"><div class="round-blk"><span class="largenumber"></span><span class="smalltxt"><script>document.write(BCS.credit);</script></span></div></a></div>
+				<div class="head-round-blk"><a href="expand-contact.html"><div class="round-blk"><span class="largenumber"></span><span class="smalltxt"><script>document.write(BCS.credit);</script></span></div></a></div>
 			</div>
 		</div>
 	</header>
@@ -69,7 +67,7 @@
 				<div class="getcredits-div"><a href="expand-contact.html"><span class="credit-icon"><img src="images/money.svg" alt=""></span> <script>document.write(BCS.get_credits);</script></a></div>		
 			</div><!-- end of footer col -->
 			<div class="footer-col-2">
-					<div class="footer-search-div"><a href="searchCard.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> <script>document.write(BCS.search);</script></a></div>		
+				<div class="footer-search-div"><a href="searchCard.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> <script>document.write(BCS.search);</script></a></div>		
 			</div><!-- end of footer col -->
 		</div>
 	</footer>
@@ -139,15 +137,12 @@
 	<div class="middle-container clearfix">
 
 		<div class="card-detail-div clearfix" style="max-height: 400px;overflow: scroll;">
-
 			<div class="card-div-blk">
 				<img class="card-img" id="imgFrnt" src="" />
 			</div>
-
 			<div class="card-div-blk">
 				<img class="card-img" id="imgBck" src="" />
 			</div>
-
 		</div>
 		
 	</div><!-- end of middle-container-->
@@ -156,9 +151,8 @@
 		
 		<div class="card">
 			<div class="content-blk">
-				<p></p>
+				
 			</div>
-
 		</div>
 		
 		<div class="btn-red deleteItem" style="margin-bottom: 15px;"><script>document.write(BCS.delete_btn);</script></div>
@@ -166,14 +160,12 @@
 	</div>
 </div>
 
-<script src="js/jquery.min.js" type="text/javascript"></script> 
 <script type="text/javascript" src="js/custom.js"></script> 
 <script src="cards.js"></script>
-<script src="createDB.js"></script>
 <script type="text/javascript">
 
 	$("#scanCard").on("click", function(){
-		capturePhoto('Front');
+		checkCredits();
 		$(".cardListing").hide();
 		$(".cardDetailPage").hide();
 		$("#TextBoxesGroup input").remove();
@@ -188,14 +180,21 @@
 
 	$(document).ready(function() {
 
+		try{ 
+			$('.select-box').select2({
+				minimumResultsForSearch: -1
+			}); 
+		} catch(err){
+			alert(err);
+		}
+
 		$(".scanCardForm").hide();	
 		$(".cardDetailPage").hide();	
 
 	 	$("#removeButton").click(function () {
 			removeField();		
 	 	});
-
-	  });
-	</script>
+  	});
+</script>
 </body>
 </html>
