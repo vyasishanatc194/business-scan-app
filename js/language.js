@@ -4,6 +4,7 @@ function onDeviceReady() {
 	if (cordova.platformId == 'android') {
 	    StatusBar.backgroundColorByHexString("#333");
 	}
+    console.log(StatusBar);
 }
 
 var newTextBoxDiv = '';

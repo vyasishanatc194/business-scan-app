@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initDb();
 });
 
- 
 function initDb() {
     let request = indexedDB.open('scanDB', dbVersion);
 

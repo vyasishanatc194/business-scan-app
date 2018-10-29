@@ -106,6 +106,9 @@ function clearContent(str) {
                         
 $("#addButton").click( function () {
     addFields();
+    $('.select-box').select2({
+        minimumResultsForSearch: -1
+    }); 
 });
 
 function addFields(data = '') {
@@ -163,6 +166,9 @@ $("#doSaving").on("click", function(event) {
         var textboxes = [];
         var formData = [];
         var selectboxes = [];
+        var arrAddress = [];
+        var arrPhone = [];
+        var arrEmail = [];
 
         for (var i = 0; i < $('input[type="text"]').length; i++){
             if ($('input[type="text"]')[i].value != '') {
@@ -172,13 +178,32 @@ $("#doSaving").on("click", function(event) {
                 selectboxes.push($('select.select-box')[i].value);
             }
         }
+        var address = [];
+        var phone = [];
+        var email = [];
+        var website = [];
         var txt = '';
         var notes = '';
         $('select.select-box').each(function(i, val){
             if(val.value == '') {
                 txt += $(this).parent().parent()[0].children[0].children[0].value;
+                txt += '\n';
             } else {
-                formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
+                if (val.value == 'address') {
+                    address.push($(this).parent().parent()[0].children[0].children[0].value);
+                    formData[val.value] = address;
+                }  else if (val.value == 'phone') {
+                    phone.push($(this).parent().parent()[0].children[0].children[0].value);
+                    formData[val.value] = phone;
+                } else if (val.value == 'email') {
+                    email.push($(this).parent().parent()[0].children[0].children[0].value);
+                    formData[val.value] = email;
+                } else if (val.value == 'website') {
+                    website.push($(this).parent().parent()[0].children[0].children[0].value);
+                    formData[val.value] = website;
+                } else {
+                    formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
+                }
             }
         });
 
@@ -195,9 +220,11 @@ $("#doSaving").on("click", function(event) {
             var emails = [];
 
             if (formData.phone != undefined) {
-                var phnNo = formData.phone;
-                var phneNo = phnNo.replace(/\D/g,'');
-                phoneNumbers[0] = new ContactField(BCS.home, phneNo, false);
+                $.each(formData.phone, function(i, val){
+                    var phnNo = formData.phone[i];
+                    var phneNo = phnNo.replace(/\D/g,'');
+                    phoneNumbers.push(new ContactField('', phneNo, false));
+                });
                 myContact.phoneNumbers = phoneNumbers;
             }
 
@@ -217,34 +244,42 @@ $("#doSaving").on("click", function(event) {
             }
 
             if (formData.email != undefined) {
-                emails[0] = new ContactField(BCS.home, formData.email, false);
+                $.each(formData.email, function(i, val){
+                    emails.push(new ContactField('', formData.email[i], false));
+                });
                 myContact.emails = emails;
             }
+
             if (formData.website != undefined) {
-                urls[0] = new ContactField(BCS.work, formData.website, false);
+                $.each(formData.website, function(i, val){
+                    urls.push(new ContactField('', formData.website[i], false));
+                });
                 myContact.urls = urls;
-            }            
+            }        
 
             if (formData.company != undefined) {
-                organizations[0] = new ContactOrganization('', 'name', formData.company, '', '');
-                myContact.organizations = organizations;
+                $.each(formData.email, function(i, val){
+                    emails.push(new ContactOrganization('', formData.email[i], false));
+                });
+                myContact.emails = emails;
             }
 
             if (formData.address != undefined) {
-                addresses[0] = new ContactAddress('', 'home', '' , formData.address, '', '' , '', '');
+                $.each(formData.address, function(i, val){
+                    addresses.push(new ContactAddress('', '', '' , formData.address[i], '', '' , '', ''));
+                });
                 myContact.addresses = addresses;
             }
 
             if(document.getElementById("formNotes") != '') {
-                notes = $("#formNotes").val()+' '+txt+' \n';
+                notes = $("#formNotes").val()+' '+txt;
             }
             myContact.note = notes;
      
             myContact.save(contactSuccess, contactError);
             function contactSuccess() {
                 alert(BCS.contact_saved_title);
-                let BCS = BusinessDetails();
-                BCS.doFile(imageDataURL, imageDataURLback, myContact);
+                doFile(imageDataURL, imageDataURLback, myContact);
                 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
                 $("#dataCotent, #myInput").show();
             }
@@ -255,6 +290,7 @@ $("#doSaving").on("click", function(event) {
         }
     }
     catch(err){ 
+        console.log(err);
         alert(err); 
     }   
 });
