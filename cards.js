@@ -1,7 +1,6 @@
 $("#content").hide();
 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
 $(".cardFrontImg, .cardBackImg").hide();
-// $(".card-detail-page").hide();
 $(".middle-container>.clearfix").hide();
 var imageDataURL = null;
 var imageDataURLback = null;
@@ -99,9 +98,10 @@ function clearContent(str) {
 
     for (i = 0; i < result.length; i++) {
         addFields(result[i]);
-    }
-
-    
+        $('.select-box').select2({
+            minimumResultsForSearch: -1
+        }); 
+    }    
 }
                         
 $("#addButton").click( function () {
@@ -117,6 +117,7 @@ function addFields(data = '') {
             '<option value="displayName" >'+BCS.full_name+'</option>'+
             '<option value="phone" >'+BCS.phone+'</option>'+
             '<option value="email" >'+BCS.email_address+'</option>'+
+            '<option value="position" >'+BCS.position+'</option>'+
             '<option value="address" >'+BCS.address+'</option>'+
             '<option value="company" >'+BCS.company+'</option>'+
             '<option value="website" >'+BCS.website+'</option>'+
@@ -192,7 +193,6 @@ $("#doSaving").on("click", function(event) {
             var urls = [];
             var nm = [];
             var emails = [];
-            console.log(formData);
 
             if (formData.phone != undefined) {
                 var phnNo = formData.phone;
@@ -223,8 +223,7 @@ $("#doSaving").on("click", function(event) {
             if (formData.website != undefined) {
                 urls[0] = new ContactField(BCS.work, formData.website, false);
                 myContact.urls = urls;
-            }
-            
+            }            
 
             if (formData.company != undefined) {
                 organizations[0] = new ContactOrganization('', 'name', formData.company, '', '');
@@ -237,14 +236,15 @@ $("#doSaving").on("click", function(event) {
             }
 
             if(document.getElementById("formNotes") != '') {
-                notes = $("#formNotes").val()+' '+txt;
+                notes = $("#formNotes").val()+' '+txt+' \n';
             }
             myContact.note = notes;
      
             myContact.save(contactSuccess, contactError);
             function contactSuccess() {
                 alert(BCS.contact_saved_title);
-                doFile(imageDataURL, imageDataURLback, myContact);
+                let BCS = BusinessDetails();
+                BCS.doFile(imageDataURL, imageDataURLback, myContact);
                 $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
                 $("#dataCotent, #myInput").show();
             }

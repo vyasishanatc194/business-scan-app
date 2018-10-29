@@ -4,15 +4,12 @@ function onDeviceReady() {
 	if (cordova.platformId == 'android') {
 	    StatusBar.backgroundColorByHexString("#333");
 	}
-    console.log(StatusBar);
 }
-
-
-
 
 var newTextBoxDiv = '';
 
 let BCS = {
+		'position': 'Position',
 		'app_name': 'Business Scans App',
 	    "business_card":"Business Card",
 	    "scanner":"Scanner",
@@ -55,9 +52,10 @@ let BCS = {
 		'pay': 'Pay Now',
 		'expand_contact_info_title': 'Expand Contact Info',
 		'search_card_placeholder': 'Search Card here..',
+		'app_purchase_screen_content': "You can use purchased credits to scan business cards and save contacts in address book."
 	  }
 
-	  $("#myInput").attr('placeholder', BCS.search_card_placeholder);
+	  
 
 // document.addEventListener("deviceready", onDeviceReady, false);
 // function onDeviceReady() {

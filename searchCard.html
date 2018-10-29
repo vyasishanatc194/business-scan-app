@@ -28,13 +28,14 @@
 <link href="css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css" />
 
 <script src="js/modernizr.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/language.js"></script>
 <script src="createDB.js"></script>
     <!--[if IE]>
 	<script src="js/html5.js"></script>
 	<![endif]-->
 </head>
 	<body>
-	<div id="wrapper">
+	<div id="wrapper" class="searchCardPage">
 		<header>
 			<div class="header-div clearfix">
 				<div class="head-col-1">
@@ -55,22 +56,53 @@
 
 			<div class="card-list-div clearfix" id="dataCotent">
 			</div>
-
 		</div>
+
+		<footer>
+			<div class="footer-div clearfix">
+
+				<div class="footer-col-1">
+					<div class="getcredits-div"><a href="expand-contact.html"><span class="credit-icon"><img src="images/money.svg" alt=""></span> <script>document.write(BCS.get_credits);</script></a></div>		
+				</div><!-- end of footer col -->
+				<div class="footer-col-2">
+					<div class="footer-search-div"><a href="searchCard.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> <script>document.write(BCS.search);</script></a></div>		
+				</div><!-- end of footer col -->
+
+			</div>
+		</footer>
 	</div>
+	<div id="wrapper" class="cardDetailPage">
+		<header>
+			<div class="header-div clearfix">		
+				<div class="head-title scan-title"><h4 id="cardDetailPageTitle"></h4></div>
+				<div class="clsoe"><a href="searchCard.html"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
+			</div>
+		</header>
 
-	<footer>
-		<div class="footer-div clearfix">
+		<div class="middle-container clearfix">
 
-			<div class="footer-col-1">
-				<div class="getcredits-div"><a href="#"><span class="credit-icon"><img src="images/money.svg" alt=""></span> Get Credits</a></div>		
-			</div><!-- end of footer col -->
-			<div class="footer-col-2">
-					<div class="footer-search-div"><a href="search.html"><span class="search-icon"><img src="images/search.svg" alt=""></span> Search</a></div>		
-			</div><!-- end of footer col -->
+			<div class="card-detail-div clearfix" style="max-height: 400px;overflow: scroll;">
+				<div class="card-div-blk">
+					<img class="card-img" id="imgFrnt" src="" />
+				</div>
+				<div class="card-div-blk">
+					<img class="card-img" id="imgBck" src="" />
+				</div>
+			</div>
+			
+		</div><!-- end of middle-container-->
+
+		<div class="bottom-blk-div">
+			
+			<div class="card">
+				<div class="content-blk">
+					
+				</div>
+			</div>
+			
+			<div class="btn-red deleteItem" style="margin-bottom: 15px;"><script>document.write(BCS.delete_btn);</script></div>
 
 		</div>
-	</footer>
 	</div>
 <script src="js/jquery.min.js" type="text/javascript"></script> 
 <script type="text/javascript" src="js/custom.js"></script> 
@@ -86,7 +118,6 @@
 	  tr = $("div.card");
 	  for (i = 0; i < tr.length; i++) {
 	  	td = tr[i].innerText;
-	    // td = tr[i].getElementsByTagName("td")[1];
 	    if (td) {
 	      if (td.toUpperCase().indexOf(filter) > -1) {
 	        tr[i].style.display = "";
@@ -97,27 +128,15 @@
 	  }
 	});
 
-	$("#scanCard").on("click", function(){
-		capturePhoto('Front');
-		$(".cardListing").hide();
-		$(".cardDetailPage").hide();
-		$("#TextBoxesGroup input").remove();
-		$("#TextBoxesGroup select").remove();
-	});
-
-	$(".clsoe").on("click", function(){
-		$(".cardListing").show();
-		$(".scanCardForm").hide();
-		$(".cardDetailPage").hide();
-	});
+	$(".cardItem").on("click", function() {
+        var cardId = $(this).attr('id');
+        cardDetailPage(cardId); 
+    });
 
 	$(document).ready(function() {
-		$(".scanCardForm").hide();	
-		$(".cardDetailPage").hide();	
+		$("#myInput").attr('placeholder', BCS.search_card_placeholder);
 
-	 	$("#removeButton").click(function () {
-			removeField();		
-	 	});
+
   	});
 	</script>
 </body>

@@ -50,8 +50,8 @@
 <div class="middle-container clearfix" >
 	<div class="expand-contact-info-div clearfix">
 		<div class="expand-contact-text-info clearfix">
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus elementum, lacus et semper egestas, leo velit ultricies nisl, vitae tempor turpis ipsum at eros. Praesent bibendum nunc justo, vitae porta metus consequat consequat. Nunc bibendum magna ac nibh mattis </p>
-			<p class="text-center">You have <span class="red-txt"></span> credits</p>
+			<p><script>document.write(BCS.app_purchase_screen_content);</script></p>
+			<p class="text-center credits-txt">You have <span class="red-txt"></span> credits</p>
 
 		</div><!-- end of expand-contact-text-info -->
 
@@ -118,7 +118,7 @@
 		    	var credit = [ val.productId, val.currency, val.priceAsDecimal ];
 			    $(".credit-"+i).attr('data-value', credit);
 			    $(".credit-"+i+" .txt h3").html(val.description);
-			    $(".credit-"+i+" .txt p").html(val.title);
+			    $(".credit-"+i+" .txt p").html("You can scan "+val.title+" business cards");
 			    $(".credit-"+i+" .price").html(val.price);
 	    	});
 

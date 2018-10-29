@@ -28,12 +28,6 @@ function initDb() {
         checkInCloudSettings();
     }
 
-    // dummy data
-    // const employeeData = [
-    //     { id: 1, data: "gopal", content: "Mobile: 98986 31317 SANToSH R. DUBEY Advocate High Court of Gujarat 20, Ashoknagar Society, B/h. Railway Station, Nadiad-387 002. Dist. Kheda (Gujarat) E-mail : santoshdubey_75@yahoo.com", created:new Date() },
-    //     { id: 2, data: "gopal", content: "Shah Harsh (Business Partner) Head Office: 71, Maddybeth crescent, Brampton, ON L6Y SR6, Canada. M: +91 99258 33511 harsh.shah@citrusbug.com www.citrusbug.com Skype: citrus.bug", created:new Date() }
-    // ];
-
     request.onupgradeneeded = function(e) {
         let db = e.target.result;
         var objectStore = db.createObjectStore(tableName, {keyPath:'id', autoIncrement: true});
@@ -259,7 +253,6 @@ function fillData(tableData) {
         var cardId = $(this).attr('id');
         cardDetailPage(cardId); 
     });
-
 }
 
 // show detail of card page
@@ -274,6 +267,7 @@ function cardDetailPage(cardId) {
         };
        
         request.onsuccess = function(event) {
+            $(".searchCardPage").hide();
             $(".card-detail-div").show();
             if(request.result) {
                 if (request.result.data != null ){
