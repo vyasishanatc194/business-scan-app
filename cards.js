@@ -157,6 +157,7 @@ $("#listCards").on("click", function(){
 // Contact Saving in mobile device
 $("#doSaving").on("click", function(event) {
     try {
+
         event.preventDefault();
         var textboxes = [];
         var formData = [];
@@ -180,67 +181,77 @@ $("#doSaving").on("click", function(event) {
             }
         });
 
-        var myContact = navigator.contacts.create();
-        var contactObj = new Object();
-        var phoneNumbers = [];
-        var emails = [];
-        var organizations = [];
-        var urls = [];
-        var addresses = [];
-        var nm = [];
 
-        if (formData.phone != undefined){
-            var phnNo = formData.phone;
-            var phneNo = phnNo.replace(/\D/g,'');
-            phoneNumbers[0] = new ContactField(BCS.home, phneNo, false);
-            myContact.phoneNumbers = phoneNumbers;
-        }
-        if (formData.email != undefined){
-            emails[0] = new ContactField(BCS.home, formData.email, false);
-            myContact.emails = emails;
-        }
-        if (formData.company != undefined){
-            organizations[0] = new ContactField(BCS.work, formData.company, false);
-            myContact.contactOrganization = organizations;
-        }
-        if (formData.website != undefined){
-            urls[0] = new ContactField(BCS.work, formData.website, false);
-            myContact.urls = urls;
-        }
-        if (formData.address != undefined){
-            addresses[0] = new ContactField(BCS.work, formData.address, false);
-            myContact.ContactAddress = addresses;
-        }
-        if (formData.displayName != undefined){
-            myContact.displayName = formData.displayName;
-            myContact.name = formData.displayName;
-            var dName = formData.displayName;
-            nm = dName.split(" ");
-            if (nm.length > 0) {
-                if (nm[0] != undefined) {
-                    myContact.nickname = nm[0];
-                }
-                if (nm[2] != undefined) {
-                    myContact.name = nm[2];
+        document.addEventListener("deviceready", onDeviceReady, false);
+        function onDeviceReady() {
+            var myContact = navigator.contacts.create();
+
+            var phoneNumbers = [];
+            var organizations = [];
+            var addresses = [];
+            var urls = [];
+            var nm = [];
+            var emails = [];
+            console.log(formData);
+
+            if (formData.phone != undefined) {
+                var phnNo = formData.phone;
+                var phneNo = phnNo.replace(/\D/g,'');
+                phoneNumbers[0] = new ContactField(BCS.home, phneNo, false);
+                myContact.phoneNumbers = phoneNumbers;
+            }
+
+            if (formData.displayName != undefined) {
+                myContact.displayName = formData.displayName;
+                myContact.name = formData.displayName;
+                var dName = formData.displayName;
+                nm = dName.split(" ");
+                if (nm.length > 0) {
+                    if (nm[0] != undefined) {
+                        myContact.nickname = nm[0];
+                    }
+                    if (nm[2] != undefined) {
+                        myContact.name = nm[2];
+                    }
                 }
             }
-        }
-        if(document.getElementById("formNotes") != '') {
-            notes = $("#formNotes").val()+' '+txt;
-        }
-        myContact.note = notes;
-        
-        myContact.save(contactSuccess, contactError);
-                    
-        function contactSuccess() {
-            alert(BCS.contact_saved_title);
-            doFile(imageDataURL, imageDataURLback, myContact);
-            $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
-            $("#dataCotent, #myInput").show();
-        }
-        
-        function contactError(message) {
-            alert('Failed because: ' + message);
+
+            if (formData.email != undefined) {
+                emails[0] = new ContactField(BCS.home, formData.email, false);
+                myContact.emails = emails;
+            }
+            if (formData.website != undefined) {
+                urls[0] = new ContactField(BCS.work, formData.website, false);
+                myContact.urls = urls;
+            }
+            
+
+            if (formData.company != undefined) {
+                organizations[0] = new ContactOrganization('', 'name', formData.company, '', '');
+                myContact.organizations = organizations;
+            }
+
+            if (formData.address != undefined) {
+                addresses[0] = new ContactAddress('', 'home', '' , formData.address, '', '' , '', '');
+                myContact.addresses = addresses;
+            }
+
+            if(document.getElementById("formNotes") != '') {
+                notes = $("#formNotes").val()+' '+txt;
+            }
+            myContact.note = notes;
+     
+            myContact.save(contactSuccess, contactError);
+            function contactSuccess() {
+                alert(BCS.contact_saved_title);
+                doFile(imageDataURL, imageDataURLback, myContact);
+                $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
+                $("#dataCotent, #myInput").show();
+            }
+            
+            function contactError(message) {
+                alert('Failed because: ' + message);
+            }
         }
     }
     catch(err){ 

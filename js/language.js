@@ -55,37 +55,38 @@ let BCS = {
 		'pay': 'Pay Now',
 		'expand_contact_info_title': 'Expand Contact Info',
 		'search_card_placeholder': 'Search Card here..',
-		
 	  }
 
 	  $("#myInput").attr('placeholder', BCS.search_card_placeholder);
 
-document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
-	var myContact = navigator.contacts.create();
+// document.addEventListener("deviceready", onDeviceReady, false);
+// function onDeviceReady() {
+// 	var myContact = navigator.contacts.create();
 
-	var phoneNumbers = [];
-	var organizations = [];
-	var addresses = [];
-	phoneNumbers[0] = new ContactField('home', '212-555-1234', false);
-	myContact.phoneNumbers = phoneNumbers;
+// 	var phoneNumbers = [];
+// 	var organizations = [];
+// 	var addresses = [];
+// 	phoneNumbers[0] = new ContactField('home', '212-555-1234', false);
+// 	myContact.phoneNumbers = phoneNumbers;
 
-	myContact.displayName = "Test Contact Ishan";
+// 	myContact.displayName = "Test Contact Ishan";
 
-	organizations[0] = new ContactField('name', 'Organationation Test Contact Ishan', false);
-	myContact.fieldType = organizations;
+// 	organizations[0] = new ContactOrganization('', 'name', 'Organationation Test Contact Ishan', '', '');
+// 	myContact.organizations = organizations;
 
-	addresses[0] = new ContactField('home', 'Address Test Contact Ishan', false);
-	myContact.fieldType.addresses = addresses;
-
-	myContact.save(contactSuccess, contactError);
-	function contactSuccess() {
-        console.log('saved contact success');
-    }
+// 	addresses[0] = new ContactAddress('', 'home', '' ,'Address Test Contact Ishan', '', '' , '', '');
 	
-	function contactError(message) {
-        alert('Failed because: ' + message);
-    }
-}
+// 	console.log(addresses);
+// 	myContact.addresses = addresses;
+
+// 	myContact.save(contactSuccess, contactError);
+// 	function contactSuccess() {
+//         console.log('saved contact success');
+//     }
+	
+// 	function contactError(message) {
+//         alert('Failed because: ' + message);
+//     }
+// }
 
 		
