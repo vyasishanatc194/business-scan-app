@@ -298,8 +298,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 }
 .footer-div { margin: 0; padding:10px 10px;}
 .footer-div a {color:#fff; font-size: 15px;}
-.footer-div .footer-col-1{ margin: 0; padding:0; float:left; width: 50%;}
-.footer-div .footer-col-2{ margin: 0; padding:0; float:left; width: 50%;}
+.footer-div .footer-col-1{ margin: 0; padding:0; float:left; width: 50%;text-align:center;}
+.footer-div .footer-col-2{ margin: 0; padding:0; float:left; width: 50%;text-align:center;}
 
 .footer-div .getcredits-div { margin: 0; padding: 0 0 0 20px; color:#fff; font-size: 20px;}
 .footer-div .getcredits-div .credit-icon img { height: 24px; display: inline-block; vertical-align: middle; margin: 0 5px 0 0;
@@ -365,7 +365,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 
 .expand-contact-info-div { margin: 0; padding: 0; position: relative;}
 .expand-contact-info-div .expand-contact-text-info{ margin: 0; padding: 0; position: relative;}
-.expand-contact-info-div .expand-contact-text-info p{ margin: 0 0 20px 0; padding: 0; color:#222;font-size: 14px; line-height: 24px; text-align: justify;}
+.expand-contact-info-div .expand-contact-text-info p{ margin: 0 0 20px 0; padding: 0; color:#222;font-size: 18px; line-height: 24px; text-align: justify;}
 .red-txt{ color:#ff3e3e;}
 .text-center{ text-align: center!important;}
 
@@ -386,7 +386,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .credit-info-div .credit-info-blk .bestval img { width:50px;}
 .credit-info-div .credit-1 .price-txt .price, .credit-info-div .credit-3 .price-txt .price { margin-top: 50px;}
 
-.serachBox{width: 100%;padding: 10px;border-radius: 8px;border: 0;}
+.serachBox{width: 100%;padding: 10px;border-radius: 8px;border: 1px solid #d6d4d4;}
 
 .highlight-txt { font-size: 24px!important; text-align: center!important; margin: 30px 0!important;}
 
@@ -408,8 +408,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .purchase-plan-info-div .pp-info-blk .bestval img { width:55px; }
 .cardItem i { margin-right: 5px;  }	
 
-.credits-txt{ font-size: 20px !important; }
-.credits-txt .red-txt{ font-size: 25px; font-weight:bold; }
+.credits-txt .red-txt{  font-weight:bold; }
 
 
 .select2-container--default .select2-selection--single {

@@ -126,6 +126,7 @@ function addFields(data = '') {
             '<option value="website" >'+BCS.website+'</option>'+
             '<option value="twitter" >'+BCS.twitter+'</option>'+
             '<option value="facebook" >'+BCS.facebook+'</option>'+
+            '<option value="skype" >'+BCS.skype+'</option>'+
             '<option value="linkedin" >'+BCS.linkedin+'</option>'+
             '<option value="wechat" >'+BCS.wechat+'</option>'+
             '<option value="telegram" >'+BCS.telegram+'</option>'+
@@ -161,15 +162,10 @@ $("#listCards").on("click", function(){
 // Contact Saving in mobile device
 $("#doSaving").on("click", function(event) {
     try {
-
         event.preventDefault();
         var textboxes = [];
-        var formData = [];
         var selectboxes = [];
-        var arrAddress = [];
-        var arrPhone = [];
-        var arrEmail = [];
-
+        var formData = []; 
         for (var i = 0; i < $('input[type="text"]').length; i++){
             if ($('input[type="text"]')[i].value != '') {
                 textboxes.push($('input[type="text"]')[i].value);
@@ -178,6 +174,7 @@ $("#doSaving").on("click", function(event) {
                 selectboxes.push($('select.select-box')[i].value);
             }
         }
+
         var address = [];
         var phone = [];
         var email = [];
@@ -201,12 +198,23 @@ $("#doSaving").on("click", function(event) {
                 } else if (val.value == 'website') {
                     website.push($(this).parent().parent()[0].children[0].children[0].value);
                     formData[val.value] = website;
+                } else if (val.value == 'facebook') {
+                    formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
+                } else if (val.value == 'twitter') {
+                    formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
+                } else if (val.value == 'skype') {
+                    formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
+                } else if (val.value == 'linkedin') {
+                    formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
+                } else if (val.value == 'wechat') {
+                    formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
+                } else if (val.value == 'telegram') {
+                    formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
                 } else {
                     formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
                 }
             }
         });
-
 
         document.addEventListener("deviceready", onDeviceReady, false);
         function onDeviceReady() {
@@ -218,12 +226,13 @@ $("#doSaving").on("click", function(event) {
             var urls = [];
             var nm = [];
             var emails = [];
+            var IM = [];
 
             if (formData.phone != undefined) {
                 $.each(formData.phone, function(i, val){
                     var phnNo = formData.phone[i];
                     var phneNo = phnNo.replace(/\D/g,'');
-                    phoneNumbers.push(new ContactField('', phneNo, false));
+                    phoneNumbers.push(new ContactField(BCS.work, phneNo, false));
                 });
                 myContact.phoneNumbers = phoneNumbers;
             }
@@ -245,31 +254,50 @@ $("#doSaving").on("click", function(event) {
 
             if (formData.email != undefined) {
                 $.each(formData.email, function(i, val){
-                    emails.push(new ContactField('', formData.email[i], false));
+                    emails.push(new ContactField(BCS.work, formData.email[i], false));
                 });
                 myContact.emails = emails;
             }
 
             if (formData.website != undefined) {
                 $.each(formData.website, function(i, val){
-                    urls.push(new ContactField('', formData.website[i], false));
+                    urls.push(new ContactField('website', formData.website[i], false));
                 });
                 myContact.urls = urls;
             }        
 
             if (formData.company != undefined) {
-                $.each(formData.email, function(i, val){
-                    emails.push(new ContactOrganization('', formData.email[i], false));
-                });
-                myContact.emails = emails;
+                organizations.push(new ContactOrganization('', BCS.work, formData.company, '', formData.position));
+                myContact.organizations = organizations;
             }
 
             if (formData.address != undefined) {
                 $.each(formData.address, function(i, val){
-                    addresses.push(new ContactAddress('', '', '' , formData.address[i], '', '' , '', ''));
+                    addresses.push(new ContactAddress('', BCS.work, '' , formData.address[i], '', '' , '', ''));
                 });
                 myContact.addresses = addresses;
             }
+
+            if (formData.facebook != undefined) {
+                IM.push(new ContactField('facebook', formData.facebook, false));
+            }
+            if (formData.twitter != undefined) {
+                IM.push(new ContactField('twitter', formData.twitter, false));
+            }
+            if (formData.skype != undefined) {
+                IM.push(new ContactField('skype', formData.skype, false));
+            }
+            if (formData.linkedin != undefined) {
+                IM.push(new ContactField('linkedin', formData.linkedin, false));
+            }
+            if (formData.wechat != undefined) {
+                IM.push(new ContactField('wechat', formData.wechat, false));
+            }
+            if (formData.telegram != undefined) {
+                IM.push(new ContactField('telegram', formData.telegram, false));
+            }
+            myContact.ims = IM;
+            
 
             if(document.getElementById("formNotes") != '') {
                 notes = $("#formNotes").val()+' '+txt;

@@ -28,6 +28,7 @@ let BCS = {
 	    "address":"Address",
 	    "company":"Company",
 	    "website":"Website",
+	    "skype":"Skype",
 	    "twitter":"Twitter",
 	    "facebook":"Facebook",
 	    "linkedin":"Linkedin",
@@ -47,11 +48,14 @@ let BCS = {
 			'error_store_data_in_creditslog' : 'error storing data in creditsLog'
 		},
 		'buy_credits_confirmation_box_title': "You have no credits to continue. You should buy credits",
+		'buy_credits_confirmation_box_subtitle': "Buy Credits",
+		'pay_now_btn_title': 'Pay Now',
+		'remind_me_letter_btn_title': 'Remind Me Leter',
 		'no_cards_scanned_yet': "No scanned cards yet!",
 		'retrive_data_error': "Unable to retrieve daa from database!",
 		'letter_on' :  'Remind me letter',
 		'pay': 'Pay Now',
-		'expand_contact_info_title': 'Expand Contact Info',
+		'credit_purchase_page_title': 'PURCHASE CREDITS',
 		'search_card_placeholder': 'Search Card here..',
 		'app_purchase_screen_content': "You can use purchased credits to scan business cards and save contacts in address book."
 	  }

@@ -41,7 +41,7 @@
 <div id="wrapper" class="purchaseForm">
 <header>
 	<div class="header-div clearfix">		
-		<div class="head-title scan-title"><h4><script>document.write(BCS.expand_contact_info_title);</script></h4></div>
+		<div class="head-title scan-title"><h4><script>document.write(BCS.credit_purchase_page_title);</script></h4></div>
 		<div class="clsoe"><a href="index.html"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
 	</div>
 
@@ -51,7 +51,7 @@
 	<div class="expand-contact-info-div clearfix">
 		<div class="expand-contact-text-info clearfix">
 			<p><script>document.write(BCS.app_purchase_screen_content);</script></p>
-			<p class="text-center credits-txt">You have <span class="red-txt"></span> credits</p>
+			<p class="text-center credits-txt">You can scan <span class="red-txt"></span> business cards</p>
 
 		</div><!-- end of expand-contact-text-info -->
 
@@ -118,7 +118,7 @@
 		    	var credit = [ val.productId, val.currency, val.priceAsDecimal ];
 			    $(".credit-"+i).attr('data-value', credit);
 			    $(".credit-"+i+" .txt h3").html(val.description);
-			    $(".credit-"+i+" .txt p").html("You can scan "+val.title+" business cards");
+			    $(".credit-"+i+" .txt p").html(val.title);
 			    $(".credit-"+i+" .price").html(val.price);
 	    	});
 

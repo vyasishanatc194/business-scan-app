@@ -33,8 +33,8 @@ function initDb() {
         var objectStore1 = db.createObjectStore(tableName1, {keyPath:'id', autoIncrement: true});
         var objectStore2 = db.createObjectStore(tableName2, {keyPath:'id', autoIncrement: true});
         
-        objectStore1.add({credits: 5, createdAt: new Date()});
-        objectStore2.add({credits: 5, createdAt: new Date()});
+        objectStore1.add({credits: 100, createdAt: new Date()});
+        objectStore2.add({credits: 100, createdAt: new Date()});
         
         dbReady = true;
     }
@@ -48,12 +48,7 @@ function checkCredits() {
         ObjectTras.openCursor().onsuccess = function(event) {
             var cursor = event.target.result;
             if (cursor.value.credits == 0) {
-                var r = confirm(BCS.buy_credits_confirmation_box_title);
-                if (r == true) {
-                    window.location = 'expand-contact.html';
-                } else {
-                    window.location = 'index.html';
-                }
+                showConfirm();                
             } else {
                 capturePhoto('Front');
             }
@@ -61,6 +56,26 @@ function checkCredits() {
     } catch(err) {
         alert(err);
     }
+}
+
+// process the confirmation dialog result
+function onConfirm(buttonIndex) {
+    if (buttonIndex == 1) {
+        window.location = 'expand-contact.html';
+    } else {
+        window.location = 'index.html';
+    }
+}
+
+// Show a custom confirmation dialog
+//
+function showConfirm() {
+    navigator.notification.confirm(
+        BCS.buy_credits_confirmation_box_title,  // message
+        onConfirm,              // callback to invoke with index of button pressed
+        BCS.buy_credits_confirmation_box_subtitle,            // title
+        ''+BCS.pay_now_btn_title+','+ BCS.remind_me_letter_btn_title+''          // buttonLabels
+    );
 }
 
 function showCredits() {
@@ -100,15 +115,14 @@ function doFile(data, imageDataURLback = null, content) {
 
         trans.oncomplete = function(e) {
             console.log(e);
-            createCreditsLog();
-            window.location = "index.html";
+            updateCredits();            
         }
     } catch(err) {
         alert(err);
     }
 }
 
-function createCreditsLog() {
+function updateCredits() {
     try{
         var objectStore = db.transaction([tableName1], "readwrite").objectStore(tableName1);
         var objectStoreTitleRequest = objectStore.get(1);
@@ -128,7 +142,7 @@ function createCreditsLog() {
             var updateTitleRequest = objectStore.put(data);
             // When this new request succeeds, run the displayData() function again to update the display
             updateTitleRequest.onsuccess = function() {
-                addCreditLogs(data.credits); 
+                addCreditLogs(data.credits);
             };
         };
 
@@ -154,6 +168,7 @@ function addCreditLogs(credits = null) {
 
         trans.oncomplete = function(e) {
             console.log(e);
+            window.location = "index.html";
         }
     }
     catch(err){
