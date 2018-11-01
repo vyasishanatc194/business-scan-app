@@ -368,7 +368,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .expand-contact-info-div .expand-contact-text-info p{ margin: 0 0 20px 0; padding: 0; color:#222;font-size: 18px; line-height: 24px; text-align: justify;}
 .red-txt{ color:#ff3e3e;}
 .text-center{ text-align: center!important;}
-
+#clearbox {position:absolute; top:27px; right: 35px; font-size: 18px; color:#a5a4a4;}
 .credit-info-div { margin: 0; padding: 0; position: relative;}
 .credit-info-div .credit-info-blk  { margin: 0 0 20px 0; padding: 20px; position: relative; cursor: pointer;}
 .credit-info-div .credit-1  {  background: #ffcc03;}

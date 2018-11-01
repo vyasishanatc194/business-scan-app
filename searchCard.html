@@ -53,7 +53,7 @@
 		<div class="middle-container clearfix" >
 
 			<input type="text" class="serachBox" id="myInput" placeholder="" />
-
+			<span id="clearbox" ></span>
 			<div class="card-list-div clearfix" id="dataCotent">
 			</div>
 		</div>
@@ -116,13 +116,7 @@
 	  filter = input.value.toUpperCase();
 	  valLength = filter.length;
 	  if (valLength > 0) {
-	  	
-	  	if ($("header .head-col-3 .head-round-blk a").length > 0) {
-	  		$("header .head-col-3 .head-round-blk").remove();
-	  		$("header .head-col-3").append('<div class="clsoe"><a href="index.html"><img class="close-icon" src="images/close.svg" alt=""></a></div>');
-	  	}
-	  } else {
-	  	window.location = "searchCard.html";
+	  	$("#clearbox").html('x');
 	  }
 	  table = document.getElementById("dataCotent");
 	  tr = $("div.card");
@@ -145,6 +139,10 @@
 
 	$(document).ready(function() {
 		$("#myInput").attr('placeholder', BCS.search_card_placeholder);
+		$("#clearbox").on("click", function(){
+			$("#myInput").val('');
+			$("#clearbox").html('');
+		});
   	});
 	</script>
 </body>

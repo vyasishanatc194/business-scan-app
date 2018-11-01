@@ -36,49 +36,67 @@ function capturePhoto(cameraType = null) {
 //
 function onPhotoFrontSuccess(imageData) {
     $(".middle-container").append(loading);
-    window.Q.ML.Cordova.ocr(imageData, false, function(result) {
+        window.Q.ML.Cordova.ocr(imageData, true, function(result) {
         // Uncomment to view the base64 encoded image data
-        imageDataURL = imageData;
-        if (imageData != null) {
-            $(".cardFrontBtn").hide();
-            $(".cardFrontImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
-            if ($(".cardFrontImg").attr('src') != "") {
-                $('select.select-box').each(function(i, val){
-                    if(val.value == '') {
-                        $(this).closest("div.containerDiv").remove();
-                    }
-                });
-            }
-        }
-        clearContent(JSON.stringify(result));
+        handleFrontPhotoSuccess(imageData, result);
     }, function(error){
-        alert("Error: "+error);
-        window.location = "index.html";
+        window.Q.ML.Cordova.ocr(imageData, false, function(result) {
+            // Uncomment to view the base64 encoded image data
+            handleFrontPhotoSuccess(imageData, result);
+        }, function(error){
+            alert("Error: "+error);
+            window.location = "index.html";
+        })
     })
+}
+
+function handleFrontPhotoSuccess(imageData, result) {
+    imageDataURL = imageData;
+    if (imageData != null) {
+        $(".cardFrontBtn").hide();
+        $(".cardFrontImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
+        if ($(".cardFrontImg").attr('src') != "") {
+            $('select.select-box').each(function(i, val){
+                if(val.value == '') {
+                    $(this).closest("div.containerDiv").remove();
+                }
+            });
+        }
+    }
+    clearContent(JSON.stringify(result));
 }
 // Called when a photo is successfully retrieved
 //
 function onPhotoBackSuccess(imageData) {
     $(".middle-container").append(loading);
-    window.Q.ML.Cordova.ocr(imageData, false, function(result) {
+    window.Q.ML.Cordova.ocr(imageData, true, function(result) {
         // Uncomment to view the base64 encoded image data
-        imageDataURLback = imageData;
-        if (imageData != null) {
-            $(".cardBackBtn").hide();
-            $(".cardBackImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
-            if ($(".cardBackImg").attr('src') != "") {
-                $('select.select-box').each(function(i, val){
-                    if(val.value == '') {
-                        $(this).closest("div.containerDiv").remove();
-                    }
-                });
-            }
-        }
-        clearContent(JSON.stringify(result));
+        handleBackPhotoSuccess(imageData, result);
     }, function(error){
-        alert("Error: "+error);
-        window.location = "index.html";
+         window.Q.ML.Cordova.ocr(imageData, false, function(result) {
+            // Uncomment to view the base64 encoded image data
+            handleBackPhotoSuccess(imageData, result);
+        }, function(error){
+            alert("Error: "+error);
+            window.location = "index.html";
+        })
     })
+}
+
+function handleBackPhotoSuccess(imageData, result) {
+    imageDataURLback = imageData;
+    if (imageData != null) {
+        $(".cardBackBtn").hide();
+        $(".cardBackImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
+        if ($(".cardBackImg").attr('src') != "") {
+            $('select.select-box').each(function(i, val){
+                if(val.value == '') {
+                    $(this).closest("div.containerDiv").remove();
+                }
+            });
+        }
+    }
+    clearContent(JSON.stringify(result));
 }
 
 // Called if something bad happens.
