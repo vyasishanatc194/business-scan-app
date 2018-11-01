@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function initDb() {
     let request = indexedDB.open('scanDB', dbVersion);
+    let dbExists = true;
 
     request.onerror = function(e) {
         console.error('Unable to open database.');
@@ -27,6 +28,7 @@ function initDb() {
         checkInCloudSettings();
     }
 
+    
     request.onupgradeneeded = function(e) {
         let db = e.target.result;
         var objectStore = db.createObjectStore(tableName, {keyPath:'id', autoIncrement: true});
@@ -35,7 +37,7 @@ function initDb() {
         
         objectStore1.add({credits: 100, createdAt: new Date()});
         objectStore2.add({credits: 100, createdAt: new Date()});
-        
+        dbExists = false;
         dbReady = true;
     }
 }
@@ -229,8 +231,14 @@ function doImageListing() {
                 if (data.displayName != null) { rowData += '<h3>'+data.displayName+'</h3>' };
                 if (data.phoneNumbers != null) { rowData += '<p><i class="fa fa-phone"></i>'+data.phoneNumbers[0].value+'</p>' };
                 if (data.emails != null) { rowData += '<p><i class="fa fa-envelope"></i>'+data.emails[0].value+'</p>' };
-                if (data.twitter != null) { rowData += '<p><i class="fa fa-twitter"></i>'+data.twitter[0]+'</p>' };
                 if (data.urls != null) { rowData += '<p><i class="fa fa-globe"></i>'+data.urls[0].value+'</p>' };
+                if (data.ims != null && data.ims.length > 0) {
+                    $.each(data.ims, function(i ,val) {
+                        if (data.ims[i].value != null) {
+                             rowData += '<span><p><i class="fa fa-'+data.ims[i].type+'"></i>'+data.ims[i].value+'</p></span>';
+                        }
+                    });
+                }
 
                 tableData = ['<div class="card"><div class="card-data-list clearfix"><a class="cardItem" id='+cursor.key+' >'+
                     '<p id="Timg">'+ rowData +'</p></div></div>'];
@@ -292,7 +300,7 @@ function cardDetailPage(cardId) {
                     $(".card-detail-div img#imgBck").attr('src', "data:image/jpeg;base64,"+request.result.imgBack);
                 } else { $(".card-detail-div img#imgBck").hide(); }
 
-                $(".content-blk p").html(request.result.content.note);
+                $(".content-blk textarea#cardNotes").val(request.result.content.note);
                 $("h4#cardDetailPageTitle").html(request.result.content.displayName);
                 $(".deleteItem").attr('id', cardId);
             } 

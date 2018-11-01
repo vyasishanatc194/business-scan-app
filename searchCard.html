@@ -96,7 +96,7 @@
 			
 			<div class="card">
 				<div class="content-blk">
-					<p></p>
+					<textarea id="cardNotes" disabled="disabled"></textarea>
 				</div>
 			</div>
 			
@@ -110,10 +110,20 @@
 
 <script type="text/javascript">
 
-	$("#myInput").on('keyup', function(){
-	  var input, filter, table, tr, td, i;
+	$("#myInput").on('keyup', function() {
+	  var input, filter, table, tr, td, i, valLength;
 	  input = document.getElementById("myInput");
 	  filter = input.value.toUpperCase();
+	  valLength = filter.length;
+	  if (valLength > 0) {
+	  	
+	  	if ($("header .head-col-3 .head-round-blk a").length > 0) {
+	  		$("header .head-col-3 .head-round-blk").remove();
+	  		$("header .head-col-3").append('<div class="clsoe"><a href="index.html"><img class="close-icon" src="images/close.svg" alt=""></a></div>');
+	  	}
+	  } else {
+	  	window.location = "searchCard.html";
+	  }
 	  table = document.getElementById("dataCotent");
 	  tr = $("div.card");
 	  for (i = 0; i < tr.length; i++) {
@@ -135,8 +145,6 @@
 
 	$(document).ready(function() {
 		$("#myInput").attr('placeholder', BCS.search_card_placeholder);
-
-
   	});
 	</script>
 </body>

@@ -53,6 +53,7 @@ function onPhotoFrontSuccess(imageData) {
         clearContent(JSON.stringify(result));
     }, function(error){
         alert("Error: "+error);
+        window.location = "index.html";
     })
 }
 // Called when a photo is successfully retrieved
@@ -76,6 +77,7 @@ function onPhotoBackSuccess(imageData) {
         clearContent(JSON.stringify(result));
     }, function(error){
         alert("Error: "+error);
+        window.location = "index.html";
     })
 }
 
@@ -181,6 +183,7 @@ $("#doSaving").on("click", function(event) {
         var website = [];
         var txt = '';
         var notes = '';
+        var flag = 1;
         $('select.select-box').each(function(i, val){
             if(val.value == '') {
                 txt += $(this).parent().parent()[0].children[0].children[0].value;
@@ -213,109 +216,128 @@ $("#doSaving").on("click", function(event) {
                 } else {
                     formData[val.value] = $(this).parent().parent()[0].children[0].children[0].value;
                 }
+                flag = 0;
             }
         });
 
-        document.addEventListener("deviceready", onDeviceReady, false);
-        function onDeviceReady() {
-            var myContact = navigator.contacts.create();
+        function alertDismissed() {
+            return false;
+        }
+        
+        if (flag == 0) {
+            document.addEventListener("deviceready", onDeviceReady, false);
+            function onDeviceReady() {
+                var myContact = navigator.contacts.create();
 
-            var phoneNumbers = [];
-            var organizations = [];
-            var addresses = [];
-            var urls = [];
-            var nm = [];
-            var emails = [];
-            var IM = [];
+                var phoneNumbers = [];
+                var organizations = [];
+                var addresses = [];
+                var urls = [];
+                var nm = [];
+                var emails = [];
+                var IM = [];
 
-            if (formData.phone != undefined) {
-                $.each(formData.phone, function(i, val){
-                    var phnNo = formData.phone[i];
-                    var phneNo = phnNo.replace(/\D/g,'');
-                    phoneNumbers.push(new ContactField(BCS.work, phneNo, false));
-                });
-                myContact.phoneNumbers = phoneNumbers;
-            }
+                if (formData.phone != undefined) {
+                    $.each(formData.phone, function(i, val){
+                        var phnNo = formData.phone[i];
+                        var phneNo = phnNo.replace(/\D/g,'');
+                        phoneNumbers.push(new ContactField(BCS.work, phneNo, false));
+                    });
+                    myContact.phoneNumbers = phoneNumbers;
+                }
 
-            if (formData.displayName != undefined) {
-                myContact.displayName = formData.displayName;
-                myContact.name = formData.displayName;
-                var dName = formData.displayName;
-                nm = dName.split(" ");
-                if (nm.length > 0) {
-                    if (nm[0] != undefined) {
-                        myContact.nickname = nm[0];
-                    }
-                    if (nm[2] != undefined) {
-                        myContact.name = nm[2];
+                if (formData.displayName != undefined) {
+                    var Username = [];
+                    myContact.displayName = formData.displayName;
+                    var dName = formData.displayName;
+                    
+                    nm = dName.split(" ");
+                    if (nm.length > 0) {
+                        if (nm[0] != undefined) {
+                            Username.nickname = nm[0];
+                        }
+                        if (nm[1] != undefined) {
+                            Username.firstname = nm[1];
+                        }
+                        if (nm[2] != undefined) {
+                            Username.lastname = nm[2];
+                        }
+                        myContact.name = Username;
                     }
                 }
-            }
 
-            if (formData.email != undefined) {
-                $.each(formData.email, function(i, val){
-                    emails.push(new ContactField(BCS.work, formData.email[i], false));
-                });
-                myContact.emails = emails;
-            }
+                if (formData.email != undefined) {
+                    $.each(formData.email, function(i, val){
+                        emails.push(new ContactField(BCS.work, formData.email[i], false));
+                    });
+                    myContact.emails = emails;
+                }
 
-            if (formData.website != undefined) {
-                $.each(formData.website, function(i, val){
-                    urls.push(new ContactField('website', formData.website[i], false));
-                });
-                myContact.urls = urls;
-            }        
+                if (formData.website != undefined) {
+                    $.each(formData.website, function(i, val){
+                        urls.push(new ContactField('website', formData.website[i], false));
+                    });
+                    myContact.urls = urls;
+                }        
 
-            if (formData.company != undefined) {
-                organizations.push(new ContactOrganization('', BCS.work, formData.company, '', formData.position));
-                myContact.organizations = organizations;
-            }
+                if (formData.company != undefined) {
+                    organizations.push(new ContactOrganization('', BCS.work, formData.company, '', formData.position));
+                    myContact.organizations = organizations;
+                }
 
-            if (formData.address != undefined) {
-                $.each(formData.address, function(i, val){
-                    addresses.push(new ContactAddress('', BCS.work, '' , formData.address[i], '', '' , '', ''));
-                });
-                myContact.addresses = addresses;
-            }
+                if (formData.address != undefined) {
+                    $.each(formData.address, function(i, val){
+                        addresses.push(new ContactAddress('', BCS.work, '' , formData.address[i], '', '' , '', ''));
+                    });
+                    myContact.addresses = addresses;
+                }
 
-            if (formData.facebook != undefined) {
-                IM.push(new ContactField('facebook', formData.facebook, false));
-            }
-            if (formData.twitter != undefined) {
-                IM.push(new ContactField('twitter', formData.twitter, false));
-            }
-            if (formData.skype != undefined) {
-                IM.push(new ContactField('skype', formData.skype, false));
-            }
-            if (formData.linkedin != undefined) {
-                IM.push(new ContactField('linkedin', formData.linkedin, false));
-            }
-            if (formData.wechat != undefined) {
-                IM.push(new ContactField('wechat', formData.wechat, false));
-            }
-            if (formData.telegram != undefined) {
-                IM.push(new ContactField('telegram', formData.telegram, false));
-            }
-            myContact.ims = IM;
-            
+                if (formData.facebook != undefined) {
+                    IM.push(new ContactField('facebook', formData.facebook, false));
+                }
+                if (formData.twitter != undefined) {
+                    IM.push(new ContactField('twitter', formData.twitter, false));
+                }
+                if (formData.skype != undefined) {
+                    IM.push(new ContactField('skype', formData.skype, false));
+                }
+                if (formData.linkedin != undefined) {
+                    IM.push(new ContactField('linkedin', formData.linkedin, false));
+                }
+                if (formData.wechat != undefined) {
+                    IM.push(new ContactField('wechat', formData.wechat, false));
+                }
+                if (formData.telegram != undefined) {
+                    IM.push(new ContactField('telegram', formData.telegram, false));
+                }
+                myContact.ims = IM;
+                
 
-            if(document.getElementById("formNotes") != '') {
-                notes = $("#formNotes").val()+' '+txt;
+                if(document.getElementById("formNotes") != '') {
+                    notes = $("#formNotes").val()+'\n'+txt;
+                }
+                myContact.note = notes;
+         
+                myContact.save(contactSuccess, contactError);
+                function contactSuccess() {
+                    alert(BCS.contact_saved_title);
+                    doFile(imageDataURL, imageDataURLback, myContact);
+                    $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
+                    $("#dataCotent, #myInput").show();
+                }
+                
+                function contactError(message) {
+                    alert('Failed because: ' + message);
+                }
             }
-            myContact.note = notes;
-     
-            myContact.save(contactSuccess, contactError);
-            function contactSuccess() {
-                alert(BCS.contact_saved_title);
-                doFile(imageDataURL, imageDataURLback, myContact);
-                $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
-                $("#dataCotent, #myInput").show();
-            }
-            
-            function contactError(message) {
-                alert('Failed because: ' + message);
-            }
-        }
+        } else {
+            navigator.notification.alert(
+                BCS.alert_msg_when_no_item_selected,  // message
+                alertDismissed,         // callback
+                BCS.alert_box,            // title
+                BCS.ok            // buttonName
+            );
+        }        
     }
     catch(err){ 
         console.log(err);

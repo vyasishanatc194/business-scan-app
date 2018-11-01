@@ -57,7 +57,10 @@ let BCS = {
 		'pay': 'Pay Now',
 		'credit_purchase_page_title': 'PURCHASE CREDITS',
 		'search_card_placeholder': 'Search Card here..',
-		'app_purchase_screen_content': "You can use purchased credits to scan business cards and save contacts in address book."
+		'app_purchase_screen_content': "You can use purchased credits to scan business cards and save contacts in address book.",
+		"alert_msg_when_no_item_selected": "Please select atleast one field to save contact.",
+		"alert_box": "Alert Box",
+		"ok": "Ok"
 	  }
 
 	  
