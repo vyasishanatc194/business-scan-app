@@ -35,6 +35,9 @@
 	<![endif]-->
 <script type="text/javascript" src="js/language.js"></script>
 <script src="createDB.js"></script>
+<script type="text/javascript">
+	
+</script>
 
 </head>
 <body>
@@ -48,7 +51,7 @@
 </header>
 
 <div class="middle-container clearfix" >
-	<div class="expand-contact-info-div clearfix">
+	<div class="expand-contact-info-div clearfix" style="display: none;">
 		<div class="expand-contact-text-info clearfix">
 			<p><script>document.write(BCS.app_purchase_screen_content);</script></p>
 			<p class="text-center credits-txt">You can scan <span class="red-txt"></span> business cards</p>
@@ -120,8 +123,7 @@
 				    $(".credit-"+i+" .txt p").html(val.title);
 				    $(".credit-"+i+" .price").html(val.price);
 		    	});
-
-		    	$(".middle-container .signal").remove();
+			    $(".middle-container .signal").remove();
 	   		 	$(".middle-container>.clearfix").show();
 	   		 		// if there is not product item fount then alert box will be display with notice:
    		 			if (products.length == 0 ) {

@@ -21,17 +21,11 @@ function capturePhoto(cameraType = null) {
     $(".scanCardForm").show();
     // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
     if (cameraType == 'Front') {
-        navigator.camera.getPicture(onPhotoFrontSuccess, onFail, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
+        navigator.camera.getPicture(onPhotoFrontSuccess, onFailFrontCamera, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
     } else {
-        navigator.camera.getPicture(onPhotoBackSuccess, onFail, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
+        navigator.camera.getPicture(onPhotoBackSuccess, onFailBackCamera, { quality: 10, allowEdit: false, destinationType: Camera.DestinationType.DATA_URL }); 
     }
-    $('select.select-box').each(function(i, val){
-        if(val.value == '') {
-            $(this).closest("div.containerDiv").remove();
-        }
-    });
 }
-
 // Called when a photo is successfully retrieved
 //
 function onPhotoFrontSuccess(imageData) {
@@ -43,7 +37,7 @@ function onPhotoFrontSuccess(imageData) {
         window.Q.ML.Cordova.ocr(imageData, false, function(result) {
             // Uncomment to view the base64 encoded image data
             handleFrontPhotoSuccess(imageData, result);
-        }, function(error){
+        }, function(error) {
             navigator.notification.alert( error, function(){}, BCS.alert_box, BCS.ok );
             window.location = "index.html";
         })
@@ -56,15 +50,25 @@ function handleFrontPhotoSuccess(imageData, result) {
         $(".cardFrontBtn").hide();
         $(".cardFrontImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
         if ($(".cardFrontImg").attr('src') != "") {
-            $('select.select-box').each(function(i, val){
-                if(val.value == '') {
-                    $(this).closest("div.containerDiv").remove();
-                }
-            });
+            autoRemoveFields();
         }
     }
     clearContent(JSON.stringify(result));
 }
+
+// Called if something bad happens.
+// 
+function onFailFrontCamera(message) {
+    if ($(".cardFrontImg").attr('src') == "") {
+        navigator.notification.alert( message, function(){}, BCS.alert_box, BCS.ok );
+    }
+    $('input[type="text"]').each(function(i, val) {
+        if(val.value == '') {
+            window.location = "index.html";
+        }
+    });    
+}
+
 // Called when a photo is successfully retrieved
 //
 function onPhotoBackSuccess(imageData) {
@@ -76,7 +80,7 @@ function onPhotoBackSuccess(imageData) {
          window.Q.ML.Cordova.ocr(imageData, false, function(result) {
             // Uncomment to view the base64 encoded image data
             handleBackPhotoSuccess(imageData, result);
-        }, function(error){
+        }, function(error) {
             navigator.notification.alert( error, function(){}, BCS.alert_box, BCS.ok );
             window.location = "index.html";
         })
@@ -89,21 +93,30 @@ function handleBackPhotoSuccess(imageData, result) {
         $(".cardBackBtn").hide();
         $(".cardBackImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
         if ($(".cardBackImg").attr('src') != "") {
-            $('select.select-box').each(function(i, val){
-                if(val.value == '') {
-                    $(this).closest("div.containerDiv").remove();
-                }
-            });
+            autoRemoveFields();
         }
     }
     clearContent(JSON.stringify(result));
 }
-
 // Called if something bad happens.
 // 
-function onFail(message) {
-    window.location = "index.html";
-    navigator.notification.alert( message, function(){}, BCS.alert_box, BCS.ok );
+function onFailBackCamera(message) {
+    if ($(".cardBackImg").attr('src') == "") {
+        navigator.notification.alert( message, function(){}, BCS.alert_box, BCS.ok );
+    }
+    $('input[type="text"]').each(function(i, val) {
+        if(val.value == '') {
+            window.location = "index.html";
+        }
+    });    
+}
+
+function autoRemoveFields() {
+    $('select.select-box').each(function(i, val) {
+        if(val.value == '') {
+            $(this).closest("div.containerDiv").remove();
+        }
+    });
 }
 
 function clearContent(str) {
