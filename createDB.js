@@ -22,7 +22,6 @@ function initDb() {
 
     request.onsuccess = function(e) {
         db = e.target.result;
-        // alert('db opened');
         showCredits();
         doImageListing();
         checkInCloudSettings();
@@ -56,7 +55,7 @@ function checkCredits() {
             }
         };
     } catch(err) {
-        alert(err);
+        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -92,7 +91,7 @@ function showCredits() {
             $(".expand-contact-text-info span.red-txt").html(cursor.value.credits);
         };
     } catch(err) {
-        alert(err);
+        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -111,7 +110,7 @@ function doFile(data, imageDataURLback = null, content) {
         let addReq = trans.objectStore(tableName).add(ob);
 
         addReq.onerror = function(e) {
-            alert(BCS.error.error_store_data);
+            navigator.notification.alert( BCS.error.error_store_data, function(){}, BCS.alert_box, BCS.ok );
             console.error(e);
         }
 
@@ -120,7 +119,7 @@ function doFile(data, imageDataURLback = null, content) {
             updateCredits();            
         }
     } catch(err) {
-        alert(err);
+        anavigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -149,7 +148,7 @@ function updateCredits() {
         };
 
     } catch(err) {
-        alert(err);
+        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -164,7 +163,7 @@ function addCreditLogs(credits = null) {
         let addReq = trans.objectStore(tableName2).add(updatedData);
 
         addReq.onerror = function(e) {
-            alert(BCS.error.error_store_data_in_creditslog);
+            navigator.notification.alert( BCS.error.error_store_data_in_creditslog, function(){}, BCS.alert_box, BCS.ok );
             console.error(e);
         }
 
@@ -174,7 +173,7 @@ function addCreditLogs(credits = null) {
         }
     }
     catch(err){
-        alert(err);
+        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -208,7 +207,7 @@ function checkInCloudSettings() {
             }, false);
         };
     } catch(err) {
-        alert(err);
+       navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -250,7 +249,7 @@ function doImageListing() {
             }
         };
     } catch(err) {
-        alert(err);
+        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -309,7 +308,7 @@ function cardDetailPage(cardId) {
     catch(err) {
         $(".txtboxes-group-div").show();
         $(".card-detail-div").hide();
-        alert('Detail Page:'+err); 
+        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok ); 
     }
 }
 
@@ -325,6 +324,6 @@ function removeRecord(id) {
         };
     }
     catch (err) {
-        alert(err);
+        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }

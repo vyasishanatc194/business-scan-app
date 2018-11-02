@@ -103,29 +103,38 @@
 <script src="cards.js"></script>
 
 <script>
-
 	document.addEventListener("deviceready", function onDeviceReady() {
 		$(".middle-container").append(loading);
 	    inAppPurchase
-		  .getProducts(['com.qbix.businesscard.credits.10',
-			'com.qbix.businesscard.credits.100',
-			'com.qbix.businesscard.credits.300']
-			)
-		  .then(function (products) {
+		  	.getProducts(['com.qbix.businesscard.credits.10',
+				'com.qbix.businesscard.credits.100',
+				'com.qbix.businesscard.credits.300']
+			) // end of getProducts
+		  	.then(function (products) {
+		  	
+			    $.each(products, function(i, val) {
+			    	i = i + 1;
+			    	var credit = [ val.productId, val.currency, val.priceAsDecimal ];
+				    $(".credit-"+i).attr('data-value', credit);
+				    $(".credit-"+i+" .txt h3").html(val.description);
+				    $(".credit-"+i+" .txt p").html(val.title);
+				    $(".credit-"+i+" .price").html(val.price);
+		    	});
 
-		    $.each(products, function(i, val) {
-		    	i = i + 1;
-		    	var credit = [ val.productId, val.currency, val.priceAsDecimal ];
-			    $(".credit-"+i).attr('data-value', credit);
-			    $(".credit-"+i+" .txt h3").html(val.description);
-			    $(".credit-"+i+" .txt p").html(val.title);
-			    $(".credit-"+i+" .price").html(val.price);
-	    	});
-
-	    	$(".middle-container .signal").remove();
-   		 	$(".middle-container>.clearfix").show();
-
-		  })
+		    	$(".middle-container .signal").remove();
+	   		 	$(".middle-container>.clearfix").show();
+	   		 		// if there is not product item fount then alert box will be display with notice:
+   		 			if (products.length == 0 ) {
+	   		 			navigator.notification.alert(
+						    BCS.unable_to_load, // message
+						    function(){
+						    	window.location = 'index.html';
+						    },         			// callback
+						    BCS.alert_box,      // title
+						    BCS.ok              // buttonName
+						);
+	   		 		}
+		  }) // end of then
 		  .catch(function (err) {
 		    console.log(err);
 		  });

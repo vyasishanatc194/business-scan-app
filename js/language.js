@@ -1,9 +1,7 @@
 
 document.addEventListener("deviceready", onDeviceReady, false);
-function onDeviceReady() {
-	if (cordova.platformId == 'android') {
-	    StatusBar.backgroundColorByHexString("#333");
-	}
+function onDeviceReady() {	
+    StatusBar.backgroundColorByHexString("#2865da");
     console.log(StatusBar);
 }
 
@@ -60,7 +58,8 @@ let BCS = {
 		'app_purchase_screen_content': "You can use purchased credits to scan business cards and save contacts in address book.",
 		"alert_msg_when_no_item_selected": "Please select atleast one field to save contact.",
 		"alert_box": "Alert Box",
-		"ok": "Ok"
+		"ok": "Ok",
+		"unable_to_load": "Unable to load product items, please check your internet connection."
 	  }
 
 	  

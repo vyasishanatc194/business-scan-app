@@ -44,7 +44,7 @@ function onPhotoFrontSuccess(imageData) {
             // Uncomment to view the base64 encoded image data
             handleFrontPhotoSuccess(imageData, result);
         }, function(error){
-            alert("Error: "+error);
+            navigator.notification.alert( error, function(){}, BCS.alert_box, BCS.ok );
             window.location = "index.html";
         })
     })
@@ -77,7 +77,7 @@ function onPhotoBackSuccess(imageData) {
             // Uncomment to view the base64 encoded image data
             handleBackPhotoSuccess(imageData, result);
         }, function(error){
-            alert("Error: "+error);
+            navigator.notification.alert( error, function(){}, BCS.alert_box, BCS.ok );
             window.location = "index.html";
         })
     })
@@ -103,7 +103,7 @@ function handleBackPhotoSuccess(imageData, result) {
 // 
 function onFail(message) {
     window.location = "index.html";
-    alert(message);
+    navigator.notification.alert( message, function(){}, BCS.alert_box, BCS.ok );
 }
 
 function clearContent(str) {
@@ -338,7 +338,7 @@ $("#doSaving").on("click", function(event) {
          
                 myContact.save(contactSuccess, contactError);
                 function contactSuccess() {
-                    alert(BCS.contact_saved_title);
+                    navigator.notification.alert( BCS.contact_saved_title, function(){}, BCS.alert_box, BCS.ok );
                     doFile(imageDataURL, imageDataURLback, myContact);
                     $("#contact-form-btn, #TextBoxesGroup, #doSaving").hide();
                     $("#dataCotent, #myInput").show();

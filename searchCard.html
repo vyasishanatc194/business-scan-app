@@ -45,7 +45,7 @@
 					<div class="head-title"><h3><script>document.write(BCS.business_card);</script></h3><h4><script>document.write(BCS.scanner);</script></h4></div>
 				</div>
 				<div class="head-col-3">
-					<div class="head-round-blk"><a href="expand-contact.html"><div class="round-blk"><span class="largenumber"></span><span class="smalltxt"><script>document.write(BCS.credit);</script></span></div></a></div>
+					<div class="clsoe"><a href="index.html"><img class="close-icon" src="images/close.svg" alt="" ></a></div>
 				</div>
 			</div>
 		</header>
@@ -140,6 +140,7 @@
 	$(document).ready(function() {
 		$("#myInput").attr('placeholder', BCS.search_card_placeholder);
 		$("#clearbox").on("click", function(){
+			window.location = 'searchCard.html';
 			$("#myInput").val('');
 			$("#clearbox").html('');
 		});

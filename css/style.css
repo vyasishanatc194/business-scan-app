@@ -79,7 +79,7 @@ body {
 }
 /* #Typography
 ================================================== */
-
+textarea{font-family: 'Open Sans', sans-serif;}
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
 	font-weight: inherit;
 }
@@ -378,7 +378,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .credit-info-div .credit-info-blk .icons { margin: 0; padding: 15px 0; position: relative; float: left; width: 18%;}
 .credit-info-div .credit-info-blk .icons img { width:43px}
 .credit-info-div .credit-info-blk .txt { margin: 0; padding: 0 10px; position: relative;float: left; width: 57%;}
-.credit-info-div .credit-info-blk .txt h3{ margin: 0 0 10px 0; padding:  0 10px; color:#222; font-weight: 700; font-size: 22px; }
+.credit-info-div .credit-info-blk .txt h3{ margin: 0 0 10px 0; padding:  0 10px; color:#222; font-weight: 700; font-size: 18px; }
 .credit-info-div .credit-info-blk .txt p{ margin: 0; padding:  0 10px; color:#222; font-size: 13px; line-height: 1.2;}
 .credit-info-div .credit-info-blk .price-txt { margin: 0; padding: 0; position: relative;float: right; width: 25%; text-align: right;}
 .credit-info-div .credit-info-blk .price-txt .price { color:#222; font-size: 16px; display: block; position: relative;}
