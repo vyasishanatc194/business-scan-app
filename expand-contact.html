@@ -140,7 +140,15 @@
    		 		},3000);
 		  }) // end of then
 		  .catch(function (err) {
-		    console.log(err);
+	 		// if there is not product item fount then alert box will be display with notice:
+	 			navigator.notification.alert(
+			    BCS.unable_to_load, // message
+			    function(){
+			    	window.location = 'index.html';
+			    },         			// callback
+			    BCS.alert_box,      // title
+			    BCS.ok              // buttonName
+			);
 		  });
 	}, false);
 	
