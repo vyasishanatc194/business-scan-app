@@ -119,12 +119,13 @@
 			    	i = i + 1;
 			    	var credit = [ val.productId, val.currency, val.priceAsDecimal ];
 				    $(".credit-"+i).attr('data-value', credit);
-				    $(".credit-"+i+" .txt h3").html(val.description);
-				    $(".credit-"+i+" .txt p").html(val.title);
+				    $(".credit-"+i+" .txt h3").html(val.title);
+				    $(".credit-"+i+" .txt p").html(val.description);
 				    $(".credit-"+i+" .price").html(val.price);
 		    	});
 			    $(".middle-container .signal").remove();
 	   		 	$(".middle-container>.clearfix").show();
+	   		 	setInterval(function(){
 	   		 		// if there is not product item fount then alert box will be display with notice:
    		 			if (products.length == 0 ) {
 	   		 			navigator.notification.alert(
@@ -136,6 +137,7 @@
 						    BCS.ok              // buttonName
 						);
 	   		 		}
+   		 		},3000);
 		  }) // end of then
 		  .catch(function (err) {
 		    console.log(err);

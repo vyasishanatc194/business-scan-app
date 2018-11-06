@@ -409,6 +409,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 
 .credits-txt .red-txt{  font-weight:bold; }
 
+*
+{
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
 
 .select2-container--default .select2-selection--single {
     background-color: #fff;
