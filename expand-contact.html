@@ -41,6 +41,7 @@
 
 </head>
 <body>
+<div class="loading-box"></div>
 <div id="wrapper" class="purchaseForm">
 <header>
 	<div class="header-div clearfix">		
@@ -107,7 +108,7 @@
 
 <script>
 	document.addEventListener("deviceready", function onDeviceReady() {
-		$(".middle-container").append(loading);
+		addLoading();
 	    inAppPurchase
 		  	.getProducts(['com.qbix.businesscard.credits.10',
 				'com.qbix.businesscard.credits.100',
@@ -117,13 +118,13 @@
 		  	
 			    $.each(products, function(i, val) {
 			    	i = i + 1;
-			    	var credit = [ val.productId, val.currency, val.priceAsDecimal ];
+			    	var credit = [ val.productId ];
 				    $(".credit-"+i).attr('data-value', credit);
 				    $(".credit-"+i+" .txt h3").html(val.title);
 				    $(".credit-"+i+" .txt p").html(val.description);
 				    $(".credit-"+i+" .price").html(val.price);
 		    	});
-			    $(".middle-container .signal").remove();
+			    removeLoading();
 	   		 	$(".middle-container>.clearfix").show();
 	   		 	setInterval(function(){
 	   		 		// if there is not product item fount then alert box will be display with notice:
@@ -152,39 +153,80 @@
 		  });
 	}, false);
 	
+	
+	$(".credit-info-blk").on("click", function() {
+		var creditTxt = $(this).attr('data-value');
+		var creditSplit = creditTxt.split(".");
+		var creditLength = creditSplit.length;
+		var lengthMinus = creditLength - 1;
+		var productPrice = creditSplit[lengthMinus];
+		addLoading();
+		setTimeout(function(){			
+			// savePurchasingData(parseInt(productPrice));
 
-	$(".credit-info-blk").on("click", function(){
-		var values = $(this).attr('data-value');
-		var arraValues = values.split(",");
-		console.log(arraValues);
-		window.inAppPurchase
-	  	.buy(arraValues[0])
-	  	.then(function (data) {
-		    // console.log(data);
-	    	savePurchasingData(data);
-	  	})
-	  	.catch(function (err) {
-		    console.log(err);
-	  	});
+			window.inAppPurchase
+		  	.buy(productPrice)
+		  	.then(function (data) {
+		  		if (productPrice != undefined && productPrice != '') {		  			
+		  			savePurchasingData(parseInt(productPrice));
+		  		}  	
+		  	})
+		  	.catch(function (err) {
+			    navigator.notification.alert(
+				    err.message, // message
+				    function(){
+				    	// window.location = 'expand-contact.html';
+				    },         			// callback
+				    BCS.alert_box,      // title
+				    BCS.ok              // buttonName
+				);
+		  		removeLoading();
+		  	});
+		}, 1000);
+
+		
+		// var values = $(this).attr('data-value');
+		// var arraValues = values.split(",");
+		
 	});
+	// save credit in DB after in app purchase.
+	function savePurchasingData(newCredits) {
+	    
+	    var objectStore = db.transaction([tableName1], "readwrite").objectStore(tableName1);
+	    var objectStoreTitleRequest = objectStore.get(1);
 
-	function savePurchasingData(data) {
-	    let ob = {
-	        created:new Date(),
-	        data: data
-	    };
+        objectStoreTitleRequest.onsuccess = function() {
+            // Grab the data object returned as the result
+            var data = objectStoreTitleRequest.result;
 
-	    let trans = db.transaction([tableName1], 'readwrite');
-	    let addReq = trans.objectStore(tableName1).add(ob);
+            // Update the notified value in the object to "yes"
+            var data = {
+                credits: parseInt(data.credits) + newCredits,
+                updatedAt: new Date(),
+                id: 1
+            };
 
-	    addReq.onerror = function(e) {
-	        alert('error storing data');
-	        console.error(e);
-	    }
+            // Create another request that inserts the item back into the database
+            var updateTitleRequest = objectStore.put(data);
+            // When this new request succeeds, run the displayData() function again to update the display
+            updateTitleRequest.onsuccess = function() {
+                // if there is not product item fount then alert box will be display with notice:
+	 			navigator.notification.alert(
+				    BCS.thanks1+newCredits+BCS.thanks2, // message
+				    function(){
+				    	window.location = 'index.html';
+				    },         			// callback
+				    BCS.alert_box,      // title
+				    BCS.ok              // buttonName
+				);
+                removeLoading();
+            };
 
-	    trans.oncomplete = function(e) {
-	    	showSuccess();
-	    }
+            updateTitleRequest.onerror = function() {
+            	alert('error storing data');
+	        	console.error(e);
+            };
+        };
 	}
 
 	function showSuccess() {

@@ -4,7 +4,6 @@ $(".cardFrontImg, .cardBackImg").hide();
 $(".middle-container>.clearfix").hide();
 var imageDataURL = null;
 var imageDataURLback = null;
-var loading = '<div class="signal"></div>';
 var counter = 0;
 
 $("#capturePhoto").on("click", function() {
@@ -15,9 +14,19 @@ $("#capturePhoto1").on("click", function() {
    capturePhoto('Back');
 });
 
+function addLoading() {
+    var loading = '<div class="signal"></div>';
+    $(".loading-box").show();
+    $(".loading-box").append(loading);
+}
+function removeLoading() {
+    var loading = '<div class="signal"></div>';
+    $(".loading-box").hide();
+    $(".loading-box .signal").remove();
+}
+
 
 function capturePhoto(cameraType = null) {
-
     $(".scanCardForm").show();
     // Take picture using device camera, allow edit, and retrieve image as base64-encoded string
     if (cameraType == 'Front') {
@@ -29,8 +38,9 @@ function capturePhoto(cameraType = null) {
 // Called when a photo is successfully retrieved
 //
 function onPhotoFrontSuccess(imageData) {
-    $(".middle-container").append(loading);
-        window.Q.ML.Cordova.ocr(imageData, true, function(result) {
+    addLoading();
+    $(".scanCardForm div.middle-container").css('position', 'fixed');
+    window.Q.ML.Cordova.ocr(imageData, true, function(result) {
         // Uncomment to view the base64 encoded image data
         handleFrontPhotoSuccess(imageData, result);
     }, function(error){
@@ -45,34 +55,39 @@ function onPhotoFrontSuccess(imageData) {
 }
 
 function handleFrontPhotoSuccess(imageData, result) {
+    removeLoading();
+    $(".scanCardForm div.middle-container").css('position', 'relative');
     imageDataURL = imageData;
     if (imageData != null) {
         $(".cardFrontBtn").hide();
         $(".cardFrontImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
         if ($(".cardFrontImg").attr('src') != "") {
-            autoRemoveFields();
+            autoRemoveFields('frontPhoto');
         }
     }
-    clearContent(JSON.stringify(result));
+    clearContent(JSON.stringify(result),  'frontPhoto');
 }
 
 // Called if something bad happens.
 // 
 function onFailFrontCamera(message) {
+    removeLoading();
+    $(".scanCardForm div.middle-container").css('position', 'relative');
     if ($(".cardFrontImg").attr('src') == "") {
-        navigator.notification.alert( message, function(){}, BCS.alert_box, BCS.ok );
+        navigator.notification.alert( message, function(){ window.location = "index.html"; }, BCS.alert_box, BCS.ok );
     }
     $('input[type="text"]').each(function(i, val) {
         if(val.value == '') {
             window.location = "index.html";
         }
-    });    
+    });  
 }
 
 // Called when a photo is successfully retrieved
 //
 function onPhotoBackSuccess(imageData) {
-    $(".middle-container").append(loading);
+    addLoading();
+    $(".scanCardForm div.middle-container").css('position', 'fixed');
     window.Q.ML.Cordova.ocr(imageData, true, function(result) {
         // Uncomment to view the base64 encoded image data
         handleBackPhotoSuccess(imageData, result);
@@ -88,21 +103,25 @@ function onPhotoBackSuccess(imageData) {
 }
 
 function handleBackPhotoSuccess(imageData, result) {
+    removeLoading();
+    $(".scanCardForm div.middle-container").css('position', 'relative');
     imageDataURLback = imageData;
     if (imageData != null) {
         $(".cardBackBtn").hide();
         $(".cardBackImg").show().attr('src',  "data:image/jpeg;base64,"+imageData);
         if ($(".cardBackImg").attr('src') != "") {
-            autoRemoveFields();
+            autoRemoveFields('backPhoto');
         }
     }
-    clearContent(JSON.stringify(result));
+    clearContent(JSON.stringify(result), 'backPhoto');
 }
 // Called if something bad happens.
 // 
 function onFailBackCamera(message) {
+    removeLoading();
+    $(".scanCardForm div.middle-container").css('position', 'relative');
     if ($(".cardBackImg").attr('src') == "") {
-        navigator.notification.alert( message, function(){}, BCS.alert_box, BCS.ok );
+        navigator.notification.alert( message, function(){ }, BCS.alert_box, BCS.ok );
     }
     $('input[type="text"]').each(function(i, val) {
         if(val.value == '') {
@@ -111,15 +130,15 @@ function onFailBackCamera(message) {
     });    
 }
 
-function autoRemoveFields() {
+function autoRemoveFields(side = '') {
     $('select.select-box').each(function(i, val) {
-        if(val.value == '') {
-            $(this).closest("div.containerDiv").remove();
+        if(val.value == '' && side != '') {
+            $(this).closest("div."+side).remove();
         }
     });
 }
 
-function clearContent(str) {
+function clearContent(str, side) {
 	var result = [];
 	var obj = JSON.parse(str);
 	$.each(obj, function( index, value ) {
@@ -130,7 +149,7 @@ function clearContent(str) {
     doAction(result);
 
     for (i = 0; i < result.length; i++) {
-        addFields(result[i]);
+        addFields(result[i], side);
         $('.select-box').select2({
             minimumResultsForSearch: -1
         }); 
@@ -144,9 +163,8 @@ $("#addButton").click( function () {
     }); 
 });
 
-function addFields(data = '') {
-
-    newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter).attr("class", 'containerDiv');       
+function addFields(data = '', side = '') {
+    newTextBoxDiv = $(document.createElement('div')).attr("id", 'TextBoxDiv' + counter).attr("class", 'containerDiv '+side);       
 
     newTextBoxDiv.after().html('<div class="row-group clearfix"><div class="box-1"><input type="text" class="input-box"  value="' + data + '" id="textbox' + counter + '" /></div>'+
         '<div class="box-2"><select data-value="TextBoxDiv'+counter+'" id="select' + counter + '" class="select-box"><option value="" >Select Type</option>'+
@@ -174,7 +192,6 @@ function addFields(data = '') {
 
 // remove dynamic fields
 function removeField(optionId){
-    console.log(optionId);
     var r = confirm(BCS.record_delete_confirmation_text);
     if (r == true) {
         $('form div#TextBoxDiv'+optionId).remove();            

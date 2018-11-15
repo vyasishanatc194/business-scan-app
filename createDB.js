@@ -73,8 +73,8 @@ function onConfirm(buttonIndex) {
 function showConfirm() {
     navigator.notification.confirm(
         BCS.buy_credits_confirmation_box_title,  // message
-        onConfirm,              // callback to invoke with index of button pressed
-        BCS.buy_credits_confirmation_box_subtitle,            // title
+        onConfirm,                               // callback to invoke with index of button pressed
+        BCS.buy_credits_confirmation_box_subtitle, // title
         ''+BCS.pay_now_btn_title+','+ BCS.remind_me_letter_btn_title+''          // buttonLabels
     );
 }
@@ -298,9 +298,14 @@ function cardDetailPage(cardId) {
                 if (request.result.imgBack != null ){
                     $(".card-detail-div img#imgBck").attr('src', "data:image/jpeg;base64,"+request.result.imgBack);
                 } else { $(".card-detail-div img#imgBck").hide(); }
-
+                var cardTitle = request.result.content.displayName;
                 $(".content-blk textarea#cardNotes").val(request.result.content.note);
-                $("h4#cardDetailPageTitle").html(request.result.content.displayName);
+                if (cardTitle.length > 18) {
+                    $("h4#cardDetailPageTitle").html(cardTitle.substr(0, 18)+"...");
+                } else {
+                    $("h4#cardDetailPageTitle").html(cardTitle.substr(0, 18));
+                }
+                
                 $(".deleteItem").attr('id', cardId);
             } 
        };

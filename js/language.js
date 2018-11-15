@@ -38,6 +38,7 @@ let BCS = {
 		"delete_btn":"Delete",
 		"no_more_text":"No more textbox to remove",
 		'record_delete_confirmation_text':"Are you sure want to delete record?",
+		'delete_confirm_title': "Delete Item",
 		'home': "Home",
 		'work': "Work",
 		'contact_saved_title': "Contact is saved!",
@@ -57,9 +58,13 @@ let BCS = {
 		'search_card_placeholder': 'Search Card here..',
 		'app_purchase_screen_content': "You can use purchased credits to scan business cards and save contacts in address book.",
 		"alert_msg_when_no_item_selected": "Please select atleast one field to save contact.",
-		"alert_box": "Alert Box",
+		"alert_box": "",
 		"ok": "Ok",
-		"unable_to_load": "Unable to load product items, please check your internet connection."
+		"unable_to_load": "Unable to load product items, please check your internet connection.",
+		"option_yes": "Yes",
+		"option_no": "No",
+		"thanks1": "Congratulations. You bought ",
+		"thanks2": " credits",
 	  }
 
 	  

@@ -35,6 +35,7 @@
 	<![endif]-->
 </head>
 	<body>
+	<div class="loading-box"></div>
 	<div id="wrapper" class="searchCardPage">
 		<header>
 			<div class="header-div clearfix">
@@ -52,8 +53,8 @@
 
 		<div class="middle-container clearfix" >
 
-			<input type="text" class="serachBox" id="myInput" placeholder="" />
-			<span id="clearbox" ></span>
+			<input type="text" class="serachBox" id="myInput" placeholder="" autofocus />
+			<span id="clearbox" style="padding: 5px 10px;" ></span>
 			<div class="card-list-div clearfix" id="dataCotent">
 			</div>
 		</div>
@@ -71,7 +72,7 @@
 			</div>
 		</footer>
 	</div>
-	<div id="wrapper" class="cardDetailPage">
+	<div id="wrapper" class="cardDetailPage" style="display: none">
 		<header>
 			<div class="header-div clearfix">		
 				<div class="head-title scan-title"><h4 id="cardDetailPageTitle"></h4></div>
@@ -116,7 +117,7 @@
 	  filter = input.value.toUpperCase();
 	  valLength = filter.length;
 	  if (valLength > 0) {
-	  	$("#clearbox").html('x');
+	  	$("#clearbox").addClass('fa fa-close');
 	  }
 	  table = document.getElementById("dataCotent");
 	  tr = $("div.card");
@@ -142,7 +143,7 @@
 		$("#clearbox").on("click", function(){
 			window.location = 'searchCard.html';
 			$("#myInput").val('');
-			$("#clearbox").html('');
+			$("#clearbox").removeClass('fa fa-close');
 		});
   	});
 	</script>

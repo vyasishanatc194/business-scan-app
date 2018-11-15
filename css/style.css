@@ -255,11 +255,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
     border: 5px solid #333;
     border-radius: 60px;
     height: 100px;
-    left: 50%;
-    margin: 110px 0 0 -50px;
     opacity: 0;
     position: absolute;
-    top: 50%;
+    z-index: 99999;
     width: 100px;
     animation: pulsate 1s ease-out;
     animation-iteration-count: infinite;
@@ -322,8 +320,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .clsoe { margin: 0; padding: 0; position: absolute; right:30px; top:42px; }
 .clsoe .close-icon { width: 20px; height: 20px; display: block;}
 
-.front-card-div { margin: 0 15px 0px 0; padding: 0; position:relative; float:left; width:46.5%; }
-.back-card-div { margin: 0 0 0px 0; padding: 0; position:relative; float:left; width:46.5%; }
+.front-card-div { margin: 0 15px 0px 0; padding: 0; position:relative; float:left; width:46.5%; z-index:0;}
+.back-card-div { margin: 0 0 0px 0; padding: 0; position:relative; float:left; width:46.5%; z-index:0; }
 
 .front-card-div .card, .back-card-div .card { padding: 10px; width: 100%; z-index: 1111;}
 .card-blk { margin: 0 auto; padding: 0; position: relative; text-align: center;}
@@ -368,7 +366,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .expand-contact-info-div .expand-contact-text-info p{ margin: 0 0 20px 0; padding: 0; color:#222;font-size: 18px; line-height: 24px; text-align: justify;}
 .red-txt{ color:#ff3e3e;}
 .text-center{ text-align: center!important;}
-#clearbox {position:absolute; top:27px; right: 35px; font-size: 18px; color:#a5a4a4;}
+#clearbox {position:absolute; top:24px; right: 34px; font-size: 18px; color:#000;}
 .credit-info-div { margin: 0; padding: 0; position: relative;}
 .credit-info-div .credit-info-blk  { margin: 0 0 20px 0; padding: 20px; position: relative; cursor: pointer;}
 .credit-info-div .credit-1  {  background: #ffcc03;}
@@ -409,7 +407,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 
 .credits-txt .red-txt{  font-weight:bold; }
 
-*
+.loading-box{ width: 100%; height: 100%; position: fixed; z-index: 9999;
+    /*background-color: #fff;*/
+    opacity: 0.4;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+
+.cardDetailPage, .purchaseForm, .cardListing, header, .add-record-div, .front-card-div, .back-card-div, img, .bottom-div
 {
 	-webkit-user-select: none;
 	-khtml-user-select: none;
