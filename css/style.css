@@ -211,8 +211,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 .head-title h3{ margin: 0; padding: 0; color:#fff; font-size: 14px; text-transform: uppercase;}
 .head-title h4{ margin: 0; padding: 0; color:#fff; font-size: 24px; text-transform: uppercase;}
 
-.head-round-blk { margin: 8px 0 0 0; padding: 0; position:relative; text-align: right; }
-.head-round-blk .round-blk { margin: 0; padding: 0; position:relative; border-radius: 100%; width: 80px; height: 80px; line-height: 80px; text-align: center; box-shadow: 0 0 10px 0 rgba(0,0,0,0.2);
+.head-round-blk { 
+	margin: 8px 0 0 0; 
+	padding: 0; 
+	position:relative; 
+	text-align: right;
+}
+@-webkit-keyframes spin {
+	from { -webkit-transform: scaleY(0); }
+	to   { -webkit-transform: scaleY(360deg); }
+}
+.head-round-blk .round-blk { margin: 0; padding: 0; position:relative; border-radius: 100%; width: 80px; height: 80px; line-height: 80px; text-align: center; box-shadow: 0 0 10px 0 rgba(0,0,0,0.2); transform-style: preserve-3d;
+    -webkit-animation: spin 1s linear;
 background: #4d5adc; /* Old browsers */
 background: -moz-linear-gradient(-45deg, #4d5adc 0%, #1869da 100%); /* FF3.6-15 */
 background: -webkit-linear-gradient(-45deg, #4d5adc 0%,#1869da 100%); /* Chrome10-25,Safari5.1-6 */
@@ -238,6 +248,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
 	background: -webkit-linear-gradient(-45deg, #bd0808 0%,#c80606 100%); /* Chrome10-25,Safari5.1-6 */
 	background: linear-gradient(135deg, #bd0808 0%,#c80606 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a8bd08', endColorstr='#89c806',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */ 
+}
+.btn-red{
+	width: 100%;
 }
 .btn-green {
 	box-shadow: 0 5px 10px 0 rgba(139,199,6,0.5); 
@@ -449,6 +462,69 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4d5adc', end
     right: 1px;
     width: 20px;
 }
+
+.card-detail-div .card-div-blk{ float:left; width: 48%; margin: 0 10px 0 0; position: relative; z-index: 110;}		
+.card-detail-div .card-div-blk:last-child{ margin:0;}		
+.card-detail-div .card-div-blk img { width: 100%; height: auto; cursor: pointer;}		
+		
+	
+	.card-img-modal {		
+	    width: 90%; display: none;
+	    height: auto;    		
+	    position: fixed;		
+		left:5%;		
+		right:5%;		
+	    transition: 1s; z-index: 111;	background: #FFF;	
+	    /*box-shadow: 7px 7px 7px 0px rgba(50, 50, 50, 0.75);*/		
+	}		
+			
+	.card-img-modal img {		
+	    width: 100%;		
+	    height: auto;		
+	    float: left;		
+}		
+			
+	.card-img-modal .content {		
+	    width: 100%;		
+	    padding: 10px;		
+	    box-sizing: border-box;		
+	    float: left;		
+	    color: white;		
+	}		
+			
+	.content h1 {		
+	    font-size: 20px;		
+	}		
+			
+	.content p {		
+	    font-size: 15px;		
+	}		
+			
+	.content a {		
+	    display: inline-block;		
+	    background: #e74c3c;		
+	    padding: 10px 30px;		
+	    border-radius: 8px;		
+	    color: white;		
+	    text-decoration: none;		
+	}		
+			
+	.hide {		
+	    position: absolute;		
+	    z-index: 9999;		
+	    top: 20px;		
+	    right: 20px;		
+	    font-size: 20px;		
+	    color: black;		
+	    opacity: 0.7;		
+	    transition: 0.3s;		
+	    cursor: pointer; background: url(../images/close.png) no-repeat; width: 14px; height: 14px; background-size: cover;		
+	}		
+	.hide:hover {		
+	    transform: rotate(90deg);		
+	    opacity: 1;		
+	}		
+	
 
 @media only screen and (max-width: 767px){
 	/*html, body { overflow-x:hidden;}*/

@@ -21,21 +21,18 @@ function initDb() {
     }
 
     request.onsuccess = function(e) {
-        db = e.target.result;
-        showCredits();
-        doImageListing();
-        checkInCloudSettings();
+        db = e.target.result;        
     }
-
     
     request.onupgradeneeded = function(e) {
         let db = e.target.result;
         var objectStore = db.createObjectStore(tableName, {keyPath:'id', autoIncrement: true});
         var objectStore1 = db.createObjectStore(tableName1, {keyPath:'id', autoIncrement: true});
         var objectStore2 = db.createObjectStore(tableName2, {keyPath:'id', autoIncrement: true});
-        
-        objectStore1.add({credits: 100, createdAt: new Date()});
-        objectStore2.add({credits: 100, createdAt: new Date()});
+
+        // objectStore1.add({credits: 100, createdAt: new Date()});
+        // objectStore2.add({credits: 100, createdAt: new Date()});
+
         dbExists = false;
         dbReady = true;
     }
@@ -51,7 +48,7 @@ function checkCredits() {
             if (cursor.value.credits == 0) {
                 showConfirm();                
             } else {
-                capturePhoto('Front');
+                capturePhoto('frontPhoto');
             }
         };
     } catch(err) {
@@ -86,12 +83,17 @@ function showCredits() {
 
         ObjectTras.openCursor().onsuccess = function(event) {
             var cursor = event.target.result;
-
-            $(".largenumber").html(cursor.value.credits);
+            if (cursor.value.credits != '') {
+                $(".largenumber").html(cursor.value.credits);
+                $(".smalltxt").html(BCS.credit);
+            }
             $(".expand-contact-text-info span.red-txt").html(cursor.value.credits);
+            removeLoading();     
+            return true;
         };
     } catch(err) {
-        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
+        // navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
+        return false;
     }
 }
 
@@ -123,7 +125,7 @@ function doFile(data, imageDataURLback = null, content) {
     }
 }
 
-function updateCredits() {
+function updateCredits(cloudSettingsData = null) {
     try{
         var objectStore = db.transaction([tableName1], "readwrite").objectStore(tableName1);
         var objectStoreTitleRequest = objectStore.get(1);
@@ -133,11 +135,15 @@ function updateCredits() {
             var data = objectStoreTitleRequest.result;
 
             // Update the notified value in the object to "yes"
-            var data = {
-                credits: parseInt(data.credits) - 1,
-                updatedAt: new Date(),
-                id: 1
-            };
+            if (cloudSettingsData == null) {
+                data = {
+                    credits: parseInt(data.credits) - 1,
+                    updatedAt: new Date(),
+                    id: 1
+                };
+            } else {
+                data = cloudSettingsData;
+            }
 
             // Create another request that inserts the item back into the database
             var updateTitleRequest = objectStore.put(data);
@@ -148,10 +154,14 @@ function updateCredits() {
         };
 
     } catch(err) {
-        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
+        console.log(err);
+        navigator.notification.alert( err.message, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
+/**
+ *   @paremeter credits // interger number
+ */
 function addCreditLogs(credits = null) {
     try{
         var updatedData = {
@@ -169,45 +179,11 @@ function addCreditLogs(credits = null) {
 
         trans.oncomplete = function(e) {
             console.log(e);
-            window.location = "index.html";
+            updateCreditsInClouds(updatedData);            
         }
     }
     catch(err){
         navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
-    }
-}
-
-function checkInCloudSettings() {
-    try{
-        var trans = db.transaction([tableName1], 'readonly');
-        var ObjectTras = trans.objectStore(tableName1);
-
-        ObjectTras.openCursor().onsuccess = function(event) {
-            var cursor = event.target.result;
-            document.addEventListener("deviceready", function onDeviceReady() {
-
-                var UserCreditData = {
-                  user: {
-                    id: device.uuid,
-                    name: BCS.app_name,
-                    data: cursor.value,
-                    preferences: {
-                      mute: true,
-                      locale: 'en_GB'
-                    }
-                  }
-                };
-
-                cordova.plugin.cloudsettings.save(UserCreditData, function(savedSettings){
-                    console.log("Settings successfully saved at " + (new Date(savedSettings.timestamp)).toISOString());
-                }, function(error){
-                    console.error("Failed to save settings: " + error);
-                }, false);
-
-            }, false);
-        };
-    } catch(err) {
-       navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
     }
 }
 
@@ -260,13 +236,6 @@ function fillData(tableData) {
         $("#dataCotent").append(val);
     });
 
-    $('.deleteItem').on("click", function(){
-        var r = confirm("Are you sure want to delete record?");
-        if (r == true) {
-            removeRecord($(this).attr('id'));
-        }                    
-    });
-
     $(".cardItem").on("click", function(){
         $(".cardListing").hide();
         $(".scanCardForm").hide();
@@ -291,22 +260,28 @@ function cardDetailPage(cardId) {
             $(".searchCardPage").hide();
             $(".card-detail-div").show();
             if(request.result) {
-                if (request.result.data != null ){
-                    $(".card-detail-div img#imgFrnt").attr('src', "data:image/jpeg;base64,"+request.result.data);
-                }  else { $(".card-detail-div img#imgFrnt").hide(); }
 
-                if (request.result.imgBack != null ){
+                $(".deleteItem").attr('data-value', cardId);
+                if (request.result.data != null ) {
+                    $(".card-detail-div img#imgFrnt").attr('src', "data:image/jpeg;base64,"+request.result.data);
+                }  else { 
+                    $(".card-detail-div img#imgFrnt").hide(); 
+                }
+                if (request.result.imgBack != null ) {
                     $(".card-detail-div img#imgBck").attr('src', "data:image/jpeg;base64,"+request.result.imgBack);
-                } else { $(".card-detail-div img#imgBck").hide(); }
+                } else { 
+                    $(".card-detail-div img#imgBck").hide(); 
+                }
                 var cardTitle = request.result.content.displayName;
                 $(".content-blk textarea#cardNotes").val(request.result.content.note);
-                if (cardTitle.length > 18) {
-                    $("h4#cardDetailPageTitle").html(cardTitle.substr(0, 18)+"...");
-                } else {
-                    $("h4#cardDetailPageTitle").html(cardTitle.substr(0, 18));
-                }
-                
-                $(".deleteItem").attr('id', cardId);
+                if (cardTitle != null) {
+                    if (cardTitle.length > 18) {
+                        $("h4#cardDetailPageTitle").html(cardTitle.substr(0, 18)+"...");
+                    } else {
+                        $("h4#cardDetailPageTitle").html(cardTitle.substr(0, 18));
+                    }
+                } else { $("h4#cardDetailPageTitle").html(BCS.card_detail_page); }
+
             } 
        };
     }
@@ -318,17 +293,84 @@ function cardDetailPage(cardId) {
 }
 
 
-function removeRecord(id) {
+
+function checkInCloudSettings() {
     try {
-        var request = db.transaction([tableName], "readwrite")
-        .objectStore(tableName)
-        .delete(parseInt(id));
-           
-        request.onsuccess = function(event) {
-            window.location = "index.html";
+        var trans = db.transaction([tableName1], 'readonly');
+        var ObjectTras = trans.objectStore(tableName1);
+
+        ObjectTras.openCursor().onsuccess = function(event) {
+            var cursor = event.target.result;
+            document.addEventListener("deviceready", function onDeviceReady() {
+
+                var UserCreditData = {
+                  user: {
+                    id: device.uuid,
+                    name: BCS.app_name,
+                    data: cursor.value,
+                    preferences: {
+                      mute: true,
+                      locale: 'en_GB'
+                    }
+                  }
+                };
+
+                // Check the credits is avaiable in cloud settings or not....
+                cordova.plugin.cloudsettings.exists(function(exists) {
+                    // if credits is exists in cloud settings.
+                    if(exists) {
+                        cordova.plugin.cloudsettings.save(UserCreditData, function(savedSettings){
+                            console.log("Settings successfully saved at " + (new Date(savedSettings.timestamp)).toISOString());
+                            console.log(savedSettings);
+                        }, function(error){
+                            console.error("Failed to save settings: " + error);
+                        }, false);
+                    } else {
+                        // if there is no credits exists in cloud settings then add 100 credits in .
+                        initDb();
+                    }
+                });               
+
+            }, false);
         };
+    } catch(err) {
+       navigator.notification.alert( err.message, function(){}, BCS.alert_box, BCS.ok);
     }
-    catch (err) {
-        navigator.notification.alert( err, function(){}, BCS.alert_box, BCS.ok );
+}
+
+function updateCreditsInClouds(data = null) {
+	try {
+        document.addEventListener("deviceready", function onDeviceReady() {
+
+            var UserCreditData = {
+              user: {
+                id: device.uuid,
+                name: BCS.app_name,
+                data: data,
+                preferences: {
+                  mute: true,
+                  locale: 'en_GB'
+                }
+              }
+            };
+
+            // Check the credits is avaiable in cloud settings or not....
+            cordova.plugin.cloudsettings.exists(function(exists) {
+                // if credits is exists in cloud settings.
+                if(exists) {
+                    cordova.plugin.cloudsettings.save(UserCreditData, function(savedSettings){
+                        console.log("Settings successfully saved at " + (new Date(savedSettings.timestamp)).toISOString());
+                        console.log(savedSettings);
+                        window.location = "index.html";
+                    }, function(error){
+                        console.error("Failed to save settings: " + error);
+                    }, false);
+                } 
+            });               
+
+        }, false);
+    } catch(err) {
+       navigator.notification.alert( err.message, function(){}, BCS.alert_box, BCS.ok);
     }
+	
 }

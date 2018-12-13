@@ -1,8 +1,9 @@
-
+var PLATFORM = '';
 document.addEventListener("deviceready", onDeviceReady, false);
 function onDeviceReady() {	
+	PLATFORM = device.platform;
     StatusBar.backgroundColorByHexString("#2865da");
-    console.log(StatusBar);
+    // console.log(StatusBar);
 }
 
 var newTextBoxDiv = '';
@@ -42,10 +43,6 @@ let BCS = {
 		'home': "Home",
 		'work': "Work",
 		'contact_saved_title': "Contact is saved!",
-		error : {
-			'error_store_data': "error storing data",
-			'error_store_data_in_creditslog' : 'error storing data in creditsLog'
-		},
 		'buy_credits_confirmation_box_title': "You have no credits to continue. You should buy credits",
 		'buy_credits_confirmation_box_subtitle': "Buy Credits",
 		'pay_now_btn_title': 'Pay Now',
@@ -65,38 +62,13 @@ let BCS = {
 		"option_no": "No",
 		"thanks1": "Congratulations. You bought ",
 		"thanks2": " credits",
+		"card_detail_page": "Card Detail Page",
+		"want_to_delete_record" : "Are you sure want to delete record?",
+		'error' : {
+			'error_store_data': "error storing data",
+			'error_store_data_in_creditslog' : 'error storing data in creditsLog',
+			'error_no_data_found': "Haven't found any text on the provided photo. Please try again.",
+			"somthing_went_wrong": "Something went wrong. Please try again."
+		}
 	  }
-
-	  
-
-// document.addEventListener("deviceready", onDeviceReady, false);
-// function onDeviceReady() {
-// 	var myContact = navigator.contacts.create();
-
-// 	var phoneNumbers = [];
-// 	var organizations = [];
-// 	var addresses = [];
-// 	phoneNumbers[0] = new ContactField('home', '212-555-1234', false);
-// 	myContact.phoneNumbers = phoneNumbers;
-
-// 	myContact.displayName = "Test Contact Ishan";
-
-// 	organizations[0] = new ContactOrganization('', 'name', 'Organationation Test Contact Ishan', '', '');
-// 	myContact.organizations = organizations;
-
-// 	addresses[0] = new ContactAddress('', 'home', '' ,'Address Test Contact Ishan', '', '' , '', '');
-	
-// 	console.log(addresses);
-// 	myContact.addresses = addresses;
-
-// 	myContact.save(contactSuccess, contactError);
-// 	function contactSuccess() {
-//         console.log('saved contact success');
-//     }
-	
-// 	function contactError(message) {
-//         alert('Failed because: ' + message);
-//     }
-// }
-
 		
